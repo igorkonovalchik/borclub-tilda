@@ -1,11 +1,11 @@
     // Работа с формой на главной
 
     
-const spas = require('./spadata')
-import CountUp from './countUp.min'
+const spas = require('./data/spadata')
+import CountUp from './function/countUp.min'
 import moment from '../../../plugins/moment/moment'
-import getWeekDay from './getday'
-import getTotalCost from './gettotalcost'
+import getWeekDay from './function/getday'
+import getTotalCost from './function/gettotalcost'
 
 $(document).ready(function(){
 

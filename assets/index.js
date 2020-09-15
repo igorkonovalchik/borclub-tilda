@@ -17,6 +17,8 @@ import '../../plugins/pickadate/lib/translations/ru_RU'
 // import '../../plugins/moment/locales'
 // import '../../plugins/moment/ru'
 
+import './js/spaCart'
+import './js/spaPopUp'
 import './js/spaform'
 import './js/mainform'
 import './js/spa'

@@ -1,8 +1,8 @@
 
 // https://github.com/customd/jquery-visible
 
-const spas = require('./spadata')
-import CountUp from './countUp.min'
+const spas = require('./data/spadata')
+import CountUp from './function/countUp.min'
 import moment from '../../../plugins/moment/moment'
 
 

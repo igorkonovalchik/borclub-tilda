@@ -1,6 +1,6 @@
 
 
-const spas = require('./spadata')
+const spas = require('../data/spadata')
 
 function getTotalCost( currentTime, weekDay, spaId ){ 
 
