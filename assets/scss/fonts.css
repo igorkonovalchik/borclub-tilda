@@ -1,0 +1,15 @@
+
+    
+    @font-face {
+        font-family: 'Bebas Neue';
+        src: url('https://bordata.ru/files/fonts/BebasNeueBold.eot');
+        src: url('https://bordata.ru/files/fonts/BebasNeueBold.eot?#iefix') format('embedded-opentype'),
+            url('https://bordata.ru/files/fonts/BebasNeueBold.woff2') format('woff2'),
+            url('https://bordata.ru/files/fonts/BebasNeueBold.woff') format('woff'),
+            url('https://bordata.ru/files/fonts/BebasNeueBold.ttf') format('truetype');
+        font-weight: bold;
+        font-style: normal;
+    }
+
+
+    
