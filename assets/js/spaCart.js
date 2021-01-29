@@ -1,4 +1,5 @@
-// Работа на странице бань
+
+// Форма корзина на странице бань
     
 const spas = require('./data/spadata')
 import CountUp from './function/countUp.min'
@@ -6,172 +7,367 @@ import moment from '../../../plugins/moment/moment'
 import getWeekDay from './function/getday'
 import getTotalCost from './function/gettotalcost'
 import getParams from './function/getParams'
+import * as c from './data/const.js'
 
-const popupSpa = '#rec229653342';
+const priceId = 'price' + c.popupSpa.slice(4);
 
-var rumoment= moment();
-rumoment.locale('ru'); 
+const Cartrumoment = moment();
+Cartrumoment.locale('ru');
+let date = Cartrumoment.add(1,'days');             
+const nextDay = date.format('YYYY/MM/DD'); 
+
+const $price_field = $(c.popupSpa + " input[name*='price']"); 
+const $id_field = $(c.popupSpa + " input[name*='id']");
+const $day_field = $(c.popupSpa + " input[name*='day']");
+const $time_field = $(c.popupSpa + " input[name*='time']");
+const $date_field = $(c.popupSpa + " input[name*='date']");
+const $spa_field = $(c.popupSpa + " select[name*='spa']");
+const $submit = $(c.popupSpa + " :submit");
+
+const $email_field = $(c.popupSpa + " .t-input-group_em");
+const $cash_field = $(c.popupSpa + " .t-input-group_pm .t-radio__control:first-child");
+const $sber_field = $(c.popupSpa + " .t-input-group_pm .t-radio__control:last-child");
+
+let easingFn = function (t, b, c, d) {
+    let ts = (t /= d) * t;
+    let tc = ts * t;
+    return b + c * (tc + -3 * ts + 3 * t);
+    };
+
+const CountUpOptions = {
+    separator : ' ', 
+    easingFn,
+    decimal : '.', 
+    prefix: '',
+    suffix: ' руб.'
+  };
+
+const sec2time = (timeInSeconds) => {
+    let pad = function(num, size) { return ('000' + num).slice(size * -1); },
+    time = parseFloat(timeInSeconds).toFixed(3),
+    minutes = Math.floor(time / 60) % 60,
+    seconds = Math.floor(time - minutes * 60);
+    return pad(minutes, 2) + ':' + pad(seconds, 2);
+};
+
+const updatePrice = (price = 0) => {
+    let id = $id_field.val();       
+    price = price !== 0?price:$price_field.val();
+    window.tcart.total = price;
+    window.tcart.prodamount = price;
+    window.tcart.amount = price;    
+    window.tcart.products[0].name = id !== -1?spas[id].title:spas[0].title;
+    window.tcart.products[0].price = price;
+    window.tcart.products[0].amount = price; 
+   // console.log(window.tcart);   
+};
+
+const loadingField = (start = true, allFields = true) => {
+  $submit.prop( "disabled", start );
+  $spa_field.prop( "disabled", start );
+  $date_field.prop( "disabled", start );
+  $time_field.prop( "disabled", start );
+  if(start){
+    $(c.popupSpa + ' .t706__form-upper-text').addClass('loading');
+  //  $('#' + priceId).addClass('loading');
+      if(allFields){
+        $date_field.addClass('loading');
+        $time_field.addClass('loading');
+      }else{
+        $time_field.addClass('loading');
+      };
+  }else{
+    $date_field.removeClass('loading');
+    $time_field.removeClass('loading');
+    $(c.popupSpa + ' .t706__form-upper-text').removeClass('loading');
+ //   $('#' + priceId).removeClass('loading');
+  }
+}
+
+const updateCart = (total = -1, id = -1, date = 0, time = 0) => { 
+
+    loadingField();
+    if(total === -1 && id === -1 && date === 0 && time === 0){                  
+        $date_field.data('value', nextDay ); // .attr('value', date )
+        $day_field.val(getWeekDay(nextDay));
+        $time_field.val(sec2time(900)).attr( 'value', 900 );
+    }else{   
+    let oldprice = $price_field.val();
+    if(time === 0){ time = $time_field.attr( 'value' ); }else{ $time_field.val(sec2time(time)).attr( 'value', time ); };
+    let day = $day_field.val();   
+    if(date !== 0){  
+               // $date_field.addClass('t-input_bbonly'); //.attr('value', date );
+                day = getWeekDay(date);
+                $day_field.val(day);
+            };        
+    if(id === -1){ id = $id_field.val(); }else{
+        $id_field.val(id);
+        $(c.popupSpa + ' .t706__cartwin-heading').text( spas[id].title );
+        $(c.popupSpa + ' .t706__form-upper-text').text( 'за ' + spas[id].minhours + ' часа до ' + spas[id].person  + ' гостей');
+        if($(c.popupSpa + " select[name*='spa'] option:selected").index() !== id){ $(c.popupSpa + " select[name*='spa']").prop('selectedIndex', id); }; 
+    };     
+   
+    if(total === -1){              
+     total = getTotalCost(time, day, id);
+    };
+    $price_field.val(total); 
+    const demo = new CountUp(priceId, oldprice, total, 0, 0.7, CountUpOptions);
+    demo.start(); 
+  }; 
+    setTimeout(() => {
+      loadingField(false);
+    }, 500);
+};
 
 $(document).ready(function(){ 
 
-// Форма на странице бань
+    /* Обновляем продукт и цены перед отправкой формы в платежную систему */
 
-if($(popupSpa + '').length ){ 
+    window.myAfterSendedFunction = function ($form) {             
 
-//	$(popupSpa + ' .t-popup__close .t-popup__close-wrapper').prepend('<div class="notice" style="background: red; position: absolute; width: 100%; height: 50px; overflow: hidden; color: white; font-size: 14px; text-align: left; margin: 10px;"></div>');
+        /* номер заявки (Lead ID) */
+        var formresult = $form.data('tildaformresult');
+        var leadid = formresult.tranid;
 
-    $(popupSpa + ' .t702__text-wrapper').append('<div id="valprice" class="t702__price"></div>');
-    $(popupSpa + " input[name*='date']").data('value', rumoment.format('YYYY/MM/DD') ).attr('value', rumoment.format('YYYY/MM/DD') );
-    $(popupSpa + " input[name*='time']").val('15:00').attr( 'value', 900 );
-    $(popupSpa + " input[name*='day']").val(getWeekDay());
-    
-    var easingFn = function (t, b, c, d) {
-        var ts = (t /= d) * t;
-        var tc = ts * t;
-        return b + c * (tc + -3 * ts + 3 * t);
-        }
-    var options = {
-        separator : ' ', 
-        easingFn,
-        decimal : '.', 
-        prefix: '',
-        suffix: ' руб.'
-      };
-    
-    $(popupSpa + " input[name*='date']").pickadate({
-        min: true,
+        /* все поля заявки */
+        var formArr = $form.serializeArray();
+
+      //  console.log(formArr);
+
+      //  throw new Error("Something went badly wrong!");
+
+    };    
+
+    $('.t706 form').each(function () {          
+        $(this).data('formsended-callback', 'window.myAfterSendedFunction');       
+    });
+
+if($(c.popupSpa).length ){ 
+    $(c.popupSpa + ' .t706__cartwin-products').remove();
+    $(c.popupSpa + ' .t706__cartwin-bottom').remove();
+    $(c.popupSpa + ' .t-input-group_pm .t-input-title').remove();
+    $(c.popupSpa + ' .t706__form-upper-text').after('<div id="' + priceId + '" class="t702__price">0</div>');
+    $(c.popupSpa + " input[name*='Email']").val('no@email.net');
+    $(c.popupSpa + " input[name*='Name']").addClass('t-input_bbonly');
+    $(c.popupSpa + " input[name*='Phone']").addClass('t-input_bbonly');    
+    $email_field.hide();
+    $cash_field.hide();
+    $id_field.val(0);
+    $price_field.val(0);  
+    updateCart();
+
+    $date_field.pickadate({
+        min: 1,
         yearSelector: false,
         format: 'dd mmmm, ddd',
-        formatSubmit: 'dd-mm-yyyy',
-        onSet: function(context) {
-
-        // console.log(context.select);
-
-        //	let notice = context.select;
-            
-            var currentTime = $(popupSpa + " input[name*='time']").attr( 'value' );
-            
-            var day = getWeekDay(context.select);				
-            
-            var id = $(popupSpa + " input[name*='id']").val();
-
-            var oldprice = $(popupSpa + " input[name*='price']").val();
-                                            
-            let TotalCost = getTotalCost(currentTime, day, id);  	
-            
-        //	notice += '; day -' + day + '; TotalCost ' + TotalCost + '<br>';
-            
-            var demo = new CountUp("valprice", oldprice, TotalCost, 0, 0.7, options);
-            demo.start();				 
-        
-            $(popupSpa + " input[name*='price']").val(TotalCost);
-                    
-        //	$(popupSpa + ' .t-popup .t-popup__close .t-popup__close-wrapper .notice').prepend(notice);
-
-            $(popupSpa + " input[name*='date']").data('value', context.select ).attr('value', context.select );
-            $(popupSpa + " input[name*='day']").val(getWeekDay(context.select));
-            
+       // formatSubmit: 'dd-mm-yyyy',
+        today: '',
+        onStart: function() {
+            $date_field.addClass('t-input_bbonly').attr('value', date ); // .data('value', nextDay ); //   
+          },
+        onSet: function(context){       	
+            updateCart( -1, -1, context.select );
           }
     });
     
-    $(popupSpa + " input[name*='time']").pickatime({
+    
+    $time_field.pickatime({
         format: 'HH:i',
         formatLabel: 'HH:i',
         formatSubmit: 'HH:i',
         interval: 60,
         min: [11,0],
         max: [22,0],
-        onSet: function(c) {
-
-            var id = $(popupSpa + " input[name*='id']").val();
-            var day = $(popupSpa + " input[name*='day']").val();
-            var oldprice = $(popupSpa + " input[name*='price']").val();				                
-            let TotalCost = getTotalCost(c.select, day, id);                  
-
-            setTimeout(function(){ 
-                var demo = new CountUp("valprice", oldprice, TotalCost, 0, 0.7, options);
-                demo.start();
-             }, 10);
-            setTimeout(function(){ 
-                $(popupSpa + " input[name*='price']").val(TotalCost);
-                $(popupSpa + " input[name*='time']").attr( 'value', c.select );
-             }, 50);				
+        onStart: function() {  
+            $time_field.addClass('t-input_bbonly').val(sec2time(900)).attr( 'value', 900 );            
+          },
+        onSet: function(c) {            
+            updateCart( -1, -1, 0, c.select );
           }
-    })
+    });
 
-    $(document).on('click','a[href="#close"], '+ popupSpa +' .t396__filter',function(e){
-        $(popupSpa + " input[name*='price']").val('');
-    //	$(popupSpa + " input[name*='date']").val('');
-    //	$(popupSpa + " input[name*='time']").val('14:00');
+    $spa_field.change(function() {
+        let id = $(c.popupSpa + " select[name*='spa'] option:selected").index();        
+        updateCart( -1, id ); 
+    });
+
+    
+
+    $(c.popupSpa +' input[type=radio][name=paymentsystem]').change(function() {
+        if (this.value == 'sberbank') {
+            $email_field.show();
+            $cash_field.show();
+            $(c.popupSpa + ' .t-submit').text('Оплатить');
+            $(c.popupSpa + " input[name*='Email']").addClass('t-input_bbonly').val('');            
+        }
+        else if (this.value == 'cash') {
+            $(c.popupSpa + ' .t-submit').text('Отправить заявку');
+        };
+        
+    });
+
+    $(document).on('click','a[href="#close"], '+ c.popupSpa +' .t396__filter',function(e){
+        updateCart();
+        $("body").css("overflow","auto");
+        $("#nav188296220").css("position","fixed");
+        if(c.isSmall){  $("#rec196832202").css("position","relative");  
+	    $("#rec238782757 .t450__burger_container").css("display","block");
+    };
    });
 
-   $(document).on('click',popupSpa + ' .t-popup__close',function(e){
-    $(popupSpa + " input[name*='price']").val('');
-//	$(popupSpa + " input[name*='date']").val('');
-//	$(popupSpa + " input[name*='time']").val('14:00');
+   $(document).on('click',c.popupSpa + ' .t-popup__close',function(){
+        updateCart();
+        $("body").css("overflow","auto");
+        $("#nav188296220").css("position","fixed");
+        if(c.isSmall){ $("#rec196832202").css("position","relative");
+        $("#rec238782757 .t450__burger_container").css("display","block");
+      };
+    });
+
+    $(`#form${c.popupSpa.slice(4)}.js-form-proccess`).data('formsended-callback', 'window.hideInput' );
+
+    window.hideInput = function () {
+         $(c.popupSpa + ' .t706__cartwin-heading').text('ЗАЯВКА ОТПРАВЛЕНА');
+         $(c.popupSpa + ' .t706__form-upper-text').hide();
+         $(c.popupSpa + ' .t702__price').hide();
+         $(c.popupSpa + ' .t-form__inputsbox').hide();
+         $(c.popupSpa + ' .t706__form-bottom-text').hide();
+         updatePrice();
+    };
+
+
+
+
+$('a[href^="#openspa"]').on('click', function(e){
+    
+    let href = $(this).attr('href');
+    let param = getParams(href); 
+    let id = param.spa === undefined || param.spa === NaN?$id_field.val():param.spa;    
+
+    updateCart(-1, id);
+
+    let showSpa = param.show === undefined || param.show === NaN?1:param.show; 
+    if(showSpa !== 1){ $(c.popupSpa + " .t-input-group_sb").hide(); }else{ $(c.popupSpa + " .t-input-group_sb").show(); }; 
+    $(c.popupSpa + " select[name*='spa']").prop('selectedIndex', id); 
+
+    let showSber = param.sber === undefined || param.show === NaN?1:param.sber;
+    if(showSber !== 1){ $sber_field.hide(); }else{ $sber_field.show(); };      
+
 });
 
 
-};
+$('a[href^="#order"]').on('click', function(e){   
 
+    $("body").css("overflow","hidden");    
 
-// form on spa page 
+    if(c.isSmall){ $("#rec196832202").css("position","absolute"); };
 
-var once = false;
+    $("#nav188296220").css("display","none");
+    $('#rec200918319').removeClass('active');
+    $("#rec205099373 .t450__burger_container").css("display","none");
+	$("#rec238782757 .t450__burger_container").css("display","none");
+	$("#rec196832202 .t450__burger_container").css("display","none");
+    
+    let href = $(this).attr('href');
+    let param = getParams(href);                
+    let id = param.spa === undefined || param.spa === NaN?$id_field.val():param.spa; 
 
-$('a[href^="#order"]').on('click', function(e){
+    updateCart( -1, id );
 
-    e.preventDefault();
+    let showSpa = param.show === undefined || param.show === NaN?1:param.show; 
+    if(showSpa !== 1){ $(c.popupSpa + " .t-input-group_sb").hide(); }else{ $(c.popupSpa + " .t-input-group_sb").show(); }; 
+    $(c.popupSpa + " select[name*='spa']").prop('selectedIndex', id);   
 
-    var href = $(this).attr('href');
+    let showSber = param.sber === undefined || param.show === NaN?1:param.sber;
+    if(showSber !== 1){ /* console.log(showSber); */ $sber_field.hide(); }else{ $sber_field.show(); };
 
-    if(href.length > 8){
-
-                var param = getParams(href);
-                var id = param.spa;
-            //	let notice = '';
-            //	notice += 'currentTime -' + currentTime + '; day -' + day + '; TotalCost ' + TotalCost + '<br>';
-            // $(popupSpa + ' .t-popup .t-popup__close .t-popup__close-wrapper .notice').prepend(notice);	
-                
-                var opt = {
-                    separator : ' ',
-                    decimal : '.', 
-                    prefix: '',
-                    suffix: '  руб.'
-                };
-
-                let hourp = (id == 0)?'часов':'часа';
-                let currentTime = $(popupSpa + " input[name*='time']").val();
-                let day = $(popupSpa + " input[name*='day']").val();	                    
-                let TotalCost = getTotalCost(currentTime, day, id); 
-                
-                $(popupSpa + " input[name*='id']").val(id);
-                $(popupSpa + " input[name*='price']").val( TotalCost);
-                $(popupSpa + ' .t702__title').text( spas[id].title );
-                $(popupSpa + ' .t702__descr').text( 'от ' + spas[id].minhours + ' ' + hourp + ' до ' + spas[id].person  + ' гостей');
-                var startprice = new CountUp("valprice", 0, TotalCost, 0, 0.2, opt);
-
-                if(!once){
-                    $('a[href="#bookspa"]').click();
-                    once = true;
-                };
-
-                setTimeout(function(){ 
-                    startprice.start();
-                 }, 600);
-      
-    }
-   });
+   });   
 
     jQuery(function($){
         $(document).mouseup(function (e){ // событие клика по веб-документу
-            var div = $(popupSpa + ' .t702__wrapper'); // тут указываем ID элемента
+            let div = $(c.popupSpa + ' .t706__cartwin-content'); // тут указываем ID элемента
             if (!div.is(e.target) // если клик был не по нашему блоку
-                && div.has(e.target).length === 0) { // и не по его дочерним элементам
-                    once = false;
+                && div.has(e.target).length === 0) { // и не по его дочерним элементам                    
+                   // $('#rec200918319').addClass('active');
+                   $("body").css("overflow","auto");
+                   if(c.isSmall){  $("#rec196832202").css("position","relative");  };
+                   $("#nav188296220").css("display","block");
+        $("#rec238782757 .t450__burger_container").css("display","block");
             }
         });
     });
+
+     /* Заполнение формы датой и временем на главной  */
+
+     const $main_time_field = $(c.mainFormSpa + " input[name*='time']");
+     const $main_date_field = $(c.mainFormSpa + " input[name*='date']");
+     const $main_day_field = $(c.mainFormSpa + " input[name*='day']");
+    // const $main_spa_field = $(c.mainFormSpa + " select[name*='spa']");
+
+    if($(c.mainFormSpa).length && !c.isSmall ){ 
+
+        $main_date_field.data('value', nextDay );
+        $main_day_field.val(getWeekDay(nextDay));
+        $main_time_field.val(sec2time(900)).attr( 'value', 900 );
+        
+		$main_date_field.pickadate({
+                    min: 1,
+                    yearSelector: false,
+                    format: 'dd mmmm, ddd',
+                   // formatSubmit: 'dd mmmm',
+                    today: '',
+                    onStart: function() {
+                        $main_date_field.attr('value', date ); // .data('value', nextDay ); //   
+                    },
+                    onSet: function(context) {  
+                        let myPicker = $date_field.pickadate('picker');
+                        myPicker.set('select', context.select);
+                    }
+		});
+
+		$main_time_field.pickatime({
+                    format: 'HH:i',
+                    formatLabel: 'HH:i',
+                    // formatSubmit: 'HH:i',
+                    interval: 60,
+                    min: [11,0],
+                    max: [22,0],
+                    onStart: function() {  
+                        $main_time_field.val(sec2time(900)).attr( 'value', 900 );            
+                    },
+                    onSet: function(c) {
+                        updateCart( -1, -1, 0, c.select );               
+                    }
+                });
+
+    /* Если форма на главной отправляется успешно то данные передаем в корзину для дальнейшего оформления */
+      $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
+  
+      window.openCart = function ($form) {
+  
+          /* $form - jQuery объект ссылающийся на форму */   
+          /* номер заявки (Lead ID) */
+          // let formresult = $form.data('tildaformresult');
+          // let leadid = formresult.tranid;
+  
+          /* все поля заявки в 
+            let arr = {};
+            $($form.serializeArray()).each(function(i, el) {
+                arr[el.name] = el.value;
+            });	
+         */
+        let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();        
+        updateCart( -1, id );  
+         /* запускаем форму */
+         $('a[href="#order:bookspa=1?sber=0"]').click().after(function(){
+             /* прячем форму на главной */
+            $(c.mainFormSpa).hide(); 
+         });
+
+        };
+      };
+
+    };
 
 });
 

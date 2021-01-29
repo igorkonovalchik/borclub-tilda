@@ -19,9 +19,7 @@ module.exports = [
       "dopprice" : 15000
   },
   {
-    
     "price" : 25000,
-   
 }]
     },
     {

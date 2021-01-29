@@ -4,14 +4,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const CompressionPlugin = require('compression-webpack-plugin');
 // const zlib = require('zlib');
 
+
 module.exports = {
   entry: {
     app: './assets/index.js'
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist'
+    path: path.resolve(__dirname, './testdist'),
+    publicPath: '/testdist'
   },
   module: {
     rules: [{

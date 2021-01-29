@@ -19,15 +19,21 @@ import '../../plugins/pickadate/lib/translations/ru_RU'
 
 import './js/spaCart'
 import './js/spaPopUp'
-import './js/spaform'
-import './js/mainform'
+// import './js/spaform' старая форма без оплат
+// import './js/mainform' // форма перенесли в spaCart
+import './js/dopmenu' // подменю в разделах
 import './js/spa'
+import './js/hashLink.js' // кликает кнопки по меткам в урле
+
+import './js/tlBookIntegration.js' // интеграция виджета тревелайн
 
 import '../../plugins/pickadate/lib/themes/default.date.css'
 import '../../plugins/pickadate/lib/themes/default.css'
 import '../../plugins/pickadate/lib/themes/default.time.css'
 import '../node_modules/vidbacking/dist/jquery.vidbacking.min.css'
 import './scss/spa.scss'
+import './scss/hotel.scss'
+import './scss/restaurant.scss'
 
 
 

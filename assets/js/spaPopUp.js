@@ -2,9 +2,7 @@
 
 
     const spas = require('./data/spadata')
-    import CountUp from './function/countUp.min'
     import moment from '../../../plugins/moment/moment'
-	import getTotalCost from './function/gettotalcost'
     import getParams from './function/getParams'
     
     const popupSpa = '#rec201032281';
@@ -36,16 +34,19 @@
 			href = $(this).attr('href');
 			if(href.length > 10){
 			param = getParams(href);
-			HrefPopID = HrefPopID + param.id;
-
-			console.log(param);	
+			HrefPopID = HrefPopID + param.id;	
+			
+			$("#nav188296220").css("position","absolute");
+			$("#rec205099373 .t450__burger_container").css("display","none");
+			$("#rec238782757 .t450__burger_container").css("display","none");
+			$("#rec196832202 .t450__burger_container").css("display","none");
 			
 			
 			if(typeof param.spa !== "undefined"){ id = param.spa; };
 
 			if(HrefPopID != "#"){
 
-				if(typeof param.spa !== "undefined"){ 
+			/*	if(typeof param.spa !== "undefined"){ 
 
 					let day = $(popupSpa + " input[name*='day']").val();
 					let currentTime = $(popupSpa + " input[name*='time']").attr( 'value' );
@@ -69,9 +70,9 @@
 						startprice.start();
 					 }, 600);
 					$('#rec200918319 .tn-elem__2009183191591781411602 a').attr('href', spas[id].url);
-					$('#rec200918319').addClass('active');
-				};
-
+					
+				}; */
+			
 			 ActivePop = HrefPopID;
 			 
 			 $("body").append('<div id="' + ZeroPopID.substring(1)+'">' + $(PopWindID + " .t-popup__container").html()  + '</div>'); 
@@ -88,18 +89,21 @@
 
 			  $(PopWindID + ' .t-popup').animate({
 				scrollTop: 0
-			  }, 1200);
-			  
-			 e.preventDefault();
+			  }, 1200);			  
+			
 
-			 setTimeout(function(){ $(ActivePop + ' .t396').trigger('displayChanged'); t_lazyload_detectwebp(); t_lazyload_update(); }, 10);
+			 setTimeout(function(){ 
+				/* $(ActivePop + ' .t396').trigger('displayChanged');
+				 t_lazyload_detectwebp();
+				 t_lazyload_update(); */
+				 $('#rec200918319').addClass('active');				 
+				 }, 10);
 
 			  }
 			}
 		   });
 
-		   $(document).on('click','a[href="#close"], ' + ActivePop + ' .t396__filter',function(e){
-			   
+		   $(document).on('click','a[href="#close"], ' + ActivePop + ' .t396__filter',function(e){			   
 			   e.preventDefault();
 					t390_closePopup(PopWindID.replace(/[^0-9]/gim, ""));
 					$("body").append('<div id="'+ActivePop.substring(1)+'">' + $(PopWindID + " .t-popup__container").html()  + '</div>');  
@@ -107,6 +111,10 @@
 			
 			    if(!$(PopWindID + ' .t-popup').hasClass('t-popup_show')){ 
 						$('#rec200918319').removeClass('active');	
+						$("#nav188296220").css("position","fixed");
+					//	$("#rec205099373 .t450__burger_container").css("display","block");
+						$("#rec238782757 .t450__burger_container").css("display","block");
+					//	$("#rec196832202 .t450__burger_container").css("display","block");
 				   }
 			});
 
@@ -114,6 +122,10 @@
 				if(!$(PopWindID + ' .t-popup').hasClass('t-popup_show')){ 
 					$('#rec200918319').removeClass('active');
 					e.preventDefault();
+					$("#nav188296220").css("position","fixed");
+				//	$("#rec205099373 .t450__burger_container").css("display","block");
+					$("#rec238782757 .t450__burger_container").css("display","block");
+				//	$("#rec196832202 .t450__burger_container").css("display","block");
 					t390_closePopup(PopWindID.replace(/[^0-9]/gim, ""));
 					$("body").append('<div id="'+ActivePop.substring(1)+'">' + $(PopWindID + " .t-popup__container").html()  + '</div>');  
 					$(PopWindID + " .t-popup__container").addClass("shirina").html($(ZeroPopID)).parent(".t-popup").addClass("parpadding");

@@ -81,3 +81,12 @@ $break-large: 1240px;
     opacity: 0;
   }
 }
+
+@include keyframes(placeHolderShimmer) {
+  0%{
+    background-position: 100% 0
+  }
+  100%{
+      background-position: -100% 0
+  }
+}

@@ -9,14 +9,14 @@
 	
 	const popupSpa = '#rec201032281';
 
-	var rumoment= moment();
+	let rumoment= moment();
     rumoment.locale('ru'); 
     
     $(document).ready(function(){ 
     
 	// Форма на странице бань
 
-	if($(popupSpa + '').length ){ 
+	if($(popupSpa).length ){ 
 
 	//	$(popupSpa + ' .t-popup__close .t-popup__close-wrapper').prepend('<div class="notice" style="background: red; position: absolute; width: 100%; height: 50px; overflow: hidden; color: white; font-size: 14px; text-align: left; margin: 10px;"></div>');
 	
@@ -25,12 +25,12 @@
         $(popupSpa + " input[name*='time']").val('15:00').attr( 'value', 900 );
 		$(popupSpa + " input[name*='day']").val(getWeekDay());
 		
-		var easingFn = function (t, b, c, d) {
-			var ts = (t /= d) * t;
-			var tc = ts * t;
+		let easingFn = function (t, b, c, d) {
+			let ts = (t /= d) * t;
+			let tc = ts * t;
 			return b + c * (tc + -3 * ts + 3 * t);
 			}
-		var options = {
+		let options = {
 			separator : ' ', 
 			easingFn,
 			decimal : '.', 
@@ -49,19 +49,19 @@
 
 			//	let notice = context.select;
 				
-				var currentTime = $(popupSpa + " input[name*='time']").attr( 'value' );
+				let currentTime = $(popupSpa + " input[name*='time']").attr( 'value' );
 				
-				var day = getWeekDay(context.select);				
+				let day = getWeekDay(context.select);				
 				
-                var id = $(popupSpa + " input[name*='id']").val();
+                let id = $(popupSpa + " input[name*='id']").val();
 
-				var oldprice = $(popupSpa + " input[name*='price']").val();
+				let oldprice = $(popupSpa + " input[name*='price']").val();
 								                
 				let TotalCost = getTotalCost(currentTime, day, id);  	
 				
 			//	notice += '; day -' + day + '; TotalCost ' + TotalCost + '<br>';
 				
-				var demo = new CountUp("valprice", oldprice, TotalCost, 0, 0.7, options);
+				let demo = new CountUp("valprice", oldprice, TotalCost, 0, 0.7, options);
 				demo.start();				 
 			
 				$(popupSpa + " input[name*='price']").val(TotalCost);
@@ -83,13 +83,13 @@
 			max: [22,0],
 			onSet: function(c) {
 
-                var id = $(popupSpa + " input[name*='id']").val();
-                var day = $(popupSpa + " input[name*='day']").val();
-                var oldprice = $(popupSpa + " input[name*='price']").val();				                
+                let id = $(popupSpa + " input[name*='id']").val();
+                let day = $(popupSpa + " input[name*='day']").val();
+                let oldprice = $(popupSpa + " input[name*='price']").val();				                
                 let TotalCost = getTotalCost(c.select, day, id);                  
 
 				setTimeout(function(){ 
-					var demo = new CountUp("valprice", oldprice, TotalCost, 0, 0.7, options);
+					let demo = new CountUp("valprice", oldprice, TotalCost, 0, 0.7, options);
 					demo.start();
 				 }, 10);
 				setTimeout(function(){ 
@@ -117,23 +117,23 @@
 	
 	// form on spa page 
 
-	var once = false;
+	let once = false;
 	
 	$('a[href^="#bookspa"]').on('click', function(e){
 
 		e.preventDefault();
 
-		var href = $(this).attr('href');
+		let href = $(this).attr('href');
 
 		if(href.length > 8){
 
-					var param = getParams(href);
-					var id = param.spa;
+					let param = getParams(href);
+					let id = param.spa;
 				//	let notice = '';
 				//	notice += 'currentTime -' + currentTime + '; day -' + day + '; TotalCost ' + TotalCost + '<br>';
 				// $(popupSpa + ' .t-popup .t-popup__close .t-popup__close-wrapper .notice').prepend(notice);	
 					
-					var opt = {
+					let opt = {
 						separator : ' ',
 						decimal : '.', 
 						prefix: '',
@@ -149,7 +149,7 @@
 					$(popupSpa + " input[name*='price']").val( TotalCost);
 					$(popupSpa + ' .t702__title').text( spas[id].title );
 					$(popupSpa + ' .t702__descr').text( 'от ' + spas[id].minhours + ' ' + hourp + ' до ' + spas[id].person  + ' гостей');
-					var startprice = new CountUp("valprice", 0, TotalCost, 0, 0.2, opt);
+					let startprice = new CountUp("valprice", 0, TotalCost, 0, 0.2, opt);
 
 					if(!once){
 						$('a[href="#bookspa"]').click();
@@ -165,7 +165,7 @@
 
 		jQuery(function($){
 			$(document).mouseup(function (e){ // событие клика по веб-документу
-				var div = $(popupSpa + ' .t702__wrapper'); // тут указываем ID элемента
+				let div = $(popupSpa + ' .t702__wrapper'); // тут указываем ID элемента
 				if (!div.is(e.target) // если клик был не по нашему блоку
 					&& div.has(e.target).length === 0) { // и не по его дочерним элементам
 						once = false;

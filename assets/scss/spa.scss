@@ -8,21 +8,35 @@ video::-webkit-media-controls-panel,
 video::-webkit-media-controls-play-button,
 video::-webkit-media-controls-start-playback-button,
 video::-webkit-media-controls,
-video::-webkit-media-controls-enclosure 
+video::-webkit-media-controls-enclosure
  {
         display: none!important;
         -webkit-appearance: none;
       }
+
+#rec191935148 {
+    .t190{
+    background: #617561;
+    border: none;
+    border-radius: 50%;
+    background-image: url(https://territoria.center/wp-content/uploads/upt.svg);
+    background-position: center;
+    background-size: cover; }
+
+    svg{
+        opacity: 0;
+    }
+}
 
 #tildaformcaptchabox{
     z-index: 999999999999999999!important;
 }
 
 .picker__holder{
-    display: none; 
+    display: none;
 }
 
-.picker--opened .picker__holder{  
+.picker--opened .picker__holder{
     display: block!important;
 }
 
@@ -41,6 +55,16 @@ body{
 .t450__burger span:nth-child(2), .t450__small .t450__burger span:nth-child(3) {
         background-color: transparent!important;
 }
+
+#rec222238514,
+#rec222238514 .t396__artboard,
+#rec222238514 .t396,
+#rec222238514 .t396__carrier,
+#rec222238514 .t396__filter{
+    background-color: transparent!important;
+    background: transparent!important;
+}
+
 
 
 .t450__burger span:nth-child(4) {
@@ -64,13 +88,13 @@ body{
   bottom:0;
   z-index: 100005;
 }
-  
+
 #rec228659082{
     z-index: 45!important;
     position: relative;
 }
 
- 
+
  #nav188296220.t199__header.t199__is__active {
     background-color: #677462;
     box-shadow: rgba(0,0,0,.13) 0 4px 16px;
@@ -84,9 +108,10 @@ body{
 
 .t199__menu-item {
     font-size: 20px;
-} 
+}
 
-#rec202936517{
+#rec202936517,
+#rec238729779{
     display: none;
 }
 
@@ -104,7 +129,7 @@ body{
             background-size: 135%!important;
             transition: 0.5s;
         }
-        
+
         &::before{
             content: '';
             position: absolute;
@@ -175,8 +200,8 @@ body{
 #rec202786245,
 #rec202787439,
 #rec202787500,
-#rec202803314
-{
+#rec202803314,
+#rec232382533{
     display: none;
 }
 
@@ -190,7 +215,7 @@ body{
 .dark-bg{
     position: absolute;
     top: 0;
-    left: 0; 
+    left: 0;
     right: 0;
     bottom: 0;
     background: #171717;
@@ -218,7 +243,7 @@ background: linear-gradient(to bottom, rgba(23,23,23,0) 0%, rgba(23,23,23,1) 100
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#171717', endColorstr='#171717', GradientType=0 );
 }
 
-body .scale-active .t-zoomer__close, 
+body .scale-active .t-zoomer__close,
 body .scale-active .t-zoomer__scale.showed {
     background: hsla(0, 0%, 100%, 0);
     border-radius: 50%;
@@ -232,7 +257,7 @@ body .scale-active .t-zoomer__scale.showed {
     }
 
     .icon-increase path,
-    .icon-decrease path{ 
+    .icon-decrease path{
         stroke: #677462;
     }
 
@@ -243,7 +268,7 @@ body .scale-active .t-zoomer__scale.showed {
                 stroke: #677462;
             }
     }
-    
+
     .t-carousel__zoomer__arrow_right {
         border-top: 2px solid #677462;
         border-right: 2px solid #677462;
@@ -255,10 +280,10 @@ body .scale-active .t-zoomer__scale.showed {
 
 }
 
-// меню ресторана 
+// меню ресторана
 
 #rec201554475 {
-    
+
     .t-width_12 {
         max-width: none!important;
     }
@@ -269,8 +294,8 @@ body .scale-active .t-zoomer__scale.showed {
     border-collapse: separate;
     border-spacing: 20px 0;
     width: 100%;
-    
-    
+
+
     .t397__title{
         padding: 0;
     }
@@ -282,8 +307,13 @@ body .scale-active .t-zoomer__scale.showed {
 
 .t812__pricelist-item {
     margin-top: 10px!important;
+    .t-descr{
+        font-size: 13px;
+        padding-right: 150px;
+        margin-top: -5px;
+    }
     .t812__pricelist-item__row_1 {
-        padding-bottom: 3px!important; 
+        padding-bottom: 3px!important;
         .t812__pricelist-item__title {
             font-size: 15px!important;
         }
@@ -291,7 +321,7 @@ body .scale-active .t-zoomer__scale.showed {
             line-height: 1.3!important;
             max-width: 75%;
         }
-    } 
+    }
     .t812__pricelist-item__row_2 {
         padding-top: 2px!important;
         padding-bottom: 8px!important;
@@ -299,7 +329,7 @@ body .scale-active .t-zoomer__scale.showed {
             text-align: left;
            // font-size: 15px!important;
            // line-height: 1!important;
-           // color: #b1afaf!important;            
+           // color: #b1afaf!important;
         }
     }
 }
@@ -331,8 +361,73 @@ body .scale-active .t-zoomer__scale.showed {
     }}
 }
 
+
+
+#rec205099373 .t450__container,
+#nav205090460 .t450__container
+ {
+    transition: 0.3s;
+    .t450__rightside{
+        transition: 0.3s;
+    }
+}
+
+#rec205099373 .t450__container.pod,
+#nav205090460 .t450__container.pod
+ {
+    background-image: url('https://bordata.ru/files/menu/bormain.svg');
+    background-position: 3% 98%;
+    background-repeat: no-repeat;
+    background-size: 7%;
+    padding: 42px 0 0 55px;
+    .t450__rightside{
+        left: 55px;
+    }
+};
+
+#rec238782757,
+#rec238221915,
+#rec238777378,
+#rec263558078,
+#rec264691768,
+#rec264003331,
+{
+    position: relative;
+    .t450__burger_container{
+        position: fixed;
+    }
+    .t450__small .t450__burger {
+        top: 16px;
+        @include respond-to(mobile){ top: 26px; }
+    }
+    .t135 {
+        padding: 20px;
+    }
+}
+
+
+#nav238782757,
+#nav238221915,
+#nav238777378,
+#nav263558078,
+#nav264691768,
+#nav264003331,
+{
+    z-index: 9999999!important;
+    .t450__right_buttons_but {
+        width: 100%;
+        a {
+            width: 100%;
+        }
+    }
+}
+
+#nav205090460,
+#nav238221901,
+#nav232740254,
 #nav196832202,
 #nav205099373,
+#nav238211832,
 #nav205090460{
     .t450__right_buttons_but {
         width: 100%;
@@ -354,7 +449,7 @@ body .scale-active .t-zoomer__scale.showed {
                 .t-menusub__link-item{
                     font-weight: 400;
                     &.t-active{
-                        
+
                     }
                 }
             }
@@ -400,7 +495,7 @@ body .scale-active .t-zoomer__scale.showed {
 #rec221893572,
 .tn-elem__2052489701592937495651{
     z-index: 30!important;
-    position: relative;  
+    position: relative;
 }
 
 
@@ -440,7 +535,7 @@ body .scale-active .t-zoomer__scale.showed {
  #rec205389462,
  #t-footer{
     z-index: 35!important;
-    position: relative;  
+    position: relative;
 }
 
 
@@ -458,7 +553,7 @@ body .scale-active .t-zoomer__scale.showed {
 
 #rec196831803,
 #rec188303314{
-    z-index: 45!important;
+    z-index: 35!important;
 }
 
 
@@ -513,7 +608,7 @@ body .scale-active .t-zoomer__scale.showed {
     }
 }
 
-// лого в шапке на мобильных 
+// лого в шапке на мобильных
 
 #rec196831803 {
     position: absolute;
@@ -528,7 +623,7 @@ body .scale-active .t-zoomer__scale.showed {
     float: left;
 }}
 
-// burger в мобилке 
+// burger в мобилке
 
 .t450__burger_container {
     position: absolute;
@@ -574,7 +669,7 @@ body .scale-active .t-zoomer__scale.showed {
     background:none !important;
     right: 0 !important;
     left: 0 !important;
-    margin: 0!important;}  
+    margin: 0!important;}
 
    .parpadding{padding:0 !important;}
    .tn-atom .t-form__errorbox-wrapper, .tn-form__errorbox-popup , .t-form-success-popup { z-index: 9999999 !important; }
@@ -629,14 +724,10 @@ body .scale-active .t-zoomer__scale.showed {
     }
    }
 
-.tn-elem__1953083171590690975626,
-.tn-elem__1955752531589636366534,
-.tn-elem__2052484401592985188446,
-.tn-elem__2052484401592937230072,
-.tn-elem__2053694291592985188446 {
+.tn-elem__2222340101592937230072{
     pointer-events: none;
     .tn-atom__sbs-anim-wrapper.start{
-    opacity: 0.2!important;
+    opacity: 0.4!important;
    }
 }
 
@@ -654,7 +745,7 @@ body .scale-active .t-zoomer__scale.showed {
     z-index: 9999999999;
 }}
 
-// кнопки подробнее забронировать 
+// кнопки подробнее забронировать
 
 #rec200918319{
     position: fixed;
@@ -667,7 +758,7 @@ body .scale-active .t-zoomer__scale.showed {
    .tn-elem__2009183191591781411593{
     pointer-events: visible;
    }
-    
+
 }
 
 #rec200918319.active{
@@ -696,11 +787,12 @@ bottom: 0;
     }
 
 .t734__descr {
-    margin-top: 0!important;
+    font-size: 15px!important;
+    line-height: 1.2!important;
 }
 
 .t734__title {
-    font-size: 50px!important;
+    font-size: 28px!important;
     line-height: 89%;
     letter-spacing: -1px;
 }
@@ -750,7 +842,7 @@ bottom: 0;
     #rec202473206.mbottom{
         margin-bottom: 82px;
     }
-    
+
 
     .fixed{
          position: fixed!important;
@@ -769,7 +861,7 @@ bottom: 0;
         z-index: 0!important;
     }
 
-    
+
     #rec202871570,
     #rec190688184,
     .tn-elem__1883293271589636366534,
@@ -777,7 +869,7 @@ bottom: 0;
     .tn-elem__1955752531589636366534,
     .tn-elem__1935353131589974475385{
        z-index: 2!important;
-        position: relative;   
+        position: relative;
     }
 
     #rec201547405,
@@ -796,10 +888,10 @@ bottom: 0;
     .tn-elem__2053694291592985188446,
     .tn-elem__2052484401592937230072{
         z-index: 20!important;
-        position: relative;  
+        position: relative;
     }
 
- 
+
 
 .tn-elem__1953083171589636366534,
 .tn-elem__1883293271589636366534,
@@ -859,7 +951,7 @@ bottom: 0;
 @media screen and (min-width: 768px) {
 
 
-       
+
     #rec188259966 .t-input-group_tm
 {
     border-right: 1.5px solid #b3aea8;
@@ -947,14 +1039,14 @@ bottom: 0;
     }
 
     .t-form__submit {
-        
+
         @include respond-to(mobile){  background-color: #677462;  }
     }
 
     .t690 .t-input-block {
-        
+
         padding: 0 20px; }
-        
+
     .t-descr{
         color: #b3aea8!important;
         font-weight: 600!important;
@@ -986,7 +1078,7 @@ bottom: 0;
         margin: auto;
         pointer-events: none;
     }
- 
+
 
     .t-select:after{
         border-color: #858a86 transparent transparent transparent;
@@ -997,12 +1089,12 @@ bottom: 0;
         height: 50px;
     }
     .t-form__submit {
-        
+
         vertical-align: middle;
         .t-submit {
-            
+
             font-size: 14px; }
-        
+
     }
 }
 
@@ -1026,11 +1118,161 @@ bottom: 0;
     display: none;
 }
 
-#rec201032281,
+#rec222637178{
+    .t923 .t-width .t-slds__wrapper, .t923 .t923__slds-wrapper .t-col{
+        @include respond-to(mobile){  padding: 0!important;
+        width: 100%!important; };
+    }
+
+}
+
+// Cart form style
+
 #rec229653342{
 
+
+
+    .t-form option {
+        color: #fff;
+    }
+
+    .t-input,
+    .t-select{
+      height: 36px;
+    }
+
+    .t702__price,
+    .t706__form-upper-text
+    {
+      margin: 0 auto;
+      display: table;
+      width: auto;
+    }
+
+    .t-input,
+    .t-select,
+    .t702__price,
+    .t706__form-upper-text {
+        
+        &.loading {
+          animation-duration: 1s;
+          animation-fill-mode: forwards;
+          animation-iteration-count: infinite;
+          animation-name: placeHolderShimmer;
+          animation-timing-function: linear;
+          background: linear-gradient(to right, transparent 8%, #20211d 18%, transparent 33%);
+          background-size: 800px 104px;
+          position: relative;
+          color: transparent!important;
+          transition: 0.3s;
+         // border: none!important;
+      }
+    }
+
+    .t-input-group_pm .t-text_xs {
+        @include respond-to(mobile){  font-size: 15px; };
+    }
+
+    .t706__cartwin-close{
+        @include respond-to(mobile){  background-color: transparent;  }
+    }
+    .t706__cartwin-content{
+        background-color: #161616;
+        @include respond-to(mobile){   margin-top: 0px;  }
+    }
+    .t706__cartwin-top {
+        padding: 0!important;
+        border-bottom: 0px!important;
+    }
+    .t706__form-upper-text {
+        padding-top: 0!important;
+        padding-bottom: 0!important;
+    }
+
+    .t-input-group_pm{
+        margin: 0!important;
+    }
+
+    .t-radio__indicator {
+
+        border-color: #677462;
+        &:after{
+
+        background: #677462;
+        }
+    }
+
+    .t706__cartwin-heading{
+        color: #ffffff;
+        font-size: 45px;
+        line-height: 1;
+        font-weight: 400;
+        padding-top: 25px;
+        padding-bottom: 0px;
+        font-family: 'Bebas Neue'!important;
+        max-width: 500px;
+        text-align: center;
+    };
+
+    .t706__form-upper-text{
+        color: #ffffff;
+        font-size: 18px;
+    line-height: 1;
+    font-weight: 300;
+    text-align: center;
+    };
+
+    .t706__orderform {
+        margin-top: 5px!important;
+        margin-bottom: 5px!important;
+    };
+
+    .t706__form-bottom-text {
+        margin: 0;
+        a{
+            color: #677462;
+        }
+    }
+    .t-input-group_em,
+    .t-select{
+        margin-right: 20px;
+    }
+
+    .t-form__successbox{
+        background-color: transparent!important;
+        font-weight: 100;
+        line-height: 130%;
+        font-size: 17px;
+        padding: 29px 0;
+    }
+
+    .t-select{
+        padding-left: 0!important;
+        padding-right: 0!important;
+        border-top: 0!important;
+        border-right: 0!important;
+        border-left: 0!important;
+        border-radius: 0!important;
+       
+    }
+
+    
+
+};
+
+.t450__right_buttons_but .t-btn {
+    padding: 0!important;
+}
+
+#rec201032281,
+#rec229653342{
     .t-popup_show{
         z-index: 9999999999;
+    }
+
+   .t-checkbox__indicator,
+   .t-checkbox__indicator:after{
+        border-color: #677462;
     }
 
     .t702__text-wrapper, .t-title_xxs {
@@ -1171,7 +1413,7 @@ bottom: 0;
         background-color: darken($borgreen, 10%);
     }
   span{
-    border-left: $size*0.4 solid $bgcolor; 
+    border-left: $size*0.4 solid $bgcolor;
     }
     }
 
@@ -1206,7 +1448,7 @@ bottom: 0;
     &.white{
 
         border-color: white;
-        
+
 
         &::before{
             background: transparentize(white,.2);
@@ -1228,9 +1470,9 @@ bottom: 0;
               background-color: darken(white, 10%)!important;
           }
         span{
-             border-left-color: $borgreen; 
+             border-left-color: $borgreen;
           }
-          
+
           }
 
     }
