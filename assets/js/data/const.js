@@ -1,10 +1,12 @@
+export const pathname = window.location.pathname;
+export const server = `https://bordata.ru`;
+
 export const popupSpa = '#rec229653342'; /* попап коризны для броинрования */
 export const mainFormSpa = '#rec188259966'; /* форма брони бани на главной */
 
-
 export const width = document.documentElement.clientWidth;
 export const height = document.documentElement.clientHeight;
-export const pathname = window.location.pathname;
+
 
 let LetisSmall = false;
 let LetisMedium = false;

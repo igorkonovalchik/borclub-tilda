@@ -7,6 +7,7 @@ import moment from '../../../plugins/moment/moment'
 import getWeekDay from './function/getday'
 import getTotalCost from './function/gettotalcost'
 import getParams from './function/getParams'
+import getSpa from './yclients/getSpa'
 import * as c from './data/const.js'
 
 const priceId = 'price' + c.popupSpa.slice(4);
@@ -120,6 +121,8 @@ const updateCart = (total = -1, id = -1, date = 0, time = 0) => {
 };
 
 $(document).ready(function(){ 
+
+   // getSpa();
 
     /* Обновляем продукт и цены перед отправкой формы в платежную систему */
 
