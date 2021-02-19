@@ -1128,10 +1128,9 @@ bottom: 0;
 
 // Cart form style
 
-#rec229653342{
-
-
-
+#rec229653342,
+#rec279462841 // тестовая новая корзина
+{
     .t-form option {
         color: #fff;
     }
@@ -1265,7 +1264,8 @@ bottom: 0;
 }
 
 #rec201032281,
-#rec229653342{
+#rec229653342,
+#rec279462841{
     .t-popup_show{
         z-index: 9999999999;
     }
