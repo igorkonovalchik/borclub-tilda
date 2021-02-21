@@ -1,13 +1,20 @@
 
 @import "./variables";
 
-#rec264011977{
+#rec283013101, /* общий лого хидер для мобилки */
+#rec264011977 /* общий лого хидер для мобилки ресторан */
+{
   position: fixed;
   z-index: 9999;
   width: 100%;
-  transition: 0.3s;
-  height: 20vh;
-  background: rgba(0,0,0,1);
+  transition: 0.6s;
+  height: 22vh;
+}
+
+#rec283013101.add-shadow,
+#rec264011977.add-shadow
+{
+   background: rgba(0,0,0,1);
   background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 21%, rgba(0,0,0,0) 100%);
   background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,1)), color-stop(21%, rgba(0,0,0,0.9)), color-stop(100%, rgba(0,0,0,0)));
   background: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 21%, rgba(0,0,0,0) 100%);

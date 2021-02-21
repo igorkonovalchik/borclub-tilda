@@ -65,7 +65,17 @@ if( $('#block-search').length && c.isSmall ) {
 			$(window).scrollTop(g);
 		});
 
-	};
+  };
+  
+// IF event cart change pay metod
+
+  if( $('#rec283238048').length ) {
+    
+    $(function() {
+      const $radios = $('input:radio[name=paymentsystem]');
+      $radios.filter('[value=sberbank]').prop('checked', true);
+  });
+  }
 
 
 	$(window).scroll(function(){
@@ -115,11 +125,18 @@ if( $('#block-search').length && c.isSmall ) {
 					})
 			};
 
+			if(pageYOffset > 200){
+				$('#rec283013101').addClass('add-shadow');
+				$('#rec264011977').addClass('add-shadow');					
+		 }else{			
+				$('#rec283013101').removeClass('add-shadow');
+				$('#rec264011977').removeClass('add-shadow');				
+			};
 
-			if(pageYOffset > 700){
-
-				$('#rec191919056').addClass('fixed-top'); }else{
-					$('#rec191919056').removeClass('fixed-top');
+				if(pageYOffset > 700){						
+					$('#rec191919056').addClass('fixed-top');
+			 }else{
+					$('#rec191919056').removeClass('fixed-top');						
 				};
 
 				/* кнопка отель забронировать */

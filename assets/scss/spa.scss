@@ -305,6 +305,15 @@ body .scale-active .t-zoomer__scale.showed {
     margin-bottom: 20px!important;
 }
 
+#rec221890182,
+#rec221892787,
+#rec221893572{
+    .t-descr{     
+        font-size: 14px;  
+        padding-right: 0px;      
+    }
+}
+
 .t812__pricelist-item {
     margin-top: 10px!important;
     .t-descr{
@@ -361,6 +370,31 @@ body .scale-active .t-zoomer__scale.showed {
     }}
 }
 
+#nav282928350 {
+  color: transparent!important;
+  .t199__menu{
+  .t199__menu-item-wrap{
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: auto 20px;
+      &:nth-child(1){
+          background-image: url(https://bordata.ru/files/darknav/spa-icon.svg);
+      }
+      &:nth-child(2){
+          background-image: url(https://bordata.ru/files/darknav/hotel-icon.svg);
+      }
+      &:nth-child(3){
+          background-image: url(https://bordata.ru/files/darknav/rest-icon.svg);
+      }
+      &:nth-child(4){
+          background-image: url(https://bordata.ru/files/darknav/cont-icon.svg);
+      }
+      .t199__menu-item {
+          margin-left: 15px;
+      }
+  }}
+}
+
 
 
 #rec205099373 .t450__container,
@@ -391,6 +425,7 @@ body .scale-active .t-zoomer__scale.showed {
 #rec263558078,
 #rec264691768,
 #rec264003331,
+#rec283030530
 {
     position: relative;
     .t450__burger_container{
@@ -412,6 +447,7 @@ body .scale-active .t-zoomer__scale.showed {
 #nav263558078,
 #nav264691768,
 #nav264003331,
+#nav283030530
 {
     z-index: 9999999!important;
     .t450__right_buttons_but {
@@ -532,9 +568,13 @@ body .scale-active .t-zoomer__scale.showed {
  #rec206164878,
  #rec206164879,
  #rec206080991,
- #rec205389462,
- #t-footer{
+ #rec205389462{
     z-index: 35!important;
+    position: relative;
+}
+
+#t-footer{
+    z-index: 99999!important;
     position: relative;
 }
 
@@ -1126,14 +1166,72 @@ bottom: 0;
 
 }
 
-// Cart form style
+#rec283238048
+{
+  .t-input-group_pm{
+    display: none;
+  }
+}
+// Cart form style light
+#rec283238048{
 
-#rec229653342{
 
+}
 
+// cart - dark style
 
-    .t-form option {
-        color: #fff;
+#rec229653342
+{
+  .t-form option,
+  .t706__cartwin-products .t706__product-title,
+  .t706__product-plusminus .t706__product-quantity,
+  .t706__product-amount,
+  .t706__cartwin-prodamount-wrap .t706__cartwin-prodamount-label,
+  .t706__cartwin-prodamount-wrap .t706__cartwin-prodamount
+   {
+      color: #fff;
+  }
+  .t706__cartwin-content{
+    background-color: #161616;
+}
+.t-radio__indicator {
+
+  border-color: #677462;
+  &:after{
+  background: #677462;
+  }
+}
+.t706__cartwin-heading{
+  color: #ffffff;
+};
+
+.t706__form-upper-text{
+  color: #ffffff;
+};
+
+.t706__form-bottom-text {
+  a{
+      color: #677462;
+  }
+}
+
+}
+
+// Cart form style 
+/*
+#rec229653342,
+#rec283238048 */
+.t706
+{
+    .t-form option,
+    .t706__cartwin-products .t706__product-title,
+    .t706__product-plusminus .t706__product-quantity,
+    .t706__product-amount,
+    .t706__cartwin-prodamount-wrap .t706__cartwin-prodamount-label,
+    .t706__cartwin-prodamount-wrap .t706__cartwin-prodamount
+     {
+        font-family: 'GothamPro',Arial,sans-serif;
+        font-weight: 500;
     }
 
     .t-input,
@@ -1153,7 +1251,6 @@ bottom: 0;
     .t-select,
     .t702__price,
     .t706__form-upper-text {
-        
         &.loading {
           animation-duration: 1s;
           animation-fill-mode: forwards;
@@ -1177,7 +1274,6 @@ bottom: 0;
         @include respond-to(mobile){  background-color: transparent;  }
     }
     .t706__cartwin-content{
-        background-color: #161616;
         @include respond-to(mobile){   margin-top: 0px;  }
     }
     .t706__cartwin-top {
@@ -1193,17 +1289,7 @@ bottom: 0;
         margin: 0!important;
     }
 
-    .t-radio__indicator {
-
-        border-color: #677462;
-        &:after{
-
-        background: #677462;
-        }
-    }
-
     .t706__cartwin-heading{
-        color: #ffffff;
         font-size: 45px;
         line-height: 1;
         font-weight: 400;
@@ -1215,11 +1301,10 @@ bottom: 0;
     };
 
     .t706__form-upper-text{
-        color: #ffffff;
         font-size: 18px;
-    line-height: 1;
-    font-weight: 300;
-    text-align: center;
+        line-height: 1;
+        font-weight: 300;
+        text-align: center;
     };
 
     .t706__orderform {
@@ -1229,10 +1314,8 @@ bottom: 0;
 
     .t706__form-bottom-text {
         margin: 0;
-        a{
-            color: #677462;
-        }
     }
+
     .t-input-group_em,
     .t-select{
         margin-right: 20px;
@@ -1252,12 +1335,8 @@ bottom: 0;
         border-top: 0!important;
         border-right: 0!important;
         border-left: 0!important;
-        border-radius: 0!important;
-       
-    }
-
-    
-
+        border-radius: 0!important; 
+    };
 };
 
 .t450__right_buttons_but .t-btn {
