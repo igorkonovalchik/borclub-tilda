@@ -11,6 +11,8 @@ import getDates from './yclients/getDates'
 import * as c from './data/const.js'
 
 const priceId = 'price' + c.popupSpa.slice(4);
+let currentSpaID = 0;
+
 
 const Cartrumoment = moment();
 Cartrumoment.locale('ru');
@@ -25,7 +27,13 @@ const $day_field = $(c.popupSpa + " input[name*='day']");
 const $time_field = $(c.popupSpa + " input[name*='time']");
 const $date_field = $(c.popupSpa + " input[name*='date']");
 const $spa_field = $(c.popupSpa + " select[name*='spa']");
+const $persons_field = $(c.popupSpa + " input[name*='persons']"); 
+const $dopHour_field = $(c.popupSpa + " input[name*='dopHour']");
+const $picker__table = $(c.popupSpa + " .picker__table");
+const $picker__list = $(c.popupSpa + " .picker__list");
 const $submit = $(c.popupSpa + " :submit");
+
+
 
 const $email_field = $(c.popupSpa + " .t-input-group_em");
 const $cash_field = $(c.popupSpa + " .t-input-group_pm .t-radio__control:first-child");
@@ -35,7 +43,13 @@ let easingFn = function (t, b, c, d) {
     let ts = (t /= d) * t;
     let tc = ts * t;
     return b + c * (tc + -3 * ts + 3 * t);
+    }; 
+
+const unique = (arr) => {
+      return Array.from(new Set(arr));
     };
+
+const getMax = (arr) => Math.max.apply(null, arr);
 
 const CountUpOptions = {
     separator : ' ', 
@@ -68,30 +82,110 @@ const updatePrice = (id = -1, price = 0) => {
   //  console.log(window.tcart);   
 };
 
-const changeEnableDays = (data, date = false) => {
+const getMonth = (date) => {
+  let result = '';
+  if(typeof date === 'object'){
+    const entries = Object.entries(date);
+    for(const [key, value] of entries) {
+      value.forEach((item) => {
+      	item = item + 1;
+      	if(item < 10){ item = '0' + item; };
+        result += key + '-' + item + ';';
+      });
+    };
+    result = result.substring(0, result.length - 1);
+  }else{
+  date = new Date(date);
+  const dateM = moment(date); 
+  result = dateM.format('YYYY-MM');
+};
+  return result;
+};
+
+const updateServices = (data, time, fn) => {
+  if(data === null || data.length === 0 ){ 
+    console.log('Нет услуг для загрузки цен');    
+    return false;
+  };
+  const id = $id_field.val();
+  const date = $date_field.data('value');     
+  let total = 0;
+  let oldprice = $price_field.val() === NaN ? 0 : 0 + $price_field.val();     
+  const $rentMinArr = data.sort(function(a, b) {
+                            return Number(a.price_max) - Number(b.price_max);
+                          });
+   // .filter( (service) => service.seance_length > 3600 ) // только аренды без доп часов 
+  console.log('Список доступных услуг');
+  console.log($rentMinArr);
+ 
+  if($rentMinArr.length !== 0){
+      const $rentTimes = {};   
+      $rentTimes.wm = $rentMinArr[0];                     
+      if($rentMinArr.length > 2){        
+        $rentTimes.we = $rentMinArr[1];
+        $rentTimes.h = $rentMinArr[2];
+        $rentTimes.ny = { ...$rentMinArr[2], 'price_max': $rentMinArr[2].price_max * 2 }; 
+      }else{
+              if($rentMinArr.length === 2){             
+              $rentTimes.we = $rentMinArr[0];
+              $rentTimes.h = $rentMinArr[1];
+              $rentTimes.ny = { ...$rentMinArr[1], 'price_max': $rentMinArr[1].price_max * 2 }; 
+                  }else{             
+              $rentTimes.we = $rentMinArr[0];
+              $rentTimes.h = $rentMinArr[0];
+              $rentTimes.ny = { ...$rentMinArr[0], 'price_max': $rentMinArr[0].price_max * 2 }; 
+            };
+      }; 
+
+      console.log('Перебрали список услуг');
+      console.log($rentTimes);        
+      const $rentMin = $rentTimes[getWeekDay(date, time)]; // Определяем к чему относится выбранные день
+      console.log('Выбранный день  ' + getWeekDay(date, time));
+      total = 0 + $rentMin.price_max * spas[id].minhours;
+      $(c.popupSpa + ' .t706__form-upper-text').text( 'за ' + spas[id].minhours + ' до ' + spas[id].person  + ' гостей');
+  }else{
+    $(c.popupSpa + ' .t706__form-upper-text').text( 'Ошибка. Попробуйте позже.');
+    total = 0;
+  };
+
+  $price_field.val(total); 
+  const demo = new CountUp(priceId, oldprice, total, 0, 0.7, CountUpOptions);
+  demo.start(); 
+  updatePrice(id, total);
+  fn && fn();
+};
+
+const changeDisableDays = (data, date = false) => {
+    const result = {};  
+    result.select = ''; 
+    if(data === null || data.length === 0 ){ 
+      console.log('All day in current and next month is free');
+      result.select = date ? date : nextDay;
+      console.log('Set current day - ' + result.select);
+      result.disable = false;
+      return result;
+    };
     if(typeof data === 'object' && !Array.isArray(data)){
       console.log('load days from yclients');
       data = Object.values(data);
-    }
-    if(data === null ){ 
-      console.log('data is null');
-      return false;
     };
-    if(data.length === 0 ){ 
-      if(date){ console.log('all day in current and next month is free'); }else{ 
-        console.log('all day in month is free');
-      }
-      return false;
-    };
-    const result = {};     
+     
     if(date){
       let dateObj = new Date(date);
       const dateM = moment(dateObj); 
-      for(let counter = 0; counter <= data.length - 1; counter++){ 
-        if(counter > 0){ dateM.add(counter,'days'); };
+      // console.log(dateM);
+     // const max = data.length - data.indexOf(dateM.format('YYYY-MM-DD')) - 1;
+      const max = 180;
+      for(let counter = 0; counter <= max; counter++){ 
+        if(counter > 0){ dateM.add(1,'days'); };
         date = dateM.format('YYYY-MM-DD');
-        if(!data.includes(date)){ result.select = dateM.format('YYYY/MM/DD'); break; };
-       };  
+        if(!data.includes(date)){ 
+          result.select = dateM.format('YYYY/MM/DD');
+          console.log('we have free day!!! it"s: ' + result.select );
+          break;
+         };
+       };
+      if(result.select === ''){ console.log('В ближайшие пол года доступных дат нет.'); }
     };    
     const fn = (acc, item) =>
       { 
@@ -105,72 +199,272 @@ const changeEnableDays = (data, date = false) => {
     return result;
 }
 
-const timeTable = (data) => {  
-  if(!Array.isArray(data) || data === null ){ 
-    console.log('data is null');
-    return false;
-   };
-   if(data.length === 0 ){ 
-    console.log('all times is free')
-    return false;
-   };
+
+
+const timeTable = (data = 0) => {  
   const result = {};  
-  const min = Number(data[0].time.substr(0, 2));
-  const index = data.length - 1;   
-  const max = Number(data[index].time.substr(0, 2));
+  const id = $id_field.val();
+  const minHours = spas[id].minhours; 
+  const cleanHours = spas[id].cleanhours; 
+  const totalTime = minHours + cleanHours;
+  let concat = [];
+  let records = [];
+  const min = 11;
+  const max = 23;
   const fulltimetable = [];
-  let f = true;
-  for (let counter = min; counter <= max; counter++) {    
-    f = data.find(p => p.time === `${counter}:00`);
-    if(f){ fulltimetable.push({'time': `${counter}:00`, 'is_free': true}); }else{
-      fulltimetable.push({'time': `${counter}:00`, 'is_free': false});
-    };
+  for (let counter = min; counter <= max; counter++) {  
+    fulltimetable.push({'time': `${counter}:00`, 'is_free': true});
+  };  
+
+  if(data === 0 || Array.isArray(data) || data === null || data.length === 0 ){
+
+        console.log('Обновляем время по умолчанию');
+
+        concat = fulltimetable; 
+        
+  }else{
+
+        console.log('Обновляем время из даты');
+
+        if(typeof data === 'object' && !Array.isArray(data)){
+          console.log('records...');
+          records = data.records !== null && data.records !== undefined && !Array.isArray(data.records) ? Object.values(JSON.parse(data.records)) : [];
+          console.log('records ok');
+          console.log('times...');
+          data = data.times !== null && data.times !== undefined && !Array.isArray(data.times) ? Object.values(JSON.parse(data.times)[0]) : {};
+          console.log('times ok');
+        };
+
+        concat = fulltimetable.concat(data); 
+        
+     /*   let f = true;
+        for (let counter = 11; counter <= 23; counter++) {    
+          f = data.find(p => p.time === `${counter}:00`);
+          if(f){ fulltimetable.push({'time': `${counter}:00`, 'is_free': true}); }else{
+            fulltimetable.push({'time': `${counter}:00`, 'is_free': false});
+          };
+        };  
+      */
   };
-  const concat = fulltimetable.concat(data);  
-  const fullData = concat.reduce((m, o) => {
-        const found = m.find(p => p.time === o.time);
-        if (found) {
-            found.is_free = o.is_free;        
-        } else {
-            m.push(o);
+
+ // console.log('data');
+ // console.log(data[0]);
+
+  console.log('records count');
+  console.log(records.length);
+
+  result.disable = concat
+                .reduce((m, o) => {
+                    const found = m.find(p => p.time === o.time);
+                    if (found) {
+                        found.is_free = o.is_free;        
+                    } else {
+                        m.push(o);
+                    }
+                    return m;
+                    }, [])
+                .filter((i) => i !== 0 && !i.is_free)
+                .reduce((a, item) => a = item.time !== undefined ? [...a, Number(item.time.substr(0, 2)) ] : [ ...a ], [])
+                .sort((a, b) => a - b );
+  
+  console.log('result.disable');
+  console.log(result.disable);
+
+  const disableTimes = [ ...result.disable ]; 
+
+  let cleanDisable = [];
+  let hour = 0;
+  for(let i = min; i <= max; i++) { 
+    hour = result.disable.includes(i) ? hour + 1 : 0;
+    if(hour === minHours ){  
+      for(let n = i; n <= i + cleanHours; n++) { 
+        cleanDisable = [...cleanDisable, n ]; 
+      };
+    }; 
+  };
+
+  result.disable = unique( [ ...result.disable, ...cleanDisable ] );
+
+  console.log('result.disable + cleanhour');
+  console.log(result.disable);
+
+  let newDisable = [];
+  let once = false;
+
+  if(id == 1 || id == 7 ){
+
+    if(!result.disable.includes(11)){
+      for(let i = 12; i < 17; i++) { 
+        if(result.disable.includes(i)){ once = true; }; 
+      }
+    };
+    if(once){ newDisable = [...newDisable, 11, 12, 13, 14, 15, 16, 17]; }; 
+
+    once = false;
+      if(!result.disable.includes(17)){
+        for(let i = 18; i < 24; i++) { 
+          if(result.disable.includes(i)){ once = true; }; 
         }
-        return m;
-        }, []); 
-  result.disable = fullData.filter((item) => !item.is_free).reduce((a, item) => a = [...a, Number(item.time.substr(0, 2)) ], []);
-  result.enable = fullData.filter((item) => item.is_free).reduce((a, item) => a = [...a, Number(item.time.substr(0, 2)) ], []);
+      }else{
+        newDisable = [...newDisable, 12];
+      };
+    if(once){ newDisable = [...newDisable, 17, 18, 19, 20, 21, 22, 23]; };
+
+  };
+
+  if(id == 4 || id == 5 || id == 6 ){
+
+      if(!result.disable.includes(11)){
+        for(let i = 12; i < 15; i++) { 
+          if(result.disable.includes(i)){ once = true; }; 
+        }
+      };
+      if(once){ newDisable = [...newDisable, 11, 12, 13, 14, 15, 19]; }; 
+
+      once = false;
+      if(!result.disable.includes(15)){
+        for(let i = 16; i < 19; i++) { 
+          if(result.disable.includes(i)){ once = true; }; 
+        }
+      }else{
+        newDisable = [...newDisable, 12];
+      };
+      if(once){ newDisable = [...newDisable, 15, 16, 17, 18, 19]; }; 
+
+      once = false;
+      if(!result.disable.includes(19)){
+        for(let i = 20; i < 24; i++) { 
+          if(result.disable.includes(i)){ once = true; }; 
+        }
+      }else{
+        newDisable = [...newDisable, 12, 16];
+      };
+      if(once){ newDisable = [...newDisable, 19, 20, 21, 22, 23]; };
+
+  };
+
+  if(id == 2 ){
+
+    let busy = 0;
+
+    if(result.disable.includes(15)){
+        for(let i = 11; i < 16; i++) { 
+            if(result.disable.includes(i)){ once = true; }else{
+              busy++;
+            }; 
+          }
+        if(once){ 
+          newDisable = [...newDisable, 11, 12, 13, 14, 15 ];
+          for(let n = 15; n <= busy + 15; n++) { 
+            newDisable = [...newDisable, n];
+          };
+        }; 
+    };
+
+    if(result.disable.includes(19)){
+        busy = 3;
+        once = false;
+        for(let i = 16; i < 19; i++) { 
+          if(result.disable.includes(i)){ once = true; }else{
+            busy--;
+          }; 
+        };
+        if(once){ 
+          newDisable = [...newDisable, 16, 17, 18, 19];
+          for(let n = 15; n >= 15 - busy; n--) { 
+            newDisable = [...newDisable, n];
+          };
+        }; 
+    };
+
+  };
+
+  console.log('newDisable');
+
+  console.log(newDisable);
+
+  result.disable = unique( [ ...result.disable, ...newDisable, ...spas[id].disableTime ] ).sort((a, b) => a - b ); 
+
+  console.log('после чистки');
+
+  console.log(result.disable);
+
   result.min = [ min , 0 ];
   result.max = [ max , 0 ];
-  const foundFirst = fullData.find(p => p.is_free === true);
-  result.select = foundFirst ? Number(foundFirst.time.substr(0, 2)) * 60 : 900;  
+
+  let firstTime = max; 
+  for(let i = min; i <= max; i++) { 
+    if(!result.disable.includes(i)){
+      if($time_field.val().substr(0, 2) == i){ firstTime = i; break; }; 
+      firstTime = firstTime > i ? i : firstTime; 
+    };
+  };
+  result.select = firstTime !== max ? firstTime * 60 : 900;
+
+  // Определяем количество часов, которые можно добавить 26 - это 2 ночи
+  const fullTimeTable = [];
+  for (let counter = min; counter <= 26; counter++) {  
+    fullTimeTable.push(counter);
+  };
+
+  result.dopHours = fullTimeTable
+      .filter((i) => i >= firstTime + totalTime)
+      .filter((i) => !disableTimes.includes(i))
+      .filter((i, c, ar) => i === firstTime + totalTime + c);
+
   return result;
 };
 
-const loadingField = (start = true, allFields = true) => {
-  $submit.prop( "disabled", start );
-  $spa_field.prop( "disabled", start );
-  $date_field.prop( "disabled", start );
-  $time_field.prop( "disabled", start );
-  if(start){
-    $(c.popupSpa + ' .t706__form-upper-text').addClass('loading');
-  //  $('#' + priceId).addClass('loading');
-      if(allFields){
-        $date_field.addClass('loading');
-        $time_field.addClass('loading');
-      }else{
-        $time_field.addClass('loading');
-      };
+const disableAllFields = (action = true) => {
+  if(action){
+    $submit.addClass('disable-input');
+    $picker__table.addClass('disable-input');
+    $picker__list.addClass('disable-input');
+    $(c.popupSpa + ' input').each(function(){
+      $(this).addClass('disable-input');
+  });
   }else{
+    $submit.removeClass('disable-input');
+    $picker__table.removeClass('disable-input');
+    $picker__list.removeClass('disable-input');
+    $(c.popupSpa + ' input').each(function(){
+      $(this).removeClass('disable-input');
+  });
+  }
+};  
+
+
+const loadingField = (start = true, fields = 'datetime') => {    
+  if(start){
+    $(c.popupSpa + " .picker").each(function(){
+      $(this).addClass('loading');
+    });
+    if(fields === 'datetime'){ 
+      $date_field.addClass('loading');
+      $time_field.addClass('loading');
+    }else{ 
+      $(c.popupSpa + ' .t706__form-upper-text').addClass('loading');
+    };    
+  //  $('#' + priceId).addClass('loading');      
+  }else{
+    $(c.popupSpa + " .picker").each(function(){
+      $(this).removeClass('loading');
+    });
+    if(fields === 'datetime'){
     $date_field.removeClass('loading');
     $time_field.removeClass('loading');
+  }else{ 
     $(c.popupSpa + ' .t706__form-upper-text').removeClass('loading');
  //   $('#' + priceId).removeClass('loading');
-  }
-}
+    };  
+  };
+  disableAllFields(start);
+};
 
 const updateCart = (total = -1, id = -1, date = 0, time = 0) => {     
     if(total === -1 && id === -1 && date === 0 && time === 0){                        
-       // $date_field.data('value', nextDay ); // .attr('value', date )
-        $day_field.val(getWeekDay(nextDay));
+     //   $date_field.data('value', nextDay ); // .attr('value', date )
+     //   $day_field.val(getWeekDay(nextDay));
        // $time_field.val(sec2time(900)).attr( 'value', 900 );
     }else{   
     let oldprice = $price_field.val();
@@ -182,25 +476,30 @@ const updateCart = (total = -1, id = -1, date = 0, time = 0) => {
                 $day_field.val(day);
             };        
     if(id === -1){ id = $id_field.val(); }else{
-        $id_field.val(id);
-        $(c.popupSpa + ' .t706__cartwin-heading').text( spas[id].title );
-        $(c.popupSpa + ' .t706__form-upper-text').text( 'за ' + spas[id].minhours + ' часа до ' + spas[id].person  + ' гостей');
+        currentSpaID = id;
+        $id_field.val(currentSpaID);
+        $(c.popupSpa + ' .t706__cartwin-heading').text( spas[id].title );        
         if($(c.popupSpa + " select[name*='spa'] option:selected").index() !== id){ $(c.popupSpa + " select[name*='spa']").prop('selectedIndex', id); }; 
     };     
    
-    if(total === -1){              
+  /*  if(total === -1){              
      total = getTotalCost(time, day, id);
     };
     $price_field.val(total); 
     const demo = new CountUp(priceId, oldprice, total, 0, 0.7, CountUpOptions);
     demo.start(); 
-    updatePrice(id, total);
+    updatePrice(id, total); */ 
     // getDates('times',id, nextDay); 
   }; 
-
 };
 
+
+
 $(document).ready(function(){ 
+
+
+  $date_field.parent().parent().addClass('w50').addClass('datefield');
+  $time_field.parent().parent().addClass('w50').addClass('timefield');
 
  // console.log(window.tcart);  
 
@@ -231,13 +530,83 @@ if($(c.popupSpa).length ){
     $(c.popupSpa + ' .t706__form-upper-text').after('<div id="' + priceId + '" class="t702__price">0</div>');
     $(c.popupSpa + " input[name*='Email']").val('no@email.net');
     $(c.popupSpa + " input[name*='Name']").addClass('t-input_bbonly');
-    $(c.popupSpa + " input[name*='Phone']").addClass('t-input_bbonly');    
+    $(c.popupSpa + " input[name*='Phone']").addClass('t-input_bbonly'); 
+    
     $email_field.hide();
+    $(c.popupSpa + " .t-input-group_nm").hide();
+    $(c.popupSpa + " .t-input-group_ph").hide();
+    $(c.popupSpa + " .t-input-group_cb").hide();
+    $(c.popupSpa + " .t-input-group_pm").hide();
     $cash_field.hide();
-    $id_field.val(0);
-    $price_field.val(0);  
+    $id_field.val(currentSpaID);
+    $price_field.val(0); 
+    updateCart(); 
 
-   
+    $id_field.before(`
+  <div class="t-input-group t-input-group_in counter">
+  <div class="t-input-title t-descr t-descr_m"> Количество гостей </div>
+  <div class="number">
+    <span class="minus">-</span>
+    <input id="personsInput" type="text" class="" value="0" disabled/>
+    <span class="plus">+</span>
+  </div>
+  </div>
+  <div class="t-input-group t-input-group_in counter minhour">
+    <div class="t-input-title t-descr t-descr_m"> Добавить часы? </div>
+  <div class="number">
+    <span class="minus">-</span>
+    <input id="dopHoursInput" type="text" class="" value="0" disabled/>
+    <span class="plus">+</span>
+  </div>
+  </div>`);
+
+  const $hours_counter = $(c.popupSpa + " #dopHoursInput"); 
+  const $persons_counter = $(c.popupSpa + " #personsInput");
+
+    $(document).on('click', '.minus', function () {
+      const $input = $(this).parent().find('input');
+      const id = $id_field.val();
+      let count = parseInt($input.val()) - 1;
+      count = count < 1 ? 1 : count;
+      $input.val(count);
+      $input.change();
+      if($input.attr('id') === 'personsInput'){
+        if( count >= spas[id].person){
+          const oldprice = Number($price_field.val());
+          const total = oldprice - 6000;
+          $price_field.val(total); 
+          const demo = new CountUp(priceId, oldprice, total, 0, 0.7, CountUpOptions);
+          demo.start(); 
+          updatePrice(id, total);
+        }
+      };
+      return false;
+    });
+
+    $(document).on('click', '.plus', function () {
+      const $input = $(this).parent().find('input');
+      const id = $id_field.val();
+      let count = parseInt($input.val()) + 1;
+      if($input.attr('id') === 'personsInput'){
+        const totalMax = spas[id].maxDopGuests + spas[id].person;
+        if( count <= totalMax ){ 
+            $input.val(count);  
+            if( count > spas[id].person){
+              const oldprice = Number($price_field.val());
+              const total = oldprice + 6000;
+              $price_field.val(total); 
+              const demo = new CountUp(priceId, oldprice, total, 0, 0.7, CountUpOptions);
+              demo.start(); 
+              updatePrice(id, total);
+            };
+        };
+      }else{
+        $input.val(count);
+      };
+      $input.change();
+      return false;
+    });
+
     const $d = $date_field.pickadate({
         min: 1,
         max: 180,
@@ -252,9 +621,7 @@ if($(c.popupSpa).length ){
           }, 
         onSet: function(c){  
           if(c.select !== undefined){ 
-            const date = moment(c.select).format("YYYY/MM/DD");
-            $date_field.data('value', date );                	
-            updateCart( -1, -1, c.select );
+              updateCart( -1, -1, c.select ); // Меняем день недели и обновляем счетчик цены
             };
           },
       /*  onChangeMonthYear: function(year,month,inst) {
@@ -271,7 +638,7 @@ if($(c.popupSpa).length ){
             */
     });
 
-    const datepicker = $d.pickadate('picker');
+
     
     const $t = $time_field.pickatime({
         format: 'HH:i',
@@ -279,7 +646,7 @@ if($(c.popupSpa).length ){
        // formatSubmit: 'HH:i',
         interval: 60,
         min: [11,0],
-        max: [22,0],
+        max: [22,0],      
         /*
         disable: [
           11, 12, 13
@@ -296,73 +663,192 @@ if($(c.popupSpa).length ){
             updateCart( -1, -1, 0, c.select );
           }
     });  
-    
+
+    $(c.popupSpa + " .picker .picker__wrap").each(function(){
+        $(this).prepend('<div class="sp-wrap"><div class="sp-wave"></div></div>');
+    });
+
+    const datepicker = $d.pickadate('picker');
     const timepicker = $t.pickatime('picker');
+    let loadMonth = {}; // накопитель количества месяцев загруженных для выбранной бани
 
-   //  datepicker.set('disable', true);
-    let loadMonth = {};
+    console.log(loadMonth);
 
-    loadingField();
-    getDates('days', $id_field.val(), nextDay, (data) => { 
+    const updateFields = (id, lM, date ) => {
+
+      loadingField();
+      loadingField(true, 'titleprice');
+
+      if(date === undefined){ date = nextDay; }; 
+
+      $id_field.val(id); 
+
+      $persons_counter.val(parseInt(spas[id].person / 2));
+
+      loadingField();
+
+      if(Object.keys(lM).length){
+
+        timepicker.set('enable', true)
+                   .set('disable', timeTable().disable); 
+        datepicker.set('enable', true);
+  
+        console.log('Уже были загружены месяцы. Обновляем загрузку для +- 1 от выбранной даты');
+  
+        const curDate = new Date(date);
+        const curdateM = moment(curDate); 
+        const maxMonth = Number(curdateM.format('MM')) + 1;
+        const minMonth = maxMonth - 2;
+    
+        const curYear = Number(curdateM.format('YYYY'));
+        const newObj = {};
+    
+        newObj[curYear] = lM[curYear].filter((m) => m <= maxMonth && m >= minMonth );
+        lM = newObj;
+  
+        console.log('А именно: ');
+        console.log(lM[curYear]);
+  
+      }else{
+        console.log('Первая загрузка данных! Грузим: ' + nextDay);
+        $date_field.data('value', nextDay );
+        $day_field.val(getWeekDay(nextDay));
+        lM = nextDay;
+      };     
+
+    getDates('days', id, getMonth(lM), 0, (data) => { 
+        console.log('Получаем ответ');
         console.log(data);
-        const tt = changeEnableDays(data.data, nextDay);
-        if(currentMonth === 12){ 
-          loadMonth[currentYear] = [currentMonth - 1];
-          loadMonth[currentYear + 1] = [0];
-        }else{
-          loadMonth[currentYear] = [currentMonth - 1, currentMonth];
-        };
-        console.log(loadMonth);
+        lM = {}; 
+        const tt = changeDisableDays(data.days, date);
+        lM = data.months;
+        console.log('Пишем данные в lM -');
+        console.log(lM);
+        console.log('Преобразуем данные для загрузки в поля');
         console.log(tt);
-        if(tt){ 
-          datepicker.set('disable', tt.disable )                    
-                    .set('select', tt.select, { format: 'yyyy/mm/dd' })
-                     // .set('enable', ttDays.enable )
-              };  
-         updateCart();
-         loadingField(false);
-    }); 
+        if(tt.disable){  datepicker.set('disable', tt.disable ); };
+        if(tt.select !== '' && tt.select !== undefined){
+          console.log('Дата выбора ' + tt.select + ' установлена');
+          datepicker.set('select', tt.select, { format: 'yyyy/mm/dd' });
+          loadingField(false);
+        }else{
+          console.log('Даты выбора в загруженных месяцах нет ставим текущую дату и морозим поля ');
+          $date_field.data('value', nextDay );
+        //loadingField(false);
+          loadingField();
+        };
+        loadMonth = lM;
+        updateCart(-1, id);
+        });   
+    };  
 
+    timepicker.on({
+      render: function() { 
+         // console.log('render');
+      },
+      open: function() {
+        console.log('Открыт список времени! Обновляем ');
+          loadingField();
+          timepicker.set('enable', true)
+                    .set('disable', timeTable().disable); 
+          getDates('times', $id_field.val(), $date_field.data('value'), 0, (data) => { 
+            console.log('Часы получены успешны: ');
+            console.log(data);
+            const tt = timeTable(data);
+            console.log('Преобразуем для загрузки часов в поля: ');
+            console.log(tt);
+            if(tt){ 
+              timepicker.set('disable', tt.disable); 
+              
+            };
+            console.log('Обновляем часы');
+            loadingField(false);
+          });
+      },
+      set: function(c) {
+        if(c.select !== undefined){
+          console.log('Время изменили. Меняем стоимость! ');
+          console.log('Запрос в базу с данными: spaID - ' + $id_field.val() + ' date -' + $date_field.data('value') + ' time -' + c.select);
+          loadingField(true, 'titleprice');
+          getDates('services', $id_field.val(), $date_field.data('value'), c.select, (data) => {                   
+            updateServices(data, c.select, () =>{
+              loadingField(false, 'titleprice');
+            });            
+          });
+        };
+      }
+    });
+    
+    
     datepicker.on({
       render: function() { 
         // console.log('render');
       },
+      open: function() {
+            console.log('Открыт слайдер! Обновляем загруженные ранее месяцы! ');
+            loadingField();
+            datepicker.set('enable', true);
+            console.log(loadMonth);
+            loadingField();
+            getDates('days', $id_field.val(), getMonth(loadMonth), 0, (data) => { 
+                const tt = changeDisableDays(data.days);
+                if(tt){ 
+                  console.log('Успех! Обновили!');
+                  datepicker.set('disable', tt.disable);
+                };
+                loadingField(false);
+            });    
+      },
       set: function(c) {
-          // console.log(c.highlight.month);
-          // datepicker.set('disable', { from: [2021,c.highlight.month,10], to: [2021,c.highlight.month,20] });
-        if(c.select !== undefined){
+        const id = $id_field.val();
+        // datepicker.set('disable', { from: [2021,c.highlight.month,10], to: [2021,c.highlight.month,20] });
+        if(c.select !== undefined){ // change date event
+          console.log('День изменен. Загружаем занятые часы'); 
           let date = moment(c.select).format("YYYY/MM/DD");
+          $date_field.data('value', date ).attr('value', date );
+          console.log($date_field.data('value'));
           loadingField();
-          timepicker.set('enable', true); 
-          getDates('times',$id_field.val(), date, (data) => { 
-            const tt = timeTable(data.data);
+          timepicker.set('enable', true)
+                    .set('disable', timeTable().disable); 
+          getDates('times', id, date, 0, (data) => { 
+            console.log('Часы получены успешны: ');
+            console.log(data);
+            const tt = timeTable(data);
+            console.log('Преобразуем для загрузки часов в поля: ');
+            console.log(tt);
             if(tt){ 
             timepicker.set('disable', tt.disable)
                         .set('min', tt.min)
                         .set('max', tt.max)       
                         .set('select', tt.select)
-                        .render();
                   };
-              loadingField(false);
+            
+            console.log('Обновляем часы');
+            loadingField(false);
           }); 
         }else{
-          if(c.highlight !== undefined){
-            console.log(c.highlight.month);
+          if(c.highlight !== undefined && c.highlight.month !== undefined){ // change slide calendar event
+            console.log('Слайдер календаря переключен. Данные - ');
             let year = c.highlight.year;
-            let month = c.highlight.month + 2;
-            if(month > 11){ month = month - 11; year = year + 1; };
-            if(!loadMonth[year].includes(month)){
-            let months = [...loadMonth[year], month];
-            loadMonth[year] = months;
+            let month = c.highlight.month;
+            console.log('Год - ' +  year  + ' Месяц - ' + month );
+            console.log('Проверяем в загруженных есть ли в массиве или является последним загруженным месяцем');
             console.log(loadMonth);
-            month = month + 1;
-           // console.log(c.highlight.obj.getMonth());
-            getDates('days', $id_field.val(), year + '-' + month, (data) => { 
-            const tt = changeEnableDays(data.data);
+            if(!loadMonth[year].includes(month) || month === getMax(loadMonth[year])){
+            console.log('Грузим! Получаем месяц - ' + year + '-' + month);
+            loadingField();
+            getDates('days', id, year + '-' + month, 0, (data) => { 
+            const tt = changeDisableDays(data.days);
               if(tt){ 
-                datepicker.set('disable', tt.disable )                          
-                    };
-            }); };
+                datepicker.set('disable', tt.disable ); 
+                for(const year in data.months) {
+                  loadMonth[year] = [...loadMonth[year], data.months[year]].flat().filter((v, i, a) => a.indexOf(v) === i);
+                };
+                console.log('Добавляем новые месяцы в loadMonth. Получаем: ');
+                console.log(loadMonth);       
+                  };
+                  loadingField(false);
+            }); }else{ console.log(month + ' уже есть и не последний'); };
           }else{
            // console.log(c);
           };
@@ -371,31 +857,10 @@ if($(c.popupSpa).length ){
     });
 
     $spa_field.change(function() {
-        const id = $(c.popupSpa + " select[name*='spa'] option:selected").index();  
-        loadMonth = {};   
-        timepicker.set('enable', true);  
-        datepicker.set('enable', true);
-        loadingField();  
+        
+        const id = $(c.popupSpa + " select[name*='spa'] option:selected").index(); 
+        updateFields( id, loadMonth, $date_field.data('value')); 
 
-        getDates('changeSpa', id, $date_field.data('value'), (data) => { 
-          console.log(data);
-          const tt = changeEnableDays(data.data, $date_field.data('value'));
-          if(currentMonth === 12){ 
-            loadMonth[currentYear] = [currentMonth - 1];
-            loadMonth[currentYear + 1] = [0];
-          }else{
-            loadMonth[currentYear] = [currentMonth - 1, currentMonth];
-          };
-          console.log(loadMonth);
-          console.log(tt);
-          if(tt){ 
-            datepicker.set('disable', tt.disable )                    
-                      .set('select', tt.select, { format: 'yyyy/mm/dd' })
-                       // .set('enable', ttDays.enable )
-                };  
-           updateCart(-1, id ); 
-           loadingField(false);
-      }); 
     });
     
 
@@ -413,7 +878,8 @@ if($(c.popupSpa).length ){
     });
 
     $(document).on('click','a[href="#close"], '+ c.popupSpa +' .t396__filter',function(e){
-        updateCart();
+        console.log('закрываем корзину');
+        console.log($date_field.data('value'));
         $("body").css("overflow","auto");
         $("#nav188296220").css("position","fixed");
         if(c.isSmall){  $("#rec196832202").css("position","relative");  
@@ -422,7 +888,7 @@ if($(c.popupSpa).length ){
    });
 
    $(document).on('click',c.popupSpa + ' .t-popup__close',function(){
-        updateCart();
+        
         $("body").css("overflow","auto");
         $("#nav188296220").css("position","fixed");
         if(c.isSmall){ $("#rec196832202").css("position","relative");
@@ -444,39 +910,13 @@ if($(c.popupSpa).length ){
 
 
 
-$('a[href^="#openspa"]').on('click', function(e){
-
-  console.log('openspa');
+$('a[href^="#openspa"]').on('click', function(e){ 
     
     let href = $(this).attr('href');
     let param = getParams(href); 
     let id = param.spa === undefined || param.spa === NaN?$id_field.val():param.spa;   
-
-    loadMonth = {};
-    timepicker.set('enable', true);  
-    datepicker.set('enable', true);
-
-    loadingField();
-    getDates('changeSpa', id, $date_field.data('value'), (data) => { 
-        console.log(data);
-        const tt = changeEnableDays(data.data, $date_field.data('value'));
-        if(currentMonth === 12){ 
-          loadMonth[currentYear] = [currentMonth - 1];
-          loadMonth[currentYear + 1] = [0];
-        }else{
-          loadMonth[currentYear] = [currentMonth - 1, currentMonth];
-        };
-        console.log(loadMonth);
-        console.log(tt);
-        if(tt){ 
-          datepicker.set('disable', tt.disable )                    
-                    .set('select', tt.select, { format: 'yyyy/mm/dd' })
-                     // .set('enable', ttDays.enable )
-              };  
-         updateCart(-1, id);
-         loadingField(false);
-    }); 
     
+    updateFields( id, loadMonth, $date_field.data('value')); 
 
     let showSpa = param.show === undefined || param.show === NaN?1:param.show; 
     if(showSpa !== 1){ $(c.popupSpa + " .t-input-group_sb").hide(); }else{ $(c.popupSpa + " .t-input-group_sb").show(); }; 
@@ -490,6 +930,8 @@ $('a[href^="#openspa"]').on('click', function(e){
 
 $('a[href^="#order"]').on('click', function(e){   
 
+  console.log(loadMonth); 
+
     $("body").css("overflow","hidden");    
 
     if(c.isSmall){ $("#rec196832202").css("position","absolute"); };
@@ -498,46 +940,24 @@ $('a[href^="#order"]').on('click', function(e){
     $('#rec200918319').removeClass('active');
     $("#rec205099373 .t450__burger_container").css("display","none");
 	  $("#rec238782757 .t450__burger_container").css("display","none");
-  	$("#rec196832202 .t450__burger_container").css("display","none");
+    $("#rec196832202 .t450__burger_container").css("display","none");
     
     let href = $(this).attr('href');
     let param = getParams(href);                
-    let id = param.spa === undefined || param.spa === NaN?$id_field.val():param.spa; 
+    let id = param.spa === undefined || param.spa === NaN ? $id_field.val() : param.spa; 
+    $id_field.val(id);
     
-
-    loadMonth = {};
-    timepicker.set('enable', true);  
-    datepicker.set('enable', true);
-
-    loadingField();
-    getDates('changeSpa', id, $date_field.data('value'), (data) => { 
-        console.log(data);
-        const tt = changeEnableDays(data.data, $date_field.data('value'));
-        if(currentMonth === 12){ 
-          loadMonth[currentYear] = [currentMonth - 1];
-          loadMonth[currentYear + 1] = [0];
-        }else{
-          loadMonth[currentYear] = [currentMonth - 1, currentMonth];
-        };
-        console.log(loadMonth);
-        console.log(tt);
-        if(tt){ 
-          datepicker.set('disable', tt.disable )                    
-                    .set('select', tt.select, { format: 'yyyy/mm/dd' })
-                     // .set('enable', ttDays.enable )
-              };  
-         updateCart(-1, id);
-         loadingField(false);
-    });     
-
-    updateCart(-1, id );
-
-    let showSpa = param.show === undefined || param.show === NaN?1:param.show; 
+    let showSpa = param.show === undefined || param.show === NaN ? 1 : param.show; 
     if(showSpa !== 1){ $(c.popupSpa + " .t-input-group_sb").hide(); }else{ $(c.popupSpa + " .t-input-group_sb").show(); }; 
     $(c.popupSpa + " select[name*='spa']").prop('selectedIndex', id);   
 
     let showSber = param.sber === undefined || param.show === NaN?1:param.sber;
     if(showSber !== 1){ /* console.log(showSber); */ $sber_field.hide(); }else{ $sber_field.show(); };
+
+    updateFields(id, loadMonth, $date_field.data('value')); 
+
+    console.log('loadMonth'); 
+    console.log(loadMonth); 
 
    });   
 
@@ -550,7 +970,7 @@ $('a[href^="#order"]').on('click', function(e){
                    $("body").css("overflow","auto");
                    if(c.isSmall){  $("#rec196832202").css("position","relative");  };
                    $("#nav188296220").css("display","block");
-        $("#rec238782757 .t450__burger_container").css("display","block");
+                   $("#rec238782757 .t450__burger_container").css("display","block");
             }
         });
     });
