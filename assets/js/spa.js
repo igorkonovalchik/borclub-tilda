@@ -4,6 +4,22 @@ import * as c from './data/const.js';
 // console.log(JSON.stringify(c, null, '  '));
 
 $(document).ready(function(){
+  const Cartrumoment = moment();
+  Cartrumoment.locale('ru');
+  let date = Cartrumoment.add(1,'days');  
+  if($('#rec292631883').length ){ 
+    const $date_event_field = $("#rec292631883 input[name*='date']");
+    $date_event_field.pickadate({
+      min: 1,
+      yearSelector: false,
+      format: 'dd mmmm, ddd',
+     // formatSubmit: 'dd-mm-yyyy',
+      today: '',
+      onStart: function() {
+        $date_event_field.addClass('t-input_bbonly').attr('value', date ); // .data('value', nextDay ); //   
+        }
+  });
+  };
 
 	if( $('.video-bg').length ){
 		let pathname = c.pathname;
@@ -148,7 +164,8 @@ if( $('#block-search').length && c.isSmall ) {
 						$('#rec238212934').removeClass('active');
 						};
 
-				};
+        };
+        
 
 				if(pageYOffset > 5){
 					$('.tn-elem__1953083171590690975626 .tn-atom__sbs-anim-wrapper').removeClass('start');
@@ -156,14 +173,16 @@ if( $('#block-search').length && c.isSmall ) {
 					$('.tn-elem__2052484401592985188446 .tn-atom__sbs-anim-wrapper').removeClass('start');
 					$('.tn-elem__2053694291592985188446 .tn-atom__sbs-anim-wrapper').removeClass('start');
 					$('.tn-elem__2052484401592937230072 .tn-atom__sbs-anim-wrapper').removeClass('start');
-					$('.tn-elem__2222340101592937230072 .tn-atom__sbs-anim-wrapper').removeClass('start');
+          $('.tn-elem__2222340101592937230072 .tn-atom__sbs-anim-wrapper').removeClass('start');
+          $('.tn-elem__2925494131590484012067 .tn-atom__sbs-anim-wrapper').removeClass('start');
 				 }else{
 					$('.tn-elem__1953083171590690975626 .tn-atom__sbs-anim-wrapper').addClass('start');
 					$('.tn-elem__1955752531589636366534 .tn-atom__sbs-anim-wrapper').addClass('start');
 					$('.tn-elem__2052484401592985188446 .tn-atom__sbs-anim-wrapper').addClass('start');
 					$('.tn-elem__2053694291592985188446 .tn-atom__sbs-anim-wrapper').addClass('start');
 					$('.tn-elem__2052484401592937230072 .tn-atom__sbs-anim-wrapper').addClass('start');
-					$('.tn-elem__2222340101592937230072 .tn-atom__sbs-anim-wrapper').addClass('start');
+          $('.tn-elem__2222340101592937230072 .tn-atom__sbs-anim-wrapper').addClass('start');
+          $('.tn-elem__2925494131590484012067 .tn-atom__sbs-anim-wrapper').addClass('start');
 					}
 
 	});

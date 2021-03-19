@@ -31,3 +31,78 @@
     margin-bottom: 15px;
   }
 }
+
+// rent 
+
+#rec292549413 .tn-elem__2925494131592923011395 {
+  letter-spacing: -1px;
+}
+
+#rec292549416,
+#rec292586821,
+#rec292631883,
+#rec292549426,
+#rec292549458{
+    z-index: 35!important;
+    position: relative;
+    }
+    
+  #rec292586821  .t959__card-arrow {
+      display: none;
+  }
+
+#rec292631883 {
+
+  .t823__title {
+    line-height: 0.9;
+}
+
+      .t-range__value-txt {  
+        background-color: #fff0;       
+        color: white;
+        font-size: 16px;
+    }
+
+    .t-range__interval-txt-wrapper {      
+      display: none;
+  }
+
+  .t823 .t-form_bbonly .t-input-title {    
+    margin-top: 8px;    
+}
+
+    .t-descr, .t-input, .t-input__vis-ph, .t-name, .t-select, .t-submit{
+      font-size: 16px;
+    }
+  
+    .t823__wrapper_mobile{
+      padding: 0 61px;
+      @include respond-to(mobile){  padding: 0 20px; };
+    }
+
+    .t823__col_img_mobile.t823__col_img {
+    height: 150px;
+    }
+
+    .t823__col_img_mobile .t823__imgwrapper .t823__bgimg {
+    background-size: inherit;
+    background-position: center 25%;
+    }
+
+    .t823 .t-form_bbonly .t-input-block {
+    margin-bottom: 0px;
+    }
+    .t823 .t-input-group {
+    margin-bottom: 10px;
+    }
+
+    .t823 .t-input-group_cb{
+    margin-top: 10px;
+    }
+
+    .t823  .t-checkbox__control{
+    font-size: 16px;
+    }
+
+}
+

@@ -7,7 +7,9 @@ function getTotalCost(currentTime, weekDay, spaId) {
   let spaTime = spas[spaId].minhours * 60; // минимальное время посещения бани в минутах 
   let totalTime = parseInt(currentTime) + spaTime; // currentTime - выбранное время плюс 
 
-  let id2 = (weekDay === 'h' || weekDay === 'ny') ? 1 : (currentTime >= halfTime) ? 0 : 2; 
+  let id2 = (weekDay === 'h' || weekDay === 'ny') ? 1 : (currentTime >= halfTime) ? 0 : 4; 
+  if( weekDay === 'fm' ) { id2 = 2; }; 
+  if( weekDay === 'fh' ) { id2 = 3; };
 
   //  case 'h': // hollyday - выходные ( чт, пт, сб, вс ) и новогодние праздники со 2 по 9 января
   //  case 'w': // work - рабочие ( пн вт ср )

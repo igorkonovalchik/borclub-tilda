@@ -18,6 +18,14 @@ module.exports = [
       "price" : 30000,
       "dopprice" : 15000
   },
+    {
+      "name" : "fm",
+      "price" : 45000
+  },
+    {
+      "name" : "fh",
+      "price" : 60000
+  },
   {
     "price" : 25000,
 }]
@@ -40,6 +48,14 @@ module.exports = [
       "price" : 23000,
       "dopprice" : 15000
   },
+  {
+    "name" : "fm",
+    "price" : 34500
+},
+  {
+    "name" : "fh",
+    "price" : 46000
+},
   {
     
     "price" : 15000,
@@ -65,6 +81,14 @@ module.exports = [
       "dopprice" : 11000
   },
   {
+    "name" : "fm",
+    "price" : 27000
+},
+  {
+    "name" : "fh",
+    "price" : 36000
+},
+  {
     
     "price" : 12000,
    
@@ -88,6 +112,14 @@ module.exports = [
       "price" : 18000,
       "dopprice" : 15000
   },
+  {
+    "name" : "fm",
+    "price" : 27000
+},
+  {
+    "name" : "fh",
+    "price" : 36000
+},
   {
     
     "price" : 12000,
@@ -113,6 +145,14 @@ module.exports = [
       "dopprice" : 6000
   },
   {
+    "name" : "fm",
+    "price" : 18000
+},
+  {
+    "name" : "fh",
+    "price" : 24000
+},
+  {
     
     "price" : 8000,
    
@@ -136,6 +176,14 @@ module.exports = [
       "price" : 12000,
       "dopprice" : 6000
   },
+  {
+    "name" : "fm",
+    "price" : 18000
+},
+  {
+    "name" : "fh",
+    "price" : 24000
+},
   {
     
     "price" : 8000,
@@ -161,6 +209,14 @@ module.exports = [
       "dopprice" : 4000
   },
   {
+    "name" : "fm",
+    "price" : 12000
+},
+  {
+    "name" : "fh",
+    "price" : 16000
+},
+  {
     
     "price" : 5000,
    
@@ -184,6 +240,14 @@ module.exports = [
       "price" : 8000,
       "dopprice" : 4000
   },
+  {
+    "name" : "fm",
+    "price" : 12000
+},
+  {
+    "name" : "fh",
+    "price" : 16000
+},
   {
     
     "price" : 5000,

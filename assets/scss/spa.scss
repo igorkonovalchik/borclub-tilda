@@ -28,6 +28,13 @@ video::-webkit-media-controls-enclosure
     }
 }
 
+.tn-elem__2925494131590747258318,
+.tn-elem__1955752531590747258318{
+    .tn-atom__sbs-anim-wrapper{
+      //  @include respond-to(monitors){    top: 305px!important; }
+    };
+}
+
 #tildaformcaptchabox{
     z-index: 999999999999999999!important;
 }
@@ -57,14 +64,23 @@ body{
 }
 
 #rec222238514,
-#rec222238514 .t396__artboard,
-#rec222238514 .t396,
-#rec222238514 .t396__carrier,
-#rec222238514 .t396__filter{
-    background-color: transparent!important;
-    background: transparent!important;
-}
+#rec195575254,
+#rec292549415{
+  background-color: transparent!important;
+  background: transparent!important;
 
+    .t396__artboard,
+    .rendered,
+    .t396,
+    .t396__carrier,
+    .t396__filter{
+        background-color: transparent!important;
+        background: transparent!important;
+        @include respond-to(mobile){ 
+          background-color: transparent!important;
+          background: transparent!important; }
+    }
+ }
 
 
 .t450__burger span:nth-child(4) {
@@ -425,7 +441,8 @@ body .scale-active .t-zoomer__scale.showed {
 #rec263558078,
 #rec264691768,
 #rec264003331,
-#rec283030530
+#rec283030530,
+#rec292549410
 {
     position: relative;
     .t450__burger_container{
@@ -447,7 +464,8 @@ body .scale-active .t-zoomer__scale.showed {
 #nav263558078,
 #nav264691768,
 #nav264003331,
-#nav283030530
+#nav283030530,
+#nav292549410
 {
     z-index: 9999999!important;
     .t450__right_buttons_but {
@@ -945,7 +963,9 @@ bottom: 0;
 .tn-elem__2053694291592985188446,
 .tn-elem__1955752531593527743015,
 .tn-elem__1955752531590484012067,
-.tn-elem__2052484401590484012067{
+.tn-elem__2052484401590484012067,
+.tn-elem__2925494131590484012067,
+.tn-elem__2925494131589636366534{
     position: fixed;
 }
 
@@ -954,7 +974,9 @@ bottom: 0;
 .tn-elem__1955752531589636366534,
 .tn-elem__1883293271589659626719,
 .tn-elem__1953083171589659626719,
-.tn-elem__1953083171590690975626
+.tn-elem__1953083171590690975626,
+.tn-elem__2925494131590484012067,
+.tn-elem__2925494131589636366534
 {
     pointer-events: none;
 }
@@ -1375,7 +1397,8 @@ bottom: 0;
 
 .t-input-group_in,
 .t-input-group_nm,
-.t-input-group_ph{
+.t-input-group_ph,
+.t-input-group_em{
 
     .t-descr {
         font-size: 16px; }
@@ -1383,6 +1406,10 @@ bottom: 0;
     width: 45%;
     display: inline-block;
     margin-right: 20px;
+}
+.t-input-group_sb{
+  margin-right: 20px;
+  @include respond-to(mobile){  width: 100%; margin-right: 0; }
 }
 
 .t-input-group_nm,
