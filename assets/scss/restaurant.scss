@@ -42,13 +42,23 @@
 #rec292586821,
 #rec292631883,
 #rec292549426,
-#rec292549458{
+#rec292549458,
+#rec294529956,
+#rec294536075,
+#rec294533178,
+#rec258309689,
+#rec193535313,
+#rec294667849,
+#rec295528947{
     z-index: 35!important;
     position: relative;
     }
     
-  #rec292586821  .t959__card-arrow {
-      display: none;
+  #rec292586821,
+  #rec294529956{  
+      .t959__card-arrow {
+        display: none;
+    }
   }
 
 #rec292631883 {
@@ -81,12 +91,11 @@
     }
 
     .t823__col_img_mobile.t823__col_img {
-    height: 150px;
+      height: 220px;
     }
 
     .t823__col_img_mobile .t823__imgwrapper .t823__bgimg {
-    background-size: inherit;
-    background-position: center 25%;
+      background-position: bottom;
     }
 
     .t823 .t-form_bbonly .t-input-block {

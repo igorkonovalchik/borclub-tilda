@@ -3,10 +3,31 @@ import * as c from './data/const.js';
 
 // console.log(JSON.stringify(c, null, '  '));
 
+// hold top style for Safari
+
+const topImportant = (el) => {
+	$(el).each(function(i){
+		if(!$(this).hasClass('topped')){
+			const top = $(this).children('.tn-atom__sbs-anim-wrapper').css('top');   
+			const newClass = `top-important-${i}`;   
+			$("head").append('<style type="text/css"></style>');
+			let new_stylesheet = $("head").children(':last');
+			new_stylesheet.html(`.${newClass}{ top: ${top}!important; }`);		
+			$(this).children('.tn-atom__sbs-anim-wrapper').addClass(newClass);
+			$(this).addClass('topped');
+		};		
+	});
+ };
+
 $(document).ready(function(){
+
+	let userAgent = navigator.userAgent.toLowerCase();
+	let safari = /safari/.test(userAgent);
+	
   const Cartrumoment = moment();
   Cartrumoment.locale('ru');
   let date = Cartrumoment.add(1,'days');  
+
   if($('#rec292631883').length ){ 
     const $date_event_field = $("#rec292631883 input[name*='date']");
     $date_event_field.pickadate({
@@ -20,6 +41,7 @@ $(document).ready(function(){
         }
   });
   };
+	
 
 	if( $('.video-bg').length ){
 		let pathname = c.pathname;
@@ -94,10 +116,10 @@ if( $('#block-search').length && c.isSmall ) {
   }
 
 
-	$(window).scroll(function(){
+	$(window).scroll(function(){	
 
-		if( $('#rec201554475').length  ){
-			h = offset.top - $(window).scrollTop();
+		if( $('#rec201554475').length  ){		
+			h = offset.top - $(window).scrollTop();	
 			if(h < - 92){
 				updiv.addClass('mbottom');
 				$('#rec201554475').addClass('fix');
@@ -111,7 +133,15 @@ if( $('#block-search').length && c.isSmall ) {
 			}
 		};
 
+		if(safari){
+				if($('#rec292549413').length ){ 	// /restaurant/rent	
+					topImportant('#rec292549413 .t396 .t396__artboard .t396__elem'); 
+				};
 
+				if($('#rec195575253').length ){  	// /bani	
+					topImportant('#rec195575253 .t396 .t396__artboard .t396__elem');
+				};		
+		};
 
 		if( $('.video-part').length ){
 
