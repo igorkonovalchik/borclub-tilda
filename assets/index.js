@@ -19,8 +19,9 @@ import '../../plugins/pickadate/lib/translations/ru_RU'
 
 import './js/spaCart'
 import './js/spaPopUp'
+import './js/newSpaCart' // yclients form
 // import './js/spaform' старая форма без оплат
-// import './js/mainform' // форма перенесли в spaCart
+import './js/mainform' // форма на главной
 import './js/dopmenu' // подменю в разделах
 import './js/spa'
 import './js/hashLink.js' // кликает кнопки по меткам в урле

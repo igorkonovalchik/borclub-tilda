@@ -13,7 +13,7 @@ const isInPeriod = (checkDate, startDate, endDate = '') => {
 };
 
 
-function getWeekDay(date = 0) {
+function getWeekDay(date = 0, curTime = 0) {
     let time = date===0?new Date():new Date(date);
     let day = time.toLocaleString("eng", { weekday: 'short' });
     let ms = time.getTime();
@@ -30,6 +30,11 @@ function getWeekDay(date = 0) {
     if( isInPeriod( ms, '2021/06/02' ) || isInPeriod( ms, '2021/06/05' ) ){ day = 'fm'; }; // 2 и 5 июня
     if( isInPeriod( ms, '2021/06/03' ) || isInPeriod( ms, '2021/06/04' ) ){ day = 'fh'; }; // 3 и 4 июня
     if( isInPeriod( ms, '2021/11/04', '2021/11/05' ) || isInPeriod( ms, '2022/11/04' ) ){ day = 'h'; }; // 4 ноября
+
+    if(curTime !== 0 && day === 'w'){ 
+      if(curTime < 900){ day = 'wm'; }else{ day = 'we'; };
+    };
+  
     return day;
   };
 

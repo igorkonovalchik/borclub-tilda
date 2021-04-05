@@ -1,6 +1,5 @@
+// старая форма корзины без yclients
 
-// Форма корзина на странице бань
-    
 const spas = require('./data/spadata')
 import CountUp from './function/countUp.min'
 import moment from '../../../plugins/moment/moment'
@@ -10,11 +9,6 @@ import getParams from './function/getParams'
 import * as c from './data/const.js'
 
 const priceId = 'price' + c.popupSpa.slice(4);
-
-const Cartrumoment = moment();
-Cartrumoment.locale('ru');
-let date = Cartrumoment.add(1,'days');             
-const nextDay = date.format('YYYY/MM/DD'); 
 
 const $price_field = $(c.popupSpa + " input[name*='price']"); 
 const $id_field = $(c.popupSpa + " input[name*='id']");
@@ -88,8 +82,8 @@ const updateCart = (total = -1, id = -1, date = 0, time = 0) => {
 
     loadingField();
     if(total === -1 && id === -1 && date === 0 && time === 0){                  
-        $date_field.data('value', nextDay ); // .attr('value', date )
-        $day_field.val(getWeekDay(nextDay));
+        $date_field.data('value', c.nextDay ); // .attr('value', date )
+        $day_field.val(getWeekDay(c.nextDay, $time_field.attr( 'value' )));
         $time_field.val(sec2time(900)).attr( 'value', 900 );
     }else{   
     let oldprice = $price_field.val();
@@ -97,7 +91,7 @@ const updateCart = (total = -1, id = -1, date = 0, time = 0) => {
     let day = $day_field.val();   
     if(date !== 0){  
                // $date_field.addClass('t-input_bbonly'); //.attr('value', date );
-                day = getWeekDay(date);
+                day = getWeekDay(date, $time_field.attr( 'value' ));               
                 $day_field.val(day);
             };        
     if(id === -1){ id = $id_field.val(); }else{
@@ -157,13 +151,13 @@ if($(c.popupSpa).length ){
     updateCart();
 
     $date_field.pickadate({
-        min: 1,
+        min: c.fistDayBook,
         yearSelector: false,
         format: 'dd mmmm, ddd',
        // formatSubmit: 'dd-mm-yyyy',
         today: '',
         onStart: function() {
-            $date_field.addClass('t-input_bbonly').attr('value', date ); // .data('value', nextDay ); //   
+            $date_field.addClass('t-input_bbonly').attr('value', c.nextDay ); // .data('value', c.nextDay ); //   
           },
         onSet: function(context){       	
             updateCart( -1, -1, context.select );
@@ -176,8 +170,8 @@ if($(c.popupSpa).length ){
         formatLabel: 'HH:i',
         formatSubmit: 'HH:i',
         interval: 60,
-        min: [11,0],
-        max: [22,0],
+        min: [c.morningHourOpen,0],
+        max: [c.lastHourBook,0],
         onStart: function() {  
             $time_field.addClass('t-input_bbonly').val(sec2time(900)).attr( 'value', 900 );            
           },
@@ -210,7 +204,7 @@ if($(c.popupSpa).length ){
         updateCart();
         $("body").css("overflow","auto");
         $("#nav188296220").css("position","fixed");
-        if(c.isSmall){  $("#rec196832202").css("position","relative");  
+        if(c.isSmall){  $("#rec196832202").css("position","relative");  
 	    $("#rec238782757 .t450__burger_container").css("display","block");
     };
    });
@@ -221,7 +215,7 @@ if($(c.popupSpa).length ){
         $("#nav188296220").css("position","fixed");
         if(c.isSmall){ $("#rec196832202").css("position","relative");
         $("#rec238782757 .t450__burger_container").css("display","block");
-      };
+      };
     });
 
     $(`#form${c.popupSpa.slice(4)}.js-form-proccess`).data('formsended-callback', 'window.hideInput' );
@@ -265,8 +259,8 @@ $('a[href^="#order"]').on('click', function(e){
     $("#nav188296220").css("display","none");
     $('#rec200918319').removeClass('active');
     $("#rec205099373 .t450__burger_container").css("display","none");
-	$("#rec238782757 .t450__burger_container").css("display","none");
-	$("#rec196832202 .t450__burger_container").css("display","none");
+	  $("#rec238782757 .t450__burger_container").css("display","none");
+  	$("#rec196832202 .t450__burger_container").css("display","none");
     
     let href = $(this).attr('href');
     let param = getParams(href);                
@@ -290,84 +284,34 @@ $('a[href^="#order"]').on('click', function(e){
                 && div.has(e.target).length === 0) { // и не по его дочерним элементам                    
                    // $('#rec200918319').addClass('active');
                    $("body").css("overflow","auto");
-                   if(c.isSmall){  $("#rec196832202").css("position","relative");  };
+                   if(c.isSmall){  $("#rec196832202").css("position","relative");  };
                    $("#nav188296220").css("display","block");
         $("#rec238782757 .t450__burger_container").css("display","block");
             }
         });
     });
 
-     /* Заполнение формы датой и временем на главной  */
+          /* Получение данных из формы на главной  */
 
-     const $main_time_field = $(c.mainFormSpa + " input[name*='time']");
-     const $main_date_field = $(c.mainFormSpa + " input[name*='date']");
-     const $main_day_field = $(c.mainFormSpa + " input[name*='day']");
-    // const $main_spa_field = $(c.mainFormSpa + " select[name*='spa']");
+          if($(c.mainFormSpa).length && !c.isSmall ){      
 
-    if($(c.mainFormSpa).length && !c.isSmall ){ 
-
-        $main_date_field.data('value', nextDay );
-        $main_day_field.val(getWeekDay(nextDay));
-        $main_time_field.val(sec2time(900)).attr( 'value', 900 );
+          /* Если форма на главной отправляется успешно то данные передаем в корзину для дальнейшего оформления */
+            $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
         
-		$main_date_field.pickadate({
-                    min: 1,
-                    yearSelector: false,
-                    format: 'dd mmmm, ddd',
-                   // formatSubmit: 'dd mmmm',
-                    today: '',
-                    onStart: function() {
-                        $main_date_field.attr('value', date ); // .data('value', nextDay ); //   
-                    },
-                    onSet: function(context) {  
-                        let myPicker = $date_field.pickadate('picker');
-                        myPicker.set('select', context.select);
-                    }
-		});
+            window.openCart = function($form) {
 
-		$main_time_field.pickatime({
-                    format: 'HH:i',
-                    formatLabel: 'HH:i',
-                    // formatSubmit: 'HH:i',
-                    interval: 60,
-                    min: [11,0],
-                    max: [22,0],
-                    onStart: function() {  
-                        $main_time_field.val(sec2time(900)).attr( 'value', 900 );            
-                    },
-                    onSet: function(c) {
-                        updateCart( -1, -1, 0, c.select );               
-                    }
-                });
+              let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();        
+              updateCart( -1, id );  
+              /* запускаем форму */
+              $('a[href="#order:bookspa='+ id + '?sber=0&show=0"]').click().after(function(){
+                  /* прячем форму на главной */
+                  $(c.mainFormSpa).hide(); 
+              });
 
-    /* Если форма на главной отправляется успешно то данные передаем в корзину для дальнейшего оформления */
-      $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
-  
-      window.openCart = function ($form) {
-  
-          /* $form - jQuery объект ссылающийся на форму */   
-          /* номер заявки (Lead ID) */
-          // let formresult = $form.data('tildaformresult');
-          // let leadid = formresult.tranid;
-  
-          /* все поля заявки в 
-            let arr = {};
-            $($form.serializeArray()).each(function(i, el) {
-                arr[el.name] = el.value;
-            });	
-         */
-        let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();        
-        updateCart( -1, id );  
-         /* запускаем форму */
-         $('a[href="#order:bookspa=1?sber=0"]').click().after(function(){
-             /* прячем форму на главной */
-            $(c.mainFormSpa).hide(); 
-         });
+              };
+            };
 
-        };
-      };
-
+    
     };
 
 });
-
