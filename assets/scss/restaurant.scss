@@ -1,13 +1,20 @@
 
 @import "./variables";
 
-#rec264011977{
+#rec283013101, /* общий лого хидер для мобилки */
+#rec264011977 /* общий лого хидер для мобилки ресторан */
+{
   position: fixed;
   z-index: 9999;
   width: 100%;
-  transition: 0.3s;
-  height: 20vh;
-  background: rgba(0,0,0,1);
+  transition: 0.6s;
+  height: 22vh;
+}
+
+#rec283013101.add-shadow,
+#rec264011977.add-shadow
+{
+   background: rgba(0,0,0,1);
   background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 21%, rgba(0,0,0,0) 100%);
   background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,1)), color-stop(21%, rgba(0,0,0,0.9)), color-stop(100%, rgba(0,0,0,0)));
   background: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 21%, rgba(0,0,0,0) 100%);
@@ -24,3 +31,87 @@
     margin-bottom: 15px;
   }
 }
+
+// rent 
+
+#rec292549413 .tn-elem__2925494131592923011395 {
+  letter-spacing: -1px;
+}
+
+#rec292549416,
+#rec292586821,
+#rec292631883,
+#rec292549426,
+#rec292549458,
+#rec294529956,
+#rec294536075,
+#rec294533178,
+#rec258309689,
+#rec193535313,
+#rec294667849,
+#rec295528947{
+    z-index: 35!important;
+    position: relative;
+    }
+    
+  #rec292586821,
+  #rec294529956{  
+      .t959__card-arrow {
+        display: none;
+    }
+  }
+
+#rec292631883 {
+
+  .t823__title {
+    line-height: 0.9;
+}
+
+      .t-range__value-txt {  
+        background-color: #fff0;       
+        color: white;
+        font-size: 16px;
+    }
+
+    .t-range__interval-txt-wrapper {      
+      display: none;
+  }
+
+  .t823 .t-form_bbonly .t-input-title {    
+    margin-top: 8px;    
+}
+
+    .t-descr, .t-input, .t-input__vis-ph, .t-name, .t-select, .t-submit{
+      font-size: 16px;
+    }
+  
+    .t823__wrapper_mobile{
+      padding: 0 61px;
+      @include respond-to(mobile){  padding: 0 20px; };
+    }
+
+    .t823__col_img_mobile.t823__col_img {
+      height: 220px;
+    }
+
+    .t823__col_img_mobile .t823__imgwrapper .t823__bgimg {
+      background-position: bottom;
+    }
+
+    .t823 .t-form_bbonly .t-input-block {
+    margin-bottom: 0px;
+    }
+    .t823 .t-input-group {
+    margin-bottom: 10px;
+    }
+
+    .t823 .t-input-group_cb{
+    margin-top: 10px;
+    }
+
+    .t823  .t-checkbox__control{
+    font-size: 16px;
+    }
+
+}
+

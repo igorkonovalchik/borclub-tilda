@@ -3,7 +3,45 @@ import * as c from './data/const.js';
 
 // console.log(JSON.stringify(c, null, '  '));
 
+// hold top style for Safari
+
+const topImportant = (el) => {
+	$(el).each(function(i){
+		if(!$(this).hasClass('topped')){
+			const top = $(this).children('.tn-atom__sbs-anim-wrapper').css('top');   
+			const newClass = `top-important-${i}`;   
+			$("head").append('<style type="text/css"></style>');
+			let new_stylesheet = $("head").children(':last');
+			new_stylesheet.html(`.${newClass}{ top: ${top}!important; }`);		
+			$(this).children('.tn-atom__sbs-anim-wrapper').addClass(newClass);
+			$(this).addClass('topped');
+		};		
+	});
+ };
+
 $(document).ready(function(){
+
+	let userAgent = navigator.userAgent.toLowerCase();
+	let safari = /safari/.test(userAgent);
+	
+  const Cartrumoment = moment();
+  Cartrumoment.locale('ru');
+  let date = Cartrumoment.add(1,'days');  
+
+  if($('#rec292631883').length ){ 
+    const $date_event_field = $("#rec292631883 input[name*='date']");
+    $date_event_field.pickadate({
+      min: 1,
+      yearSelector: false,
+      format: 'dd mmmm, ddd',
+     // formatSubmit: 'dd-mm-yyyy',
+      today: '',
+      onStart: function() {
+        $date_event_field.addClass('t-input_bbonly').attr('value', date ); // .data('value', nextDay ); //   
+        }
+  });
+  };
+	
 
 	if( $('.video-bg').length ){
 		let pathname = c.pathname;
@@ -65,13 +103,23 @@ if( $('#block-search').length && c.isSmall ) {
 			$(window).scrollTop(g);
 		});
 
-	};
+  };
+  
+// IF event cart change pay metod
+
+  if( $('#rec283238048').length ) {
+    
+    $(function() {
+      const $radios = $('input:radio[name=paymentsystem]');
+      $radios.filter('[value=sberbank]').prop('checked', true);
+  });
+  }
 
 
-	$(window).scroll(function(){
+	$(window).scroll(function(){	
 
-		if( $('#rec201554475').length  ){
-			h = offset.top - $(window).scrollTop();
+		if( $('#rec201554475').length  ){		
+			h = offset.top - $(window).scrollTop();	
 			if(h < - 92){
 				updiv.addClass('mbottom');
 				$('#rec201554475').addClass('fix');
@@ -85,7 +133,15 @@ if( $('#block-search').length && c.isSmall ) {
 			}
 		};
 
+		if(safari){
+				if($('#rec292549413').length ){ 	// /restaurant/rent	
+					topImportant('#rec292549413 .t396 .t396__artboard .t396__elem'); 
+				};
 
+				if($('#rec195575253').length ){  	// /bani	
+					topImportant('#rec195575253 .t396 .t396__artboard .t396__elem');
+				};		
+		};
 
 		if( $('.video-part').length ){
 
@@ -115,11 +171,18 @@ if( $('#block-search').length && c.isSmall ) {
 					})
 			};
 
+			if(pageYOffset > 200){
+				$('#rec283013101').addClass('add-shadow');
+				$('#rec264011977').addClass('add-shadow');					
+		 }else{			
+				$('#rec283013101').removeClass('add-shadow');
+				$('#rec264011977').removeClass('add-shadow');				
+			};
 
-			if(pageYOffset > 700){
-
-				$('#rec191919056').addClass('fixed-top'); }else{
-					$('#rec191919056').removeClass('fixed-top');
+				if(pageYOffset > 700){						
+					$('#rec191919056').addClass('fixed-top');
+			 }else{
+					$('#rec191919056').removeClass('fixed-top');						
 				};
 
 				/* кнопка отель забронировать */
@@ -131,7 +194,8 @@ if( $('#block-search').length && c.isSmall ) {
 						$('#rec238212934').removeClass('active');
 						};
 
-				};
+        };
+        
 
 				if(pageYOffset > 5){
 					$('.tn-elem__1953083171590690975626 .tn-atom__sbs-anim-wrapper').removeClass('start');
@@ -139,14 +203,16 @@ if( $('#block-search').length && c.isSmall ) {
 					$('.tn-elem__2052484401592985188446 .tn-atom__sbs-anim-wrapper').removeClass('start');
 					$('.tn-elem__2053694291592985188446 .tn-atom__sbs-anim-wrapper').removeClass('start');
 					$('.tn-elem__2052484401592937230072 .tn-atom__sbs-anim-wrapper').removeClass('start');
-					$('.tn-elem__2222340101592937230072 .tn-atom__sbs-anim-wrapper').removeClass('start');
+          $('.tn-elem__2222340101592937230072 .tn-atom__sbs-anim-wrapper').removeClass('start');
+          $('.tn-elem__2925494131590484012067 .tn-atom__sbs-anim-wrapper').removeClass('start');
 				 }else{
 					$('.tn-elem__1953083171590690975626 .tn-atom__sbs-anim-wrapper').addClass('start');
 					$('.tn-elem__1955752531589636366534 .tn-atom__sbs-anim-wrapper').addClass('start');
 					$('.tn-elem__2052484401592985188446 .tn-atom__sbs-anim-wrapper').addClass('start');
 					$('.tn-elem__2053694291592985188446 .tn-atom__sbs-anim-wrapper').addClass('start');
 					$('.tn-elem__2052484401592937230072 .tn-atom__sbs-anim-wrapper').addClass('start');
-					$('.tn-elem__2222340101592937230072 .tn-atom__sbs-anim-wrapper').addClass('start');
+          $('.tn-elem__2222340101592937230072 .tn-atom__sbs-anim-wrapper').addClass('start');
+          $('.tn-elem__2925494131590484012067 .tn-atom__sbs-anim-wrapper').addClass('start');
 					}
 
 	});

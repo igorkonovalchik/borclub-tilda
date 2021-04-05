@@ -34,7 +34,7 @@ function getWeekDay(date = 0, curTime = 0) {
     if(curTime !== 0 && day === 'w'){ 
       if(curTime < 900){ day = 'wm'; }else{ day = 'we'; };
     };
-
+  
     return day;
   };
 

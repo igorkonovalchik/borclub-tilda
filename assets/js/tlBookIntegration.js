@@ -1,10 +1,8 @@
-
+/*
 $(document).ready(function(){ 
   
   $("[class*='x-tl-booking-widget-']").each ( function () {
     const elClasses = $( this ).attr ( 'class' ).split ( ' ' );
-    console.log(elClasses);
-    console.log('find');
     }); 
     // .css("background", "#677462!important");
   // console.log(TL.modules);
@@ -33,7 +31,7 @@ $(document).ready(function(){
         }
     })(window);
 
-
+*/
 
 
     
