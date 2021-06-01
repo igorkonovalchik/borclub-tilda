@@ -24,9 +24,14 @@ const updatePrices = (data, time, disableTimes, fn) => {
   // console.log(data); 
  
   if(Object.keys(data).length !== 0){   
-      $rentMin = data[getWeekDay(date, time)]; // Определяем к чему относится выбранные день
+      
       // console.log('Выбранный день  ' + getWeekDay(date, time));
-      total = 0 + $rentMin.price_max * spas[id].minhours;
+      for(let counter = 1; counter <= spas[id].minhours; counter++){
+        $rentMin = data[getWeekDay(date, time)]; // Определяем к чему относится выбранные день
+        total += Number($rentMin.price_max);
+        time += 60; 
+      };
+      
       $rentMin.amount = spas[id].minhours; 
       $(c.newPopupSpa + ' .t706__form-upper-text').text( 'за ' + spas[id].minhours + ' ' + f.declination(spas[id].minhours, ['час', 'часа', 'часов']) + ' до ' + spas[id].person  + ' гостей');
   }else{
@@ -486,15 +491,15 @@ if($(c.newPopupSpa).length ){
           }
     });
 
-
+    let openHour = getWeekDay(c.nextDay, 0, true) ? c.weekendMorningHourOpen : c.morningHourOpen;       
     
     const $t = c.$time_field.pickatime({
         format: 'HH:i',
         formatLabel: 'HH:i',
        // formatSubmit: 'HH:i',
         interval: 60,
-        min: [c.morningHourOpen,0],
-        max: [20,0],      
+        min: [openHour,0],
+        max: [c.lastHourBook,0],      
         onStart: function() {  
             c.$time_field.addClass('t-input_bbonly'); // .val(f.sec2time(900)).attr( 'value', 900 );            
           },
@@ -517,6 +522,8 @@ if($(c.newPopupSpa).length ){
       loadingField(true, 'titleprice');
 
       if(date === undefined){ date = c.nextDay; }; 
+      
+      id = id === '' ? 0 : id;
 
       c.$id_field.val(id); 
       c.$selectSpa_field.prop('selectedIndex', id); 
@@ -557,9 +564,9 @@ if($(c.newPopupSpa).length ){
         // console.log(lM[curYear]);
   
       }else{
-        console.log('Первая загрузка данных! Грузим: ' + c.nextDay);
+      //  console.log('Первая загрузка данных! Грузим: ' + c.nextDay);
         c.$date_field.data('value', c.nextDay );
-        console.log('ok!');
+      //  console.log('ok!');
         c.$day_field.val(getWeekDay(c.nextDay));
         lM = c.nextDay;
       };     
@@ -682,10 +689,11 @@ if($(c.newPopupSpa).length ){
           // console.log('День изменен. Загружаем занятые часы'); 
           let date = moment(s.select).format("YYYY/MM/DD");
           c.$date_field.data('value', date ).attr('value', date );
-          // console.log(c.$date_field.data('value'));
+          let openHour = getWeekDay(date, 0, true) ? c.weekendMorningHourOpen : c.morningHourOpen;          
           loadingField();
           timepicker.set('enable', true)
-                    .set('disable', timeTable().disable); 
+                    .set('disable', timeTable().disable)
+                    .set('min', [openHour,0]); 
           getDates('times', id, date, 0, (data) => { 
             // console.log('Часы получены успешны: ');
             loadServices = processingServices(data.services);  
@@ -696,9 +704,9 @@ if($(c.newPopupSpa).length ){
             // console.log(loadDisableTimes);
             // console.log('Преобразуем для загрузки часов в поля: ');
             // console.log(tt);
+
             if(tt && c.activeYclients){ 
-              timepicker.set('disable', tt.disable)
-                          .set('min', tt.min)
+              timepicker.set('disable', tt.disable)                          
                           .set('max', tt.max)       
                           .set('select', tt.select)
                   }else{
@@ -807,7 +815,11 @@ if($(c.newPopupSpa).length ){
 $('a[href^="#openspa"]').on('click', function(e){ 
     
     let href = $(this).attr('href');
+   // console.log('href');
+   // console.log(href);
     let param = getParams(href); 
+   // console.log('param');
+  //  console.log(param);
     let id = param.spa === undefined || param.spa === NaN?c.$id_field.val():param.spa;   
     
     updateFields( id, loadMonth, c.$date_field.data('value')); 
@@ -837,7 +849,8 @@ $('a[href^="#order"]').on('click', function(e){
     $("#rec196832202 .t450__burger_container").css("display","none");
     
     let href = $(this).attr('href');
-    let param = getParams(href);                
+    let param = getParams(href);    
+          
     let id = param.spa === undefined || param.spa === NaN ? c.$id_field.val() : param.spa; 
     c.$id_field.val(id);
     
@@ -873,16 +886,24 @@ $('a[href^="#order"]').on('click', function(e){
 
     // const $main_spa_field = $(c.mainFormSpa + " select[name*='spa']");
 
-    if($(c.mainFormSpa).length && !c.isSmall ){ 	
-
+    if($(c.mainFormSpa).length && !c.isSmall && $(c.newPopupSpa).length ){ 	
+      
     /* Если форма на главной отправляется успешно то данные передаем в корзину для дальнейшего оформления */
       $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
   
       window.openCart = function ($form) {
   
-        let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();                  
+        let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();   
+
+       // updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
+      //  datepicker.set('select', c.$main_date_field.data('value'), { format: 'yyyy/mm/dd' });
+      //  timepicker.set('select', c.$main_time_field.attr( 'value') );
+
+        $('a[href="#order:bookspa=1?sber=0"]').attr('href', '#order:bookspa=1?sber=0&spa=' + id);             
          /* запускаем форму */
-          $('a[href="#order:bookspa='+ id + '?sber=0&show=0"]').click().after(function(){
+          $('a[href="#order:bookspa=1?sber=0&spa=' + id + '"]').click().after(function(){
+            updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
+            console.log(c.$main_date_field.data('value')); 
             /* прячем форму на главной */
             $(c.mainFormSpa).hide(); 
           });

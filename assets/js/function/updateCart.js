@@ -6,10 +6,12 @@ const spas = require('./../data/spadata')
 const updateCart = (id = -1, price = 0, product = false, delProduct = false) => {  
   
   if(id === -1 && price === 0){ 
-    window.tcart.total = 0;
-    window.tcart.prodamount = 0;
-    window.tcart.amount = 0; 
-    window.tcart.products = []; 
+    if(window.tcart !== undefined){
+      window.tcart.total = 0;
+      window.tcart.prodamount = 0;
+      window.tcart.amount = 0; 
+      window.tcart.products = []; 
+    };
     changePrice(0);
     c.$seance_length_field.val(0);
 
@@ -35,7 +37,7 @@ const updateCart = (id = -1, price = 0, product = false, delProduct = false) => 
     window.tcart.amount = price;     
   };
 
-    if(product){
+    if(product && window.tcart !== undefined){
           let productIn = false; 
           const products = window.tcart.products
           .filter((i) => i !== undefined )
@@ -52,7 +54,7 @@ const updateCart = (id = -1, price = 0, product = false, delProduct = false) => 
           window.tcart.products = !productIn ? [ ...products, product ] : [ ...products ];         
         }; 
     
-    if(delProduct){
+    if(delProduct && window.tcart !== undefined){
       const products = window.tcart.products
           .filter((i) => i !== undefined )
           .map((i) => {
@@ -66,6 +68,8 @@ const updateCart = (id = -1, price = 0, product = false, delProduct = false) => 
       window.tcart.products = [ ...products ];      
     }
 
+    if(window.tcart !== undefined){
+
       c.$seance_length_field.val(0); 
       const totalProducts = window.tcart.products
       .reduce((a, i, count) => {
@@ -78,7 +82,9 @@ const updateCart = (id = -1, price = 0, product = false, delProduct = false) => 
         a[count].amount = Number(i.amount ? i.amount : 1);
         return a;
       }, []);
-      c.$services_field.val(JSON.stringify(totalProducts));      
+      c.$services_field.val(JSON.stringify(totalProducts));    
+      
+    }
  
 };
 

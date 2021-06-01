@@ -7,7 +7,7 @@ module.exports = [
       description: '',
       person: 22,
       maxDopGuests: 6,
-      minhours: 6,
+      minhours: 4,
       cleanhours: 2,
       disableTime: [ 20, 21, 22, 23 ],
       newPrices:  {

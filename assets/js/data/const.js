@@ -13,12 +13,14 @@ export const activeYclients = false;
 
 export const maxDaysVisible = 180; 
 export const morningHourOpen = 11;
+export const weekendMorningHourOpen = 9;
 export const lastHourBook = 20; 
 export const dopFreeGuestsId = 7023060; 
 export const dopGuestsId = 7023051; 
 export const dopGuestsPrice = 6000; 
 
 let varMainFormSpa = '#rec279462841';
+varMainFormSpa = '#rec188259966';
 export const mainFormSpa = varMainFormSpa; /* форма брони бани на главной */
 
 export const $main_time_field = $(varMainFormSpa + " input[name*='time']");

@@ -152,6 +152,7 @@ if($(c.popupSpa).length ){
 
     $date_field.pickadate({
         min: c.fistDayBook,
+        max: c.maxDaysVisible,
         yearSelector: false,
         format: 'dd mmmm, ddd',
        // formatSubmit: 'dd-mm-yyyy',
@@ -292,18 +293,21 @@ $('a[href^="#order"]').on('click', function(e){
     });
 
           /* Получение данных из формы на главной  */
-
-          if($(c.mainFormSpa).length && !c.isSmall ){      
-
+         
+          if($(c.mainFormSpa).length && !c.isSmall && $(c.popupSpa).length){      
+           
           /* Если форма на главной отправляется успешно то данные передаем в корзину для дальнейшего оформления */
             $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
         
-            window.openCart = function($form) {
-
-              let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();        
+            window.openCart = function() {
+              
+              let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();       
+              
               updateCart( -1, id );  
+
+              $('a[href="#order:bookspa=1?sber=0"]').attr('href', '#order:bookspa='+ id + '?sber=0');
               /* запускаем форму */
-              $('a[href="#order:bookspa='+ id + '?sber=0&show=0"]').click().after(function(){
+              $('a[href="#order:bookspa='+ id + '?sber=0"]').click().after(function(){
                   /* прячем форму на главной */
                   $(c.mainFormSpa).hide(); 
               });

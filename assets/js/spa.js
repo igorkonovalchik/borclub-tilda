@@ -229,7 +229,7 @@ if( $('#block-search').length && c.isSmall ) {
 
 
 window.addEventListener("orientationchange", function() {
-	// location.reload();
+	 location.reload();
 }, false);
 
 // https://github.com/customd/jquery-visible

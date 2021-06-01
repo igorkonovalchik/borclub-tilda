@@ -141,6 +141,7 @@ body{
         cursor: pointer;
         transition: 0.2s;
         background-size: 130%!important;
+        @include respond-to(small){    background-size: 150%!important; }
         &:hover{
             background-size: 135%!important;
             transition: 0.5s;
@@ -529,7 +530,7 @@ body .scale-active .t-zoomer__scale.showed {
 }
 
 
-
+#rec317754806,
 #rec202871322,
 #rec202855050,
 #rec195672378,
@@ -547,6 +548,7 @@ body .scale-active .t-zoomer__scale.showed {
 #rec221890182,
 #rec221892787,
 #rec221893572,
+#rec222214056,
 .tn-elem__2052489701592937495651{
     z-index: 30!important;
     position: relative;
@@ -855,6 +857,14 @@ bottom: 0;
   transform: translate3d(0,0,0);
 }
 
+.t812 .t-container .t-col_6:last-child .t812__col-header {
+      div,
+      div span
+    {
+        color: transparent!important;
+    }
+}
+
 
 /* mobile */
 @media screen and (max-width: 768px) {
@@ -1141,10 +1151,15 @@ bottom: 0;
     }
     input{
         text-align: center;
-        color: black;
-        font-size: 25px;
+        color: black;       
         background-color: transparent;
     }
+
+    select,
+    input{
+        font-size: 21px;
+    }
+    
     .t-input:after {
         content: ' ';
         width: 0;
@@ -1284,8 +1299,6 @@ bottom: 0;
   }
 
 
-#rec229653342
-{
   .t-form option,
   .t706__cartwin-products .t706__product-title,
   .t706__product-plusminus .t706__product-quantity,
@@ -1321,21 +1334,79 @@ bottom: 0;
 
 }
 
-// Cart form style 
-/*
+// Cart form style
+
 #rec229653342,
-#rec283238048 */
-.t706
+#rec279462841 // тестовая новая корзина
 {
-    .t-form option,
-    .t706__cartwin-products .t706__product-title,
-    .t706__product-plusminus .t706__product-quantity,
-    .t706__product-amount,
-    .t706__cartwin-prodamount-wrap .t706__cartwin-prodamount-label,
-    .t706__cartwin-prodamount-wrap .t706__cartwin-prodamount
-     {
-        font-family: 'GothamPro',Arial,sans-serif;
-        font-weight: 500;
+
+        
+      .counter{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+        height: 36px;
+        margin: 0 auto;
+      
+        div, 
+        .minus,
+        .plus,
+        input
+        {
+          color: white;
+          display: flex;
+          align-items: center;
+          line-height: 0;
+
+          padding: 0;
+        }
+      
+      span { cursor:pointer; }
+      
+      .number{
+            
+            flex: 0 1 auto;
+          }
+      
+      .minus,
+      .plus{
+            width: 20px;
+            padding:0px 12px;
+            font-size: 30px;
+            text-align: center;
+            color: #a7af8e;
+            font-weight: 100;
+            justify-content: center;
+            
+          }
+
+          .plus{
+            padding-right: 0;
+          }
+
+      input{
+            width: 25px;
+            text-align: center;
+            border: 0px solid #ddd;
+            background-color: transparent;
+            color: white;
+            font-family: GothamPro, Arial, sans-serif;
+            font-size: 21px;
+            margin-top: 7px;
+            margin: auto;
+
+        }
+
+      }
+
+  .disable-input{
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+    .t-form option {
+        color: #fff;
     }
 
     .t-input,
@@ -1355,6 +1426,7 @@ bottom: 0;
     .t-select,
     .t702__price,
     .t706__form-upper-text {
+        
         &.loading {
           animation-duration: 1s;
           animation-fill-mode: forwards;
@@ -1378,6 +1450,7 @@ bottom: 0;
         @include respond-to(mobile){  background-color: transparent;  }
     }
     .t706__cartwin-content{
+        background-color: #161616;
         @include respond-to(mobile){   margin-top: 0px;  }
     }
     .t706__cartwin-top {
@@ -1393,7 +1466,17 @@ bottom: 0;
         margin: 0!important;
     }
 
+    .t-radio__indicator {
+
+        border-color: #677462;
+        &:after{
+
+        background: #677462;
+        }
+    }
+
     .t706__cartwin-heading{
+        color: #ffffff;
         font-size: 45px;
         line-height: 1;
         font-weight: 400;
@@ -1405,10 +1488,11 @@ bottom: 0;
     };
 
     .t706__form-upper-text{
+        color: #ffffff;
         font-size: 18px;
-        line-height: 1;
-        font-weight: 300;
-        text-align: center;
+    line-height: 1;
+    font-weight: 300;
+    text-align: center;
     };
 
     .t706__orderform {
@@ -1418,8 +1502,10 @@ bottom: 0;
 
     .t706__form-bottom-text {
         margin: 0;
+        a{
+            color: #677462;
+        }
     }
-
     .t-input-group_em,
     .t-select{
         margin-right: 20px;
@@ -1466,6 +1552,10 @@ bottom: 0;
     border-color: $borgreen;
     background: $borgreen;
     color: white;
+  }
+
+  .picker__frame{
+    overflow: scroll;
   }
 
   .picker__year,
