@@ -14,28 +14,38 @@ $(document).ready(function(){
 				c.$main_day_field.val(getWeekDay(c.nextDay));
 				c.$main_time_field.val(f.sec2time(900)).attr( 'value', 900 );
 				
-				c.$main_date_field.pickadate({
+				const $md =	c.$main_date_field.pickadate({
 													min: c.fistDayBook,
 													max: c.maxDaysVisible,
 													yearSelector: false,
 													format: 'dd mmmm, ddd',
 													today: '',
-                          clear: '',		
-                          onSet: function(s){       	
-                            if(s.select !== undefined){ 
-                              let date = moment(s.select).format("YYYY/MM/DD");
-                              c.$main_date_field.data('value', date ).attr('value', date );
-                            }
-                          }										
+                          clear: ''									
 					});
 
-				c.$main_time_field.pickatime({
+				let openHour = getWeekDay(c.nextDay, 0, true) ? c.weekendMorningHourOpen : c.morningHourOpen;
+
+				const $mt =	c.$main_time_field.pickatime({
 													format: 'HH:i',
 													formatLabel: 'HH:i',
 													interval: 60,
-													min: [c.morningHourOpen,0],
+													min: [openHour,0],
                           max: [c.lastHourBook,0]
 											});
+
+				const mdatepicker = $md.pickadate('picker');
+				const mtimepicker = $mt.pickatime('picker');
+
+				mdatepicker.on({
+					set: function(s) {
+						if(s.select !== undefined){ 
+							let date = moment(s.select).format("YYYY/MM/DD");
+							let openHour = getWeekDay(date, 0, true) ? c.weekendMorningHourOpen : c.morningHourOpen;
+							c.$main_date_field.data('value', date ).attr('value', date );
+							mtimepicker.set('min', [openHour,0]); 
+						}
+					}
+				});
 
 			};
 

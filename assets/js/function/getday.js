@@ -17,9 +17,13 @@ function getWeekDay(date = 0, curTime = 0, weekDays = false) {
     let time = date===0?new Date():new Date(date);
     let day = time.toLocaleString("eng", { weekday: 'short' });
     let ms = time.getTime();
-    if(day == 'Sat' || day == 'Sun' || day == 'Thu' || day == 'Fri' || day == 'пт' || day == 'сб' || day == 'чт' || day == 'вс'){ day = 'h'; }else{ day = 'w' };
-    /* weekDays - определить будний день или выходные или праздники для установки утреннего часа с 9:00 или с 11:00 */
-    if(weekDays){ if(day == 'Sat' || day == 'Sun' || day == 'сб' || day == 'вс'){ day = 'h'; }else{ day = 'w' }; };
+       
+    if(weekDays){ /* weekDays - определить будний день или выходные или праздники для установки утреннего часа с 9:00 или с 11:00 */
+      if(day == 'Sat' || day == 'Sun' || day == 'сб' || day == 'вс'){ day = 'h'; }else{ day = 'w' }; 
+    }else{
+      if(day == 'Sat' || day == 'Sun' || day == 'Thu' || day == 'Fri' || day == 'пт' || day == 'сб' || day == 'чт' || day == 'вс'){ day = 'h'; }else{ day = 'w' };
+    };
+
     if( isInPeriod( ms, '2020/12/30', '2021/01/01' ) || isInPeriod( ms, '2021/12/30', '2022/01/01' ) ){ day = 'ny' }; // если 29 декабря 2020 года 00:00 по 2 января 2021 года  00:00
     if( isInPeriod( ms, '2021/01/02', '2021/01/10' ) || isInPeriod( ms, '2022/01/02', '2022/01/10' ) ){ day = 'h'; }; // если 2 января 2021 00:00 по 10 января 00:00
     if( isInPeriod( ms, '2021/02/22', '2021/02/23' ) || isInPeriod( ms, '2022/02/23' ) ){ day = 'h'; }; // 23 февраля

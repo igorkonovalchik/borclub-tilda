@@ -1555,7 +1555,7 @@ bottom: 0;
   }
 
   .picker__frame{
-    overflow: scroll;
+    @include respond-to(mobile){ overflow: scroll; }    
   }
 
   .picker__year,
