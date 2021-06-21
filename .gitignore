@@ -7,8 +7,9 @@ logs
 *.log
 
 # Ignore the build directory
-*dist/
-/assets
+/*dist/
+/assets/**/*.js
+/assets/**/*.scss
 
 !gift.js
 !gift.scss
