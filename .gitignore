@@ -7,10 +7,15 @@ logs
 *.log
 
 # Ignore the build directory
-/dist
-/testdist
-/05.04.2021 - dist
-/19-02-2021 - dist
+/dist/*
+/testdist/*
+/05.04.2021 - dist/*
+/19-02-2021 - dist/*
+/giftdist/*
+/assets/*
+
+!*/assets/js/gift.js
+!*/assets/scss/gift.scss
 
 # The file containing environment variables 
 .env
