@@ -73,7 +73,7 @@ export const picSize = LetpicSize;
 
 let LetGlobalMenu = !LetisSmall?'#rec205090460':'#rec205099373';
 
-export const podmenus = ['#rec292549410', '#rec238221915', '#rec238777378','#rec238782757', '#rec263558078', '#rec283030530', '#rec264691768', '#rec264003331']; /* меню в разделах */
+export const podmenus = ['#rec292549410', '#rec238221915', '#rec238777378','#rec238782757', '#rec263558078', '#rec283030530', '#rec264691768', '#rec264003331', '#rec322365214' ]; /* меню в разделах */
 export const globalmenu = LetGlobalMenu; /* главное меню */
 
 

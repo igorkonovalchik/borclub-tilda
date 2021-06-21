@@ -1,6 +1,7 @@
 # Ignore the node_modules directory
 node_modules/
 
+
 # Ignore Logs
 logs
 *.log
@@ -8,6 +9,8 @@ logs
 # Ignore the build directory
 /dist
 /testdist
+/05.04.2021 - dist
+/19-02-2021 - dist
 
 # The file containing environment variables 
 .env
