@@ -11,6 +11,7 @@ logs
 /assets/**/*.js
 /assets/**/*.scss
 
+!/assets/js/cookie/*.js
 !/assets/js/gift/*.js
 !gift.js
 !gift.scss
