@@ -396,7 +396,7 @@ if($(c.newPopupSpa).length ){
   <div class="t-input-title t-descr t-descr_m"> Количество гостей </div>
   <div class="number">
     <span class="minus">-</span>
-    <input id="personsInput" type="text" class="" value="0" disabled/>
+    <input id="personsInput" type="text" class="" value="0"/>
     <span class="plus">+</span>
   </div>
   </div>
@@ -404,7 +404,7 @@ if($(c.newPopupSpa).length ){
     <div class="t-input-title t-descr t-descr_m"> Добавить часы? </div>
   <div class="number">
     <span class="minus">-</span>
-    <input id="dopHoursInput" type="text" class="" value="0" disabled/>
+    <input id="dopHoursInput" type="text" class="" value="0"/>
     <span class="plus">+</span>
   </div>
   </div>`);
@@ -813,6 +813,8 @@ if($(c.newPopupSpa).length ){
 
 
 $('a[href^="#openspa"]').on('click', function(e){ 
+
+  $("body").css("overflow","hidden");    
     
     let href = $(this).attr('href');
    // console.log('href');
@@ -903,7 +905,7 @@ $('a[href^="#order"]').on('click', function(e){
          /* запускаем форму */
           $('a[href="#order:bookspa=1?sber=0&spa=' + id + '"]').click().after(function(){
             updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
-            console.log(c.$main_date_field.data('value')); 
+          //  console.log(c.$main_date_field.data('value')); 
             /* прячем форму на главной */
             $(c.mainFormSpa).hide(); 
           });

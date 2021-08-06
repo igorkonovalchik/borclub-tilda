@@ -1245,15 +1245,20 @@ bottom: 0;
         div, 
         .minus,
         .plus,
-        input
-        {
-          color: white;
+        input       
+        {          
           display: flex;
           align-items: center;
           line-height: 0;
-
           padding: 0;
-        }
+        };
+
+        input
+        {
+            pointer-events: none;
+            color: white;
+            @include respond-to(mobile){  margin-top: 5px; };
+        };
       
       span { cursor:pointer; }
       
@@ -1271,6 +1276,10 @@ bottom: 0;
             color: #a7af8e;
             font-weight: 100;
             justify-content: center;
+            @include respond-to(mobile){
+            padding: 0 12px 8px 12px!important;   
+            font-size: 25px!important;   
+             };
             
           }
 
@@ -1340,6 +1349,9 @@ bottom: 0;
 #rec279462841 // тестовая новая корзина
 {
 
+    .t706__cartwin{
+        height: 105vh!important;
+    }
         
       .counter{
         display: flex;
@@ -1436,7 +1448,7 @@ bottom: 0;
           background: linear-gradient(to right, transparent 8%, #20211d 18%, transparent 33%);
           background-size: 800px 104px;
           position: relative;
-          color: transparent!important;
+        // color: transparent!important;
           transition: 0.3s;
          // border: none!important;
       }
@@ -1502,6 +1514,7 @@ bottom: 0;
 
     .t706__form-bottom-text {
         margin: 0;
+        @include respond-to(mobile){   margin-bottom: 8vh; };
         a{
             color: #677462;
         }
