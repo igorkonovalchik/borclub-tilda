@@ -37,7 +37,7 @@ export const getOrder = (response, $f ) => {
       console.log(data);        
       $f && $f(data);
     },
-    error: function() { 
+    error: function(data) { 
       console.log('huston we have a problem');   
       console.log(data);  
     }
@@ -50,19 +50,16 @@ export const activateCard = (response, $f ) => {
     url: `https://bordata.ru/gift/activateCard.php`,
     data: 'data='+encodeURIComponent(JSON.stringify(response)),
     dataType: 'json',
-    success: function(data){   
-      console.log(data);        
+    success: function(data){                
       $f && $f(data);
     },
     error: function() { 
-      console.log('huston we have a problem');   
-      console.log(data);  
+      console.log('huston we have a problem');        
     }
    });
 };
 
 export const truncate = (str, n) => {
-  if(!str || str == undefined){ return ''; }; 
   return (str.length > n) ? str.substr(0, n-1) + '...' : str;
 };
 

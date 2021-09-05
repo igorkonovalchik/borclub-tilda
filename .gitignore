@@ -13,8 +13,10 @@ logs
 
 !/assets/js/cookie/*.js
 !/assets/js/gift/*.js
+!index.js
 !gift.js
 !gift.scss
+!variables.scss
 
 # The file containing environment variables 
 .env

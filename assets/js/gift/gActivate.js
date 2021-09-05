@@ -66,11 +66,14 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
 
           c.textGiftDiv.html(''); 
 
-          if(order.textGift !== ''){  c.textGiftDiv.html('<p>&laquo;' + f.truncate(order.textGift, 90) + '&raquo;</p>'); }; 
+          if(order.textGift !== ' ' && order.textGift !== '' && order.textGift !== undefined){  
+            c.textGiftDiv.html('<p>&laquo;' + f.truncate(order.textGift, 90) + '&raquo;</p>'); }else{
+            c.textGiftDiv.html('<p>&laquo;Будьте здоровы!&raquo;</p>');
+          }; 
           
-          if(order.anonim !== 'yes'){ 
+          if(order.anonim !== 'yes' && order.fromGift !== null && order.fromGift !== ''){ 
               c.textGiftDiv.append('<p><span>' + order.fromGift + '</span></p>');
-            };  
+          };  
 
           if(order.myself == 'yes'){
 
@@ -89,6 +92,14 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
             c.waButton.show();
 
           };
+
+          /* Убираем фишку с активацией  */
+
+            c.activateButton.hide();
+            c.callButton.show();
+            c.waButton.show();
+
+           /* Убираем фишку с активацией  */
 
           fn && fn();
 

@@ -130,6 +130,15 @@ $(document).ready(function(){
       $('.tn-elem__3333327591625571917544 a').click();      // прыгаем на первый слайд формы    
    };
 
+   $('a').on('click', function(){
+      const href = $(this).attr('href');
+      if(href.includes('#order:bookspa')){   
+         $('.formloader').show();  
+         document.location.href = "https://borclub.ru/bani#rec195683814";
+      };
+   }); 
+
+
    const width = document.documentElement.clientWidth; 
 
    if (width < 768) {
@@ -528,9 +537,7 @@ $(document).ready(function(){
 
 $(function () {
    $('a').click(function() {
-      const href =  $(this).attr('href'); 
-       
-      
+      const href =  $(this).attr('href');       
       switch (href) {
          case '#!/tab/333363861-3':
             $('.formloader').show();
@@ -549,7 +556,7 @@ $(function () {
          break;
 
          case '#!/tab/333363861-5':  
-               setTimeout(() => {         
+               setTimeout(() => {                           
                   $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(order.price);
                   if ( !$(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper label').length ){ 
                      $(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc').after('<label></label>'); 
@@ -586,7 +593,7 @@ $('#rec333338756 .tn-elem__3333387561626440005102').click(function () {
       }; 
       $(c.formGiftText + " input[name*='who']").attr('value', order.nameRecipient ).data('value', order.nameRecipient );   
       updateCookie('who', order.nameRecipient );          
-      console.log(order); 
+     // console.log(order); 
       nextButton.click(); 
    };      
            
@@ -596,7 +603,8 @@ $('#rec333346474 .tn-elem__3333464741626703560639').click(function () {
    const nextButton = $('.tn-elem__3333464741626703560630 a');
    let empty = false; 
 
-   if($(c.formGiftText + " input[name='who']").val() == ''){ empty = true; };
+   if($(c.formGiftText + " input[name='who']").val() == ''){ empty = true; }; 
+   if($(c.formGiftText + " input[name='fromGift']").val() == '' && order.anonim == 'no'){ empty = true; };
 
    if(empty){ 
       $(c.formGiftText).submit();   
@@ -607,12 +615,15 @@ $('#rec333346474 .tn-elem__3333464741626703560639').click(function () {
          if(field.length && field.val() !== value && key !== 'nowsend' && key !== 'anonim'){              
             updateCookie(key, field.val());         
          };  
-      };      
-      updateCookie('textGift', $(c.formGiftText + " textarea[name='textGift']").val() );     
-      $(c.formPayer + " input[name*='name']").attr('value', order.fromGift ).data('value', order.fromGift );
-      updateCookie('namePayer', order.fromGift );    
-      console.log(order); 
-      nextButton.click(); 
+      };    
+      setTimeout(() => {
+         $(c.formPayer + " input[name='namePayer']").attr('value', order.fromGift ).data('value', order.fromGift ); 
+      }, 500);   
+      updateCookie('textGift', $(c.formGiftText + " textarea[name='textGift']").val() );        
+      updateCookie('namePayer', order.fromGift );       
+     // console.log(order); 
+       nextButton.click(); 
+      
    };          
 });  
 
