@@ -43,15 +43,24 @@ const updatePrices = (data, time, disableTimes, fn) => {
 
   updateCart(id, total, $rentMin);
 
-  const addPrices = disableTimes.filter((i) => i >= firstTime + totalTime)
+  // console.log('firstTime');
+  // console.log(firstTime);
+
+  // console.log('disableTimes');
+  // console.log(disableTimes);
+
+  const addPrices = disableTimes.filter((i) => i >= firstTime + minHours)
                                 .map((i) => {
                                   const service = data[getWeekDay(date, i * 60)]; 
                                   let price = Number(service.price_max); 
                                   const id = Number(service.id); 
                                   const seance_length = Number(service.seance_length);
-                                  price = i > 22 ? price * 1.2 : price; 
+                                  price = i > 23 ? price * 1.2 : price; 
                                   return { time: i, price_max: price, id: id, amount: 1, seance_length: seance_length }
                                 });
+
+ // console.log('addPrices');
+ // console.log(addPrices);
 
   fn && fn(addPrices);
 };
@@ -313,9 +322,9 @@ const timeTable = (data = 0) => {
   };
 
   result.dopHours = fullTimeTable
-      .filter((i) => i >= firstTime + totalTime)
+      .filter((i) => i >= firstTime + minHours)
       .filter((i) => !disableTimes.includes(i))
-      .filter((i, c, ar) => i === firstTime + totalTime + c);
+      .filter((i, c, ar) => i === firstTime + minHours + c);
 
   return result;
 };
@@ -417,26 +426,36 @@ if($(c.newPopupSpa).length ){
       const $input = $(this).parent().find('input');
       const id = c.$id_field.val();
       let count = parseInt($input.val()) - 1;
-      if($input.attr('id') === 'personsInput'){
-        count = count < 1 ? 1 : count;
-        if( count >= spas[id].person){          
-          const total = Number(c.$price_field.val()) - c.dopGuestsPrice;           
-          updateCart(id, total, false, {id: c.dopGuestsId, amount: 1, price_max: c.dopGuestsPrice });
-        }else{
-          updateCart(id, Number(c.$price_field.val()), false, {id: c.dopFreeGuestsId, amount: 1, price_max: 0 });
-        };
-        c.$persons_field.val(count);
-      };
-      if($input.attr('id') === 'dopHoursInput'){  
-          count = count < 1 ? 0 : count;          
-          const disableTime = count >= 1 ? loadDisableTimes[count - 1] : loadDisableTimes[0]; 
-          const total = Number(c.$price_field.val()) - disableTime.price_max;          
-          updateCart(id, total, false, disableTime);
-          c.$dopHour_field.val(count);
-      };
-      $input.val(count);
-      $input.change();
-      return false;
+
+      if($input.attr('id') === 'dopHoursInput' && count < 0){
+        
+        return false; 
+      
+      }else{
+
+              if($input.attr('id') === 'personsInput'){
+                count = count < 1 ? 1 : count;
+                if( count >= spas[id].person){          
+                  const total = Number(c.$price_field.val()) - c.dopGuestsPrice;           
+                  updateCart(id, total, false, {id: c.dopGuestsId, amount: 1, price_max: c.dopGuestsPrice });
+                }else{
+                  updateCart(id, Number(c.$price_field.val()), false, {id: c.dopFreeGuestsId, amount: 1, price_max: 0 });
+                };
+                c.$persons_field.val(count);
+              };
+              if($input.attr('id') === 'dopHoursInput'){  
+                  count = count < 1 ? 0 : count;          
+                  const disableTime = count >= 1 ? loadDisableTimes[count - 1] : loadDisableTimes[0]; 
+                  const total = Number(c.$price_field.val()) - disableTime.price_max;          
+                  updateCart(id, total, false, disableTime);
+                  c.$dopHour_field.val(count);
+              };
+              $input.val(count);
+              $input.change();
+
+            };
+
+              return false;
     });
 
     $(document).on('click', '.plus', function () {
@@ -541,30 +560,37 @@ if($(c.newPopupSpa).length ){
 
       loadingField();
 
-      if(Object.keys(lM).length){
+      const nowDate = new Date();
+      const nowdateM = moment(nowDate); 
+      const nowYear = Number(nowdateM.format('YYYY'));
+
+      const curDate = new Date(date);
+      const curdateM = moment(curDate); 
+      const curYear = Number(curdateM.format('YYYY'));
+
+      lM = lM == undefined ? {} : lM; 
+
+      if(Object.keys(lM).length && curYear == nowYear){
 
         timepicker.set('enable', true)
                   .set('disable', timeTable().disable); 
         datepicker.set('enable', true);
   
-        // console.log('Уже были загружены месяцы. Обновляем загрузку для +- 1 от выбранной даты');
-  
-        const curDate = new Date(date);
-        const curdateM = moment(curDate); 
+       // console.log('Уже были загружены месяцы. Обновляем загрузку для +- 1 от выбранной даты');  
+       
         const maxMonth = Number(curdateM.format('MM')) + 1;
-        const minMonth = maxMonth - 2;
-    
-        const curYear = Number(curdateM.format('YYYY'));
+        const minMonth = maxMonth - 2;   
+        
         const newObj = {};
     
         newObj[curYear] = lM[curYear].filter((m) => m <= maxMonth && m >= minMonth );
         lM = newObj;
   
-        // console.log('А именно: ');
-        // console.log(lM[curYear]);
+       //  console.log('А именно: ');
+       //  console.log(lM[curYear]);
   
       }else{
-      //  console.log('Первая загрузка данных! Грузим: ' + c.nextDay);
+       // console.log('Первая загрузка данных! Грузим: ' + c.nextDay);
         c.$date_field.data('value', c.nextDay );
       //  console.log('ok!');
         c.$day_field.val(getWeekDay(c.nextDay));
@@ -695,6 +721,8 @@ if($(c.newPopupSpa).length ){
                     .set('disable', timeTable().disable)
                     .set('min', [openHour,0]); 
           getDates('times', id, date, 0, (data) => { 
+
+            
             // console.log('Часы получены успешны: ');
             loadServices = processingServices(data.services);  
             // console.log(data.times);
@@ -709,8 +737,10 @@ if($(c.newPopupSpa).length ){
               timepicker.set('disable', tt.disable)                          
                           .set('max', tt.max)       
                           .set('select', tt.select)
-                  }else{
-                    timepicker.set('select', 900)
+                  }else{                    
+                    if(c.$time_field.val() == ''){ timepicker.set('select', 900); }else{
+                      timepicker.set('select', Number(c.$time_field.val().substr(0, 2))*60 );
+                    }; 
                   };
             // console.log('Обновляем часы');
             loadingField(false);
@@ -780,17 +810,18 @@ if($(c.newPopupSpa).length ){
         $("body").css("overflow","auto");
         $("#nav188296220").css("position","fixed");
         if(c.isSmall){  $("#rec196832202").css("position","relative");  
-	    $("#rec238782757 .t450__burger_container").css("display","block");
-    };
+          $("#rec238782757 .t450__burger_container").css("display","block");
+        };
+  
    });
 
-   $(document).on('click',c.newPopupSpa + ' .t-popup__close',function(){
-        
+   $(document).on('click',c.newPopupSpa + ' .t-popup__close',function(){        
         $("body").css("overflow","auto");
         $("#nav188296220").css("position","fixed");
         if(c.isSmall){ $("#rec196832202").css("position","relative");
-        $("#rec238782757 .t450__burger_container").css("display","block");
+           $("#rec238782757 .t450__burger_container").css("display","block");
       };
+
     });
 
     $(`#form${c.newPopupSpa.slice(4)}.js-form-proccess`).data('formsended-callback', 'window.hideInput' );
@@ -874,12 +905,14 @@ $('a[href^="#order"]').on('click', function(e){
         $(document).mouseup(function (e){ // событие клика по веб-документу
             let div = $(c.newPopupSpa + ' .t706__cartwin-content'); // тут указываем ID элемента
             if (!div.is(e.target) // если клик был не по нашему блоку
-                && div.has(e.target).length === 0) { // и не по его дочерним элементам                    
+                && div.has(e.target).length === 0
+                && $(c.newPopupSpa + ' .t706__cartwin').hasClass('t706__cartwin_showed')) { // и не по его дочерним элементам                    
                    // $('#rec200918319').addClass('active');
                    $("body").css("overflow","auto");
                    if(c.isSmall){  $("#rec196832202").css("position","relative");  };
                    $("#nav188296220").css("display","block");
                    $("#rec238782757 .t450__burger_container").css("display","block");
+                  
             }
         });
     });

@@ -45,7 +45,35 @@ module.exports = [
 },
 {
   "price" : 25000,
-}]
+}],
+yclientsServices: [
+  {
+      "id": "6894565",
+      "price_max": "25000",
+      "seance_length": 3600
+  },
+  {
+      "id": "7206800",
+      "price_max": "25000",
+      "seance_length": 3600
+  },
+  {
+      "id": "7048367",
+      "price_max": "30000",
+      "seance_length": 3600,
+      "amount": 4
+  },
+  {
+      "id": "7206808",
+      "price_max": "45000",
+      "seance_length": 3600
+  },
+  {
+      "id": "7206812",
+      "price_max": "60000",
+      "seance_length": 3600
+  }
+]
   },
   {
     id: 1,
@@ -92,10 +120,36 @@ module.exports = [
   "price" : 46000
 },
 {
-  
   "price" : 15000,
- 
-}]
+}],
+yclientsServices: [
+  {
+      "id": "6894559",
+      "price_max": "15000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6703174",
+      "price_max": "19000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6703180",
+      "price_max": "23000",
+      "seance_length": 3600,
+      "amount": 4
+  },
+  {
+      "id": "7206813",
+      "price_max": "34500",
+      "seance_length": 3600
+  },
+  {
+      "id": "7206815",
+      "price_max": "46000",
+      "seance_length": 3600
+  }
+]
   },
   {
     id: 2,
@@ -145,7 +199,35 @@ module.exports = [
   
   "price" : 12000,
  
-}]
+}],
+yclientsServices: [
+  {
+      "id": "6894553",
+      "price_max": "12000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6703164",
+      "price_max": "15000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6703167",
+      "price_max": "18000",
+      "seance_length": 3600,
+      "amount": 4
+  },
+  {
+      "id": "7206818",
+      "price_max": "27000",
+      "seance_length": 3600
+  },
+  {
+      "id": "7206824",
+      "price_max": "36000",
+      "seance_length": 3600
+  }
+]
   },
   {
     id: 3,
@@ -153,7 +235,7 @@ module.exports = [
       title: 'Бочка',
       url: '/bani/bochka',
       description: '',
-      person: 16,
+      person: 12,
       maxDopGuests: 2,
       minhours: 4,
       cleanhours: 2,
@@ -195,7 +277,36 @@ module.exports = [
   
   "price" : 12000,
  
-}]
+}],
+yclientsServices:
+[
+  {
+      "id": "6894545",
+      "price_max": "12000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6703152",
+      "price_max": "15000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6703158",
+      "price_max": "18000",
+      "seance_length": 3600,
+      "amount": 4
+  },
+  {
+      "id": "7206827",
+      "price_max": "27000",
+      "seance_length": 0
+  },
+  {
+      "id": "7206828",
+      "price_max": "36000",
+      "seance_length": 3600
+  }
+]
   },
   {
     id: 4,
@@ -245,7 +356,35 @@ module.exports = [
   
   "price" : 8000,
  
-}]
+}],
+yclientsServices: [
+  {
+      "id": "6894531",
+      "price_max": "8000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6703035",
+      "price_max": "10000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6703041",
+      "price_max": "12000",
+      "seance_length": 3600,
+      "amount": 3
+  },
+  {
+      "id": "7206829",
+      "price_max": "18000",
+      "seance_length": 3600
+  },
+  {
+      "id": "7206830",
+      "price_max": "24000",
+      "seance_length": 3600
+  }
+]
   },
   {
     id: 5,
@@ -295,7 +434,35 @@ module.exports = [
   
   "price" : 8000,
  
-}]
+}],
+yclientsServices: [
+  {
+      "id": "6894542",
+      "price_max": "8000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6703049",
+      "price_max": "10000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6703079",
+      "price_max": "12000",
+      "seance_length": 3600,
+      "amount": 3
+  },
+  {
+      "id": "7206833",
+      "price_max": "18000",
+      "seance_length": 3600
+  },
+  {
+      "id": "7206834",
+      "price_max": "24000",
+      "seance_length": 3600
+  }
+]
   },
   {
     id: 6,
@@ -345,7 +512,35 @@ module.exports = [
   
   "price" : 5000,
  
-}]
+}],
+yclientsServices: [
+  {
+      "id": "7039495",
+      "price_max": "5000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6702472",
+      "price_max": "6000",
+      "seance_length": "3600"
+  },
+  {
+      "id": "6702478",
+      "price_max": "8000",
+      "seance_length": "3600",
+      "amount": 3
+  },
+  {
+      "id": "7206835",
+      "price_max": "12000",
+      "seance_length": 0
+  },
+  {
+      "id": "7206838",
+      "price_max": "16000",
+      "seance_length": 3600
+  }
+]
   },
   {
     id: 7,
@@ -395,6 +590,34 @@ module.exports = [
   
   "price" : 5000,
  
-}]
+}],
+yclientsServices: [
+  {
+      "id": "7023646",
+      "price_max": "5000",
+      "seance_length": 3600
+  },
+  {
+      "id": "6696648",
+      "price_max": "6000",
+      "seance_length": "3600"
+  },
+  {
+      "id": "6702395",
+      "price_max": "8000",
+      "seance_length": "3600",
+      "amount": 3
+  },
+  {
+      "id": "7206839",
+      "price_max": "12000",
+      "seance_length": 3600
+  },
+  {
+      "id": "7206840",
+      "price_max": "16000",
+      "seance_length": 3600
+  }
+]
   }
 ]
