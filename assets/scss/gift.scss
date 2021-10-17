@@ -653,12 +653,24 @@ body.t-body_nolocked{
   }
 }
 
-#form333338756{
+#form333338756,
+#form361406307,
+#form361415073{
   .t-input-group_em, .t-input-group_in, .t-input-group_nm, .t-input-group_ph{
     width: 100%;
   }
 }
 
+#form361406307,
+#form361415073{
+  .t-input-group_nm .t-input,
+  .t-input-group_ph .t-input
+  {
+    font-size: 19px!important; 
+    letter-spacing: 1px!important; 
+    text-align: center;
+  }
+}
 
 #rec328806680,
 #rec333338756,
@@ -1095,9 +1107,25 @@ body.t-body_nolocked{
 
 }
 
-.tn-elem__3395970881627390913848 .tn-atom.loading,
+#rec362404452{
+  .t396__elem{
+    left: 0!important;
+    top: 0!important;
+  }
+  pointer-events: none;
+  position: fixed;
+  z-index: 9999;
+  height: 100vh;
+  width: 100vw;
+  &.dark .tn-elem__3624044521633084972584 .tn-atom.loading .sp-wrap{
+    background-color: #171717;
+  }
+}
+
+.tn-elem__3624044521633084972584 .tn-atom.loading,
 .tn-elem__3332162771627117911491 .tn-atom.loading,
 .formloader.loading {
+  z-index: 99999;
   position: relative;
   .sp-wrap{
     clear: both;
@@ -1116,7 +1144,7 @@ body.t-body_nolocked{
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    z-index: 99;
+    z-index: 99999;
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
     opacity: 1;
@@ -1126,11 +1154,11 @@ body.t-body_nolocked{
   }
 }
 
-.tn-elem__3395970881627390913848 .tn-atom.loading .sp-wrap{
+.tn-elem__3624044521633084972584 .tn-atom.loading .sp-wrap{
   background-color: #ffffff;
 }
 
-.tn-elem__3395970881627390913848
+.tn-elem__3624044521633084972584
 {
   height: 100%!important;
 }
@@ -1191,7 +1219,7 @@ body.t-body_nolocked{
   border-style: solid;
 }
 
-.tn-elem__3395970881627390913848 .tn-atom.loading .sp-wrap{
+.tn-elem__3624044521633084972584 .tn-atom.loading .sp-wrap{
   background-color: #171717;
 }
 
@@ -1255,12 +1283,35 @@ body.t-body_nolocked{
 }
 
 .tn-elem__3400425171627415158583,
-.tn-elem__3400425171627415200478{
+.tn-elem__3400425171627415200478,
+.tn-elem__3614150731633199323986,
+.tn-elem__3614150731633199323980{
   opacity: 0;
   transition: 1s;
   pointer-events: none;
   &.show{
     opacity: 1;
     transition: 0.2s;
+  }
+}
+
+
+.tn-elem__3614063071633076805796,
+.tn-elem__3614150731633076897333{
+  pointer-events: none;
+  opacity: 0; 
+  &.active{
+    opacity: 1;
+    pointer-events: visible;
+  }
+}
+
+.tn-elem__3614150731632861752608{
+  cursor: pointer;
+  &.disable{
+    pointer-events: none;
+    div{
+      pointer-events: none;
+    }
   }
 }

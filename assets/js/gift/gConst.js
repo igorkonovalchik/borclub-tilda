@@ -73,11 +73,13 @@ export const pixBlackText = $('#rec333346474 .tn-elem__3333464741625559834267');
 
 /* Константы страницы активации серта */
 
-export const loaderDiv = $('.tn-elem__3395970881627390913848');
+export const loaderDiv = $('#rec362404452');
 
 export const greenDesignButton = $('.tn-elem__3400379171627385802797 a'); 
 export const blackDesignButton = $('.tn-elem__3400379171627385834399 a'); 
 export const numberDesignButton = $('.tn-elem__3400379171627385846446 a'); 
+export const activateScreen = $('.tn-elem__3400379171632862044353 a');
+export const codeScreen = $('.tn-elem__3400379171633079893637 a');
 
 export const giftActivateRec = $('#rec339597088');
 export const nameDiv = $('.tn-elem__3395970881627390855565 .tn-atom');
@@ -91,3 +93,4 @@ export const pixBlackLogoBor = $('.tn-elem__3395970881627294215827');
 export const activateButton = $('.tn-elem__3395970881627293744983');
 export const callButton = $('.tn-elem__3395970881627462775611');
 export const waButton = $('.tn-elem__3395970881627462775618');
+
