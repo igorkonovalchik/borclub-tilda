@@ -45,5 +45,6 @@ function getWeekDay(date = 0, curTime = 0, weekDays = false) {
   
     return day;
   };
+  
 
 export default getWeekDay;
