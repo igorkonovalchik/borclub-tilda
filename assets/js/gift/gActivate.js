@@ -4,7 +4,6 @@ import * as f from './gFunctions'
 
 const adminID = coo.getCookie('adminID');
 
-
 console.log('admin ' + adminID);
 
 if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borclub.ru/gift/activate
