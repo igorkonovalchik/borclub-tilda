@@ -30,6 +30,7 @@ function getWeekDay(date = 0, curTime = 0, weekDays = false) {
     if( isInPeriod( ms, '2021/03/08' ) || isInPeriod( ms, '2022/03/08' ) ){ day = 'h'; }; // 8 марта
     if( isInPeriod( ms, '2021/05/01', '2021/05/03' ) || isInPeriod( ms, '2022/05/01' ) ){ day = 'h'; }; // 1 мая
 
+    if( isInPeriod( ms, '2021/11/01', '2021/11/07' ) ){ day = 'h' }; // c 1 ноября по 7 ноября ковид кануикулы 
     if( isInPeriod( ms, '2021/05/01', '2021/05/10' ) ){ day = 'h' }; // c 1 мая по 10 мая 
     if( isInPeriod( ms, '2021/05/10' ) || isInPeriod( ms, '2022/05/09' ) ){ day = 'h'; }; // 9 мая
     if( isInPeriod( ms, '2021/06/14' ) || isInPeriod( ms, '2022/06/12' ) ){ day = 'h'; }; // 12 июня
