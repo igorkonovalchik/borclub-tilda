@@ -2,6 +2,8 @@ import * as coo from './../cookie/cookie'
 import * as c from './gConst'
 import * as f from './gFunctions'
 
+const adminID = coo.getCookie('adminID');
+
 if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borclub.ru/gift
 
    $('.formloader').hide();
@@ -12,20 +14,28 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
 
   let order = coo.getCookie('orderGift', true);
 
+  if(order== undefined){
+      order = c.emptyOrder;     
+   };
+
   const updateCookie = (name, value) =>{ // перезаписывает новые данные заказа в куках
     order[name] = value;
     coo.deleteCookie('orderGift');
     coo.setCookie('orderGift', order, {expires: Date(1), domain: 'borclub.ru'});    
   }
 
-
   const fillCart = (fn) => {      // добавляет сертификат в корзину, обновляет общую стоимость, заполняем форму
+    const totalPrice =  order.price + order.priceDelivery; 
     let price = order.price;   
-    window.tcart.total = price;
-    window.tcart.prodamount = price;
-    window.tcart.amount = price;       
+    window.tcart.total = totalPrice;
+    window.tcart.prodamount = totalPrice;
+    window.tcart.amount = totalPrice;  
     window.tcart.products.push({ name: 'Сертификат', amount: price }); 
-   //  window.tcart.system = 'sberbank'; 
+    if(order.address !== '' && order.priceDelivery !== 0 && order.getGift == 'delivery'){ 
+      updateCookie('gift', 'offline');
+      window.tcart.products.push({ name: 'Доставка', amount: order.priceDelivery }); 
+     };      
+    window.tcart.system = 'sberbank'; 
     const fields = Object.entries(order);
     for (const [key, value] of fields) { 
        if($(c.cartId + " input[name='" + key + "']").length && value !== ''){ 
@@ -116,18 +126,183 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
 
 
 
-$(document).ready(function(){  
+$(document).ready(function(){   
+   
+   const cleanDelivery = () => { 
+      $('.tn-elem__3878267691638791643562').hide();
+      $('.tn-elem__3878267691638791606123').hide();
+      $('.tn-elem__3333660931639417959593').hide();
+      order.priceDelivery = 0;
+      order.address = ''; 
+   };
+
+   cleanDelivery();
+
+   $(c.cartId + " input[name='paymentsystem'][value='sberbank']").prop('checked', true);  
    
    
 
-   $(c.cartId + " input[name='paymentsystem'][value='sberbank']").prop('checked', true);   
-   
+const mapInit = ($f) => {
 
+   let multiRoute;
+   let onceCheck = false;
+
+   $('#map').html('');
+   $('.tn-elem__3878267691639051171968').hide();
+            
+   let map = new ymaps.Map('map', {
+         center: [59.938,30.3],
+         zoom: 9,
+         controls: []
+     }),
+
+   borPlacemark = new ymaps.Placemark([60.150770, 29.928411], {
+             
+        }, {
+              iconLayout: 'default#image',
+              iconImageHref: 'https://snazzy-maps-cdn.azureedge.net/assets/marker-43ad614e-415b-4fa7-8575-90edd86144a2.svg',
+              iconImageSize: [48, 63],
+              iconImageOffset: [-24, -63]
+        });
+
+   map.geoObjects.add(borPlacemark);
+
+   const clearMap = () =>{
+      map.geoObjects.remove(multiRoute).add(borPlacemark);
+      map.panTo([60.150770, 29.928411], { delay: 2500, flying: true }); 
+   }
+
+   clearMap();
+
+   let suggestView = new ymaps.SuggestView('address', {      
+      provider: {
+         suggest:(function(request){                               
+            return ymaps.suggest("Санкт-Петербург, " + request);     
+               })}
+   });
+
+   const checkPrice = () => {
+      clearMap();
+      $('.formloader').show(); 
+      const value = c.inputAddress.value;        
+         if(value !== '' && value !== undefined){           
+            f.geocode(value, function($data){
+              if($data.status){ 
+               $('.tn-elem__3878267691638791643562').show();
+                     if($data.price){  
+                        $('.tn-elem__3878267691638791643562').hide();
+                        $('.tn-elem__3878267691638791606123').hide();
+                        $('.tn-elem__3878267691638791643562 .tn-atom').text('Стоимость доставки');  
+                        order.address = value; 
+                        order.geo_lat = $data.geo_lat;   
+                        order.geo_lon = $data.geo_lon;                
+                        c.inputAddress.val('').attr('value', '').attr('placeholder', order.address.replace('Россия, ', '').replace('Санкт-Петербург, ', '')); 
+                        c.inputAddress.blur();
+                        if($data.house !== null && $data.street_with_type !== null ){ 
+                           order.priceDelivery = Math.round($data.price) + 50;
+                           $('.tn-elem__3878267691638791606123 .tn-atom').text(f.delimiter(order.priceDelivery) + ' руб.'); 
+                           $('.tn-elem__3878267691638791606123').show();
+                           $('.tn-elem__3878267691639051171968').show();
+                        }else{
+                           $('.tn-elem__3878267691638791606123').hide();
+                           $('.tn-elem__3878267691638791643562 .tn-atom').text('Уточните адрес для корректной доставки');
+                           c.inputAddress.addClass('error-field');
+                        }; 
+                        $('.tn-elem__3878267691638791643562').show();
+                        multiRoute = new ymaps.multiRouter.MultiRoute({
+                           referencePoints: [
+                              [60.150770, 29.928411],
+                              order.address
+                           ],
+                           params: {
+                              results: 1
+                           }
+                        }, {
+                              wayPointStartIconLayout: "default#image",
+                              wayPointStartIconImageHref: 'https://snazzy-maps-cdn.azureedge.net/assets/marker-43ad614e-415b-4fa7-8575-90edd86144a2.svg',
+                              wayPointStartIconImageSize: [48, 63],
+                              wayPointStartIconImageOffset: [-25, -56],
+                              routeActiveStrokeWidth: 6,
+                              routeActiveStrokeColor: "#bfc997",
+                              wayPointFinishIconFillColor: "#bfc997",
+                              boundsAutoApply: true
+                        });
+                         map.geoObjects.remove(borPlacemark).add(multiRoute);                                                       
+                     }else{
+                        clearMap();
+                        $('.tn-elem__3878267691638791643562').show();
+                        $('.tn-elem__3878267691638791643562 .tn-atom').text('Не удалось определить стоимость. Попробуйте еще раз.');
+                     };
+               }else{
+                  clearMap();
+                  $('.tn-elem__3878267691638791643562').show();
+                  $('.tn-elem__3878267691638791643562 .tn-atom').text('Не удалось определить стоимость. Попробуйте еще раз.');
+               };
+              setTimeout(function(){ $('.formloader').hide(); }, 300);           
+            });               
+          }else{  
+            clearMap();
+            $('.tn-elem__3878267691638791606123').show();
+            $('.tn-elem__3878267691638791643562 .tn-atom').text('Не удалось определить стоимость. Попробуйте еще раз.'); 
+            $('.formloader').hide(); 
+         };   
+   }
+   
+   suggestView.state.events.add('change', function () {
+        let activeIndex = suggestView.state.get('activeIndex');
+        if (typeof activeIndex == 'number') {
+              const activeItem = suggestView.state.get('items')[activeIndex];                 
+            if (activeItem && activeItem.value != c.inputAddress.value) {
+              c.inputAddress.value = activeItem.value;  
+              onceCheck = true;     
+            }
+        }
+       }); 
+
+       $('#rec387826769').on('focus',"#address",function(){
+         const address = order.address !== undefined ? order.address.replace('Россия, ', '').replace('Санкт-Петербург, ', ''): '';
+         c.inputAddress.val(address).attr('value', address);
+         c.inputAddress.removeClass('error-field');
+         const len = c.inputAddress.val().length;
+         // c.inputAddress[0].focusout();
+         c.inputAddress[0].setSelectionRange(len, len);
+       });
+
+       $('#rec387826769').on('focusout',"#address",function(){
+         const address = order.address !== undefined ? order.address.replace('Россия, ', '').replace('Санкт-Петербург, ', ''): '';
+         c.inputAddress.attr('placeholder', address);   
+       });
+       
+       $('#rec387826769').on('change',"#address",function(){      
+         if(onceCheck){
+            checkPrice();
+            onceCheck = false;
+         };
+       });
+
+       $('#rec387826769').bind("touchstart", function(){  
+         if(onceCheck){
+            checkPrice();
+            onceCheck = false;
+         };
+       });
+
+       $f && $f();  
+  };
+
+
+   
    if(window.location.hash.includes('#!/tab/333363861')){     
       setTimeout(function () {
          $('.formloader').show();
     }, 500);
-      $('.tn-elem__3333327591625571917544 a').click();      // прыгаем на первый слайд формы    
+      $('.tn-elem__3333327591625571917544 a').click();      // прыгаем на первый слайд формы   
+      if(adminID == '198934435'){  
+       //  $('.tn-elem__3288066801638792323223 a').click(); // детали доставки
+       //  $('.tn-elem__3288066801639051483155 a').click(); // доставка или самовывоз
+      }else{
+         $(c.formPayer + " input[name='priceDelivery']").parent().parent().hide();
+      }; 
    };
 
    $('a').on('click', function(){
@@ -199,11 +374,15 @@ $(document).ready(function(){
    
    const addRangeSlider = (price = '0') => {   
       
-      price = price == 0 ? f.delimiter( $(c.formPrice + " input[name='inputRange']").attr('placeholder') ) : f.delimiter( price );
+      price = price == 0 ? $(c.formPrice + " input[name='inputRange']").attr('placeholder')  :  price;
                   
       /* Добавляем сумму и символ рубля в форму данных плательщика */
 
-      $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(price);
+      const priceDelivery = price + order.priceDelivery ;
+
+      price = f.delimiter( price ); 
+
+      $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(priceDelivery));
       if ( !$(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper label').length ){ 
          $(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc').after('<label></label>'); 
       };  
@@ -234,7 +413,8 @@ $(document).ready(function(){
             polyfill: false
          }).on('input', function() {    
             refreshPrice(this.value);
-            $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(this.value + '')); 
+            const price = this.value + order.priceDelivery;
+            $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(price + '')); 
          });            
 
          $(c.formPrice).addClass('ajax-success');
@@ -247,7 +427,8 @@ $(document).ready(function(){
 
          $(c.formPrice + " input[name='inputRange']").on('change', function() {
             refreshPrice(this.value);
-            $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(this.value + '')); 
+            const price = this.value + order.priceDelivery;
+            $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(price + '')); 
           });    
 
          };           
@@ -255,10 +436,9 @@ $(document).ready(function(){
 
    const addGiftFields = () => { 
 
-    $(c.formGiftText + " input[name='nowsend']").parent().parent().hide(); // временно пока не сделаем
-          
+   // $(c.formGiftText + " input[name='nowsend']").parent().parent().hide(); // временно пока не сделаем
 
-    $('#rec333338756').on('change',"input[name='myself']",function(){             
+   $('#rec333338756').on('change',"input[name='myself']",function(){             
         if (this.checked) {           
           $(".tn-elem__3333387561626430632839 a").attr('href', '#!/tab/333363861-5');
           $(".tn-elem__3333660931625571917544 a").attr('href', '#!/tab/333363861-3');
@@ -277,6 +457,7 @@ $(document).ready(function(){
           updateCookie('myself', 'no');           
         };
     }); 
+  
 
     $('#rec333346474').on('change',"input[name*='anonim']",function(){                   
             if (this.checked) {
@@ -286,36 +467,47 @@ $(document).ready(function(){
                $("#rec333346474 input[name*='fromGift']").parent().parent().show();
                updateCookie('anonim', 'no');
             }
-        });   
+        });  
+        
+    $('#rec333346474').on('change',"input[name*='nowsend']",function(){                   
+         if (this.checked) {
+            $gift_date_field.parent().parent().hide();
+            $gift_time_field.parent().parent().hide();   
+            updateCookie('nowsend', 'yes');            
+         } else {
+            $gift_date_field.parent().parent().show();
+            $gift_time_field.parent().parent().show(); 
+            updateCookie('nowsend', 'no');
+         }
+     }); 
+
+        $("#rec333346474").on("change keyup input click", "input[name*='anonim']", function() {
+         if (this.value.match(/[^0-9]/g)) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+         };
+      }); 
 
         const $gift_date_field = $("#rec333346474 input[name*='datere']");
+        const $gift_date_field_submit = $("#rec333346474 input[name*='datere_submit']");
         const $gift_time_field = $("#rec333346474 input[name*='timere']"); 
 
-        $('#rec333346474').on('change',"input[name*='nowsend']",function(){                
-         if (this.checked) {            
-            $gift_date_field.parent().parent().hide();
-            $gift_time_field.parent().parent().hide();                
-            updateCookie('nowsend', 'yes');
-          } else {            
-            $gift_date_field.parent().parent().show();
-            $gift_time_field.parent().parent().show();                
-            updateCookie('nowsend', 'no'); 
-         }
-       });   
-        
-         if(order.datere == ''){                    
-            $gift_date_field.attr('value', c.currentDay ).data('value', c.currentDay );                     
-            updateCookie('datere', c.currentDay); 
-         }else{                  
-            $gift_date_field.attr('value', order.datere ).data('value', order.datere );
-         }  
 
-         if(order.timere == ''){   
-            $gift_time_field.val(c.currentTime).attr( 'value', c.currentTime );
-            updateCookie('timere', c.currentTime);                     
-         }else{
-            $gift_time_field.attr('value', order.timere ).data('value', order.timere );
-         };  
+        $(c.formGiftText).on('change keyup input click',"textarea[name='textGift']",function(){                
+            f.limitText(this, 90);
+       });   
+
+       $(c.formGiftText).on('change keyup input click',"input[name*='who']",function(){                
+         f.limitText(this, 20);
+       });   
+
+       $(c.formGiftText).on('change keyup input click',"input[name*='fromGift']",function(){                
+         f.limitText(this, 20);
+       });  
+        
+               
+            $gift_date_field.attr('value', c.currentDay ).data('value', c.currentDay );                     
+            $gift_time_field.attr( 'value', c.nextHour ).val(c.nextHour);
+
 
          if(!$($gift_date_field).hasClass('load-done')){
 
@@ -329,7 +521,8 @@ $(document).ready(function(){
                      $gift_date_field.addClass('t-input_bbonly'); 
                   },
                   onSet: function(context){  
-                     updateCookie('datere', context.select);                                                               
+                     updateCookie('datere', $gift_date_field_submit.data('value') );  
+                    // console.log(order);                                                             
                   }
                });    
 
@@ -349,45 +542,80 @@ $(document).ready(function(){
                   onStart: function() { 
                      $gift_time_field.addClass('t-input_bbonly');                                  
                   },
-                  onSet: function(context) {                   
-                     updateCookie('timere', context.select);
+                  onSet: function(context) {    
+                     updateCookie('timere', $gift_time_field.data('value') );
+                   //  console.log(order); 
                   }
                });      
                $($gift_time_field).addClass('load-done');
                
               };
 
+
+                  /* Обновляем вид карты из куки */
+            
+                  if(order.gift == 'digital'){
+                     c.checkDigital.show( "fast", function() {
+                        c.pixDigital.show();
+                     });
+                     c.giftNextButton.attr('href', '#!/tab/333363861-2');
+                     c.checkOffline.hide();            
+                     c.pixOffline.hide();  
+                     $('.tn-elem__3333660931628063300813').hide();  // информация о доставке
+                     $('.tn-elem__3333660931628064053416').hide();
+                     $('.tn-elem__3333660931628064069415').hide();
+                     updateCookie('priceDelivery', 0); 
+                     updateCookie('address', '');    
+                     updateCookie('getGift', 'pickup');
+                  }else{
+                     c.checkOffline.show( "fast", function() {
+                        c.pixOffline.show();
+                     });
+                     c.pixDigital.hide();
+                     c.checkDigital.hide(); 
+                     updateCookie('myself', 'yes');  
+                     c.giftNextButton.attr('href', '#!/tab/333363861-7');
+                   //  $(".tn-elem__3333660931625571917544 a").attr('href', '#!/tab/333363861-1');
+                  }
+
+                /* Обновляем способ получения */
+            
+                if(order.getGift == 'pickup' || order.getGift == undefined ){
+                  c.checkDelivery.hide("fast"); 
+                  c.getNextButton.attr('href', '#!/tab/333363861-5');
+                  c.backPayerButton.attr('href', '#!/tab/333363861-7');
+                  $('.tn-elem__3333660931628063300813').show(); 
+               }
+
+               if(order.getGift == 'delivery'){
+                  c.checkPickup.hide("fast");
+                  c.getNextButton.attr('href', '#!/tab/333363861-6');
+                  c.backPayerButton.attr('href', '#!/tab/333363861-6');
+                  $('.tn-elem__3333660931628063300813').hide();  
+               }
+
+            
                /* Получатель это покупатель  */
 
                if(order.myself == 'yes'){ 
                 $(c.formRecipient + " input[name*='myself']").prop('checked', true); 
-                $(".tn-elem__3333387561626430632839 a").attr('href', '#!/tab/333363861-5');
-                $(".tn-elem__3333660931625571917544 a").attr('href', '#!/tab/333363861-3');
                 $('.tn-elem__3333387561626440005102').hide();
                 $(c.formRecipient + " input[name*='nameRecipient']").parent().parent().hide();
                 $(c.formRecipient + " input[name*='phoneRecipient']").parent().parent().hide();
                 $(c.formRecipient + " input[name*='emailRecipient']").parent().parent().hide();
+                $(".tn-elem__3333387561626430632839 a").attr('href', '#!/tab/333363861-5');
+                if(order.gift == 'digital'){
+                  $(".tn-elem__3333660931625571917544 a").attr('href', '#!/tab/333363861-3');
+                };
+               };
+
+               if(order.gift == 'digital'){
+                  if(order.fromGift !== ''){ $(c.formPayer + " input[name='namePayer']").val( order.fromGift ).attr( 'value', order.fromGift ); }; 
+               }else{ 
+                  if(order.nameDeliveryRecipient !== ''){ $(c.formPayer+ " input[name='namePayer']").val( order.nameDeliveryRecipient ).attr( 'value', order.nameDeliveryRecipient); }; 
+                  if(order.phoneDeliveryRecipient !== ''){  $(c.formPayer + " input[name='phonePayer']").val( order.phoneDeliveryRecipient ).attr( 'value', order.phoneDeliveryRecipient );}; 
                };
            
-                  /* Обновляем вид карты из куки */
-            
-            if(order.gift == 'digital'){
-               c.checkDigital.show( "fast", function() {
-                  c.pixDigital.show();
-               });
-               c.checkOffline.hide();            
-               c.pixOffline.hide();  
-               $('.tn-elem__3333660931628063300813').hide();  // информация о доставке
-               $('.tn-elem__3333660931628064053416').hide();
-               $('.tn-elem__3333660931628064069415').hide();
-            
-            }else{
-               c.checkOffline.show( "fast", function() {
-                  c.pixOffline.show();
-               });
-               c.pixDigital.hide();
-               c.checkDigital.hide(); 
-            }
 
             /* Обновляем дизайн карты из куки */
 
@@ -453,18 +681,18 @@ $(document).ready(function(){
 
           $('.formloader').hide(); // loading div
       
-   };
+   };  
 
     $(window).resize(function(e){ 
       setTimeout(() => {   
          addRangeSlider(order.price);
-         addGiftFields();              
+         addGiftFields(); 
       }, 500);  
     });        
 
    $(document).ajaxSuccess(function( ){              
       addRangeSlider(order.price);
-      addGiftFields();    
+      addGiftFields();   
    }); 
 
    $(window).scroll(function(){
@@ -477,32 +705,66 @@ $(document).ready(function(){
     });
     */
 
+     /* #rec389763134 - форма выбора способа получения */        
+
+   
+   c.zonePickup.click(function () {
+      c.checkPickup.show("fast");
+      c.checkDelivery.hide("fast"); 
+      c.getNextButton.attr('href', '#!/tab/333363861-5');
+      c.backPayerButton.attr('href', '#!/tab/333363861-7');
+      $('.tn-elem__3333660931628063300813').show();  
+      updateCookie('getGift', 'pickup');       
+   });
+
+
+   c.zoneDelivery.click(function () {            
+      c.checkPickup.hide("fast");
+      c.checkDelivery.show("fast"); 
+      c.getNextButton.attr('href', '#!/tab/333363861-6');
+      c.backPayerButton.attr('href', '#!/tab/333363861-6');
+      $('.tn-elem__3333660931628063300813').hide();  
+      updateCookie('getGift', 'delivery');   
+   });
+
    
 
    /* #rec333216277 - форма выбора вида серта */        
+
 
    c.zoneDigital.click(function () {
       c.checkDigital.show( "fast", function() {
          c.pixDigital.show();
        });
+      c.giftNextButton.attr('href', '#!/tab/333363861-2');
+      $(".tn-elem__3333660931625571917544 a").attr('href', '#!/tab/333363861-4');
       c.checkOffline.hide();            
       c.pixOffline.hide();  
       $('.tn-elem__3333660931628063300813').hide();  
       $('.tn-elem__3333660931628064053416').hide(); 
       $('.tn-elem__3333660931628064069415').hide();
-      updateCookie('gift', 'digital');       
+      updateCookie('gift', 'digital');  
+      updateCookie('priceDelivery', 0); 
+      updateCookie('address', '');    
+      updateCookie('getGift', 'pickup');
    });
+
 
    c.zoneOffline.click(function () {            
       c.checkOffline.show( "fast", function() {
          c.pixOffline.show();
        });
+     // c.firstNextButton.show();
+     // $(".tn-elem__3333660931625571917544 a").attr('href', '#!/tab/333363861-1');
+      c.giftNextButton.attr('href', '#!/tab/333363861-7');
       c.pixDigital.hide();
       c.checkDigital.hide();  
       $('.tn-elem__3333660931628063300813').show();  
       $('.tn-elem__3333660931628064053416').show();
       $('.tn-elem__3333660931628064069415').show();
+      updateCookie('myself', 'yes');
       updateCookie('gift', 'offline'); 
+     // console.log(c.toPayerScreenButton.attr('href'));
    });
 
 
@@ -537,7 +799,8 @@ $(document).ready(function(){
 
 $(function () {
    $('a').click(function() {
-      const href =  $(this).attr('href');       
+      const href =  $(this).attr('href');     
+      console.log(order);  
       switch (href) {
          case '#!/tab/333363861-3':
             $('.formloader').show();
@@ -545,6 +808,22 @@ $(function () {
                addGiftFields();  
                $('.formloader').hide();            
             }, 500);                        
+         break;
+
+         case '#!/tab/333363861-7':
+            c.backPayerButton.attr('href', '#!/tab/333363861-7');                     
+         break;
+
+         case '#!/tab/333363861-6':
+            console.log(order); 
+            if(order.priceDelivery == 0 || order.priceDelivery == undefined){ 
+               $('.formloader').show();
+               ymaps.ready(mapInit(function(){ 
+                  setTimeout(() => {   
+                     $('.formloader').hide();            
+                  }, 500);  
+               })); 
+             };
          break;
 
          case '#!/tab/333363861-4':
@@ -556,12 +835,31 @@ $(function () {
          break;
 
          case '#!/tab/333363861-5':  
-               setTimeout(() => {                           
-                  $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(order.price);
+               $('.formloader').show();
+               
+               setTimeout(() => {   
+                  let totalPrice = order.price;
+                  let backPage;
+                  if(order.gift == 'digital'){ 
+                     backPage = order.myself == 'yes' ? 3 : 4; 
+                   }else{
+                     if(order.getGift == 'delivery'){ 
+                        $(c.formPayer + " .t-input-group_fr .t-input-title").html(`Итоговая стоимость <br>(в т.ч. стоимость доставки - ${f.delimiter(order.priceDelivery)} руб.)`);
+                        totalPrice += order.priceDelivery;
+                        $('.tn-elem__3333660931639417959593').show();
+                        backPage = 6;
+                      }else{
+                        $(c.formPayer + " .t-input-group_fr .t-input-title").html(`Итоговая стоимость`); 
+                        backPage = 7;
+                      }; 
+                   };
+                   c.backPayerButton.attr('href', '#!/tab/333363861-' + backPage ); 
+                   $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(totalPrice));
                   if ( !$(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper label').length ){ 
                      $(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc').after('<label></label>'); 
-                  };   
-               }, 500);    
+                  };  
+                  $('.formloader').hide();  
+               }, 100);    
          break;
 
          default:            
@@ -612,8 +910,9 @@ $('#rec333346474 .tn-elem__3333464741626703560639').click(function () {
       const fields = Object.entries(order);
       for (const [key, value] of fields) { 
          const field = $(c.formGiftText + " input[name='" + key + "']");          
-         if(field.length && field.val() !== value && key !== 'nowsend' && key !== 'anonim'){              
-            updateCookie(key, field.val());         
+         if(field.length && field.val() !== value && key !== 'nowsend' && key !== 'anonim' ){              
+            updateCookie(key, field.val());     
+          //  if(key == 'datere'){ updateCookie(key, $gift_date_field_submit.val()); };     
          };  
       };    
       setTimeout(() => {
@@ -626,6 +925,31 @@ $('#rec333346474 .tn-elem__3333464741626703560639').click(function () {
       
    };          
 });  
+
+$('#rec387826769 .tn-elem__3878267691639389692763').click(function(){ 
+   if(order.address == undefined || order.address == ''){
+      c.inputAddress.addClass('error-field');
+   }else{ 
+      let empty = false; 
+      const nameDeliveryRecipientInput = $(c.formDelivery + " input[name='nameDeliveryRecipient']");
+      const phoneDeliveryRecipientInput = $(c.formDelivery + " input[name='phoneDeliveryRecipient']");
+      const deliveryDescriptionTextArea = $(c.formDelivery + " textarea[name='deliveryDescription']");
+      if(nameDeliveryRecipientInput.val() == ''){ empty = true; };
+      if(phoneDeliveryRecipientInput.val() == ''){ empty = true; };
+      if(empty){ 
+         $(c.formDelivery).submit();   
+      }else{
+         order.nameDeliveryRecipient = nameDeliveryRecipientInput.val() 
+         order.phoneDeliveryRecipient = phoneDeliveryRecipientInput.val(); 
+         order.deliveryDescription = deliveryDescriptionTextArea.val(); 
+         if(order.namePayer == ''){ updateCookie('namePayer', order.nameDeliveryRecipient);  }; 
+         if(order.phonePayer == ''){ updateCookie('phonePayer', order.phoneDeliveryRecipient); }; 
+         console.log(order);
+         $('#rec387826769 .tn-elem__3878267691626703560630 a').click(); 
+      };  
+   };
+});
+
 
 $('#rec333366093 .tn-elem__3333660931627989962217').click(function () { 
    
@@ -644,9 +968,10 @@ $('#rec333366093 .tn-elem__3333660931627989962217').click(function () {
          if(field.length && field.val() !== value){              
             updateCookie(key, field.val());         
          };  
-      };      
-      console.log(order); 
-   //  nextButton.click(); 
+      }; 
+         if(order.address !== '' && order.priceDelivery !== 0){ 
+            updateCookie('gift', 'offline');
+         }; 
       setTimeout(() => {      
          $('.formloader').show();               
             fillCart(function(){  

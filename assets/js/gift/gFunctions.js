@@ -44,6 +44,27 @@ export const getOrder = (response, $f ) => {
    });
 };
 
+
+export const geocode = (address, $f ) => {
+  $.ajax({
+    type: "POST",
+    url: `https://bordata.ru/gift/geocode.php`,
+    data: 'address=' + address,
+    dataType: 'json',
+    success: function(data){   
+      console.log(data); 
+      data.status = true;       
+      $f && $f(data);
+    },
+    error: function() { 
+      console.log('huston we have a problem');  
+      const data = {};
+      data.status = false;
+      $f && $f(data);  
+    }
+   });
+};
+
 export const activateCard = (response, $f ) => {
   $.ajax({
     type: "POST",
@@ -95,4 +116,14 @@ export const phoneAuth = (response, $f ) => {
   },
    });
 };
+
+export const limitText = (field, maxChar) => {
+  const ref = $(field),
+      val = ref.val();
+  if ( val.length >= maxChar ){
+      ref.val(function() {
+          return val.substr(0, maxChar);       
+      });
+  }
+}
 

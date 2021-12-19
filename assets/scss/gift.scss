@@ -49,16 +49,27 @@ body.t-body_nolocked{
 .tn-elem__3261126931623745252270,
 .envelope.open .letter{
     pointer-events: all;
-}      
+}     
 
+.error-field{
+  border: 1px solid red!important;
+}
 
+.tn-elem__3878267691638785576553{
+  z-index: 999!important;
+}
+
+.tn-elem__3878267691639389692763,
+.tn-elem__3897631341639050607364,
+.tn-elem__3897631341639050607366,
 .tn-elem__3332162771626428690552,
 .tn-elem__3332162771626428710170,
 .tn-elem__3333327591626429957317,
 .tn-elem__3333327591626429957304,
 .tn-elem__3333387561626440005102,
 .tn-elem__3333464741626703560639,
-.tn-elem__3333660931627989962217
+.tn-elem__3333660931627989962217,
+.tn-elem__3332162771635504198619
 {
   cursor: pointer; 
 }
@@ -565,6 +576,24 @@ body.t-body_nolocked{
 }
 
 
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+#map {
+
+  @include respond-to(mobile){ 
+    filter: grayscale(100%);
+   }
+
+  canvas:first-child {
+    filter: grayscale(100%);
+  }
+}
+
+
+
 /* form */ 
 
   #form328806680{
@@ -614,6 +643,10 @@ body.t-body_nolocked{
       width: 45%;
       display: inline-block;
       margin-right: 20px;
+      line-height: 1.2;
+      @include respond-to(mobile){ 
+        width: 100%;
+       }
       .t-input-block
       {
         height: 40px;
@@ -629,7 +662,7 @@ body.t-body_nolocked{
         }
         label{
           color: transparent;
-          padding: 4px 7px 1px 7px;
+          padding: 6px 7px 1px 7px;
            background-image: url('https://bordata.ru/files/img/icon/rublwhite.svg');
            background-position: 50%;
            background-size: contain;
@@ -675,11 +708,23 @@ body.t-body_nolocked{
 #rec328806680,
 #rec333338756,
 #form333346474,
-#form333366093 {
+#form333366093,
+#form387826769 {
   .tn-form__submit{  
   position: absolute;
   left: 50000px;    
  }
+}
+
+#form387826769 .t-input-group_tx .t-text{
+  color: #bfc997!important;
+  font-size: 14px!important;
+  font-weight: 700!important;
+  line-height: 1.8;  
+}
+
+#form387826769 .t-checkbox__indicator{
+  border-color: #949c76!important;
 }
 
 .tn-elem__3288066801624366193734,
@@ -1315,3 +1360,14 @@ body.t-body_nolocked{
     }
   }
 }
+
+#address::placeholder         {color: rgb(167, 177, 142);} 
+#address::-moz-placeholder     {color: rgb(167, 177, 142);} 
+#address:-moz-placeholder      {color: rgb(167, 177, 142);} 
+#address:-ms-input-placeholder {color: rgb(167, 177, 142);} 
+
+.error-field::placeholder,       
+.error-field::-moz-placeholder,     
+.error-field:-moz-placeholder,      
+.error-field:-ms-input-placeholder 
+{color: red!important;} 
