@@ -754,9 +754,9 @@ const mapInit = ($f) => {
       c.checkOffline.show( "fast", function() {
          c.pixOffline.show();
        });
-     // c.firstNextButton.show();
-     // $(".tn-elem__3333660931625571917544 a").attr('href', '#!/tab/333363861-1');
+      $(".tn-elem__3333660931625571917544 a").attr('href', '#!/tab/333363861-1');
       c.giftNextButton.attr('href', '#!/tab/333363861-7');
+   //   console.log(c.giftNextButton.attr('href')); 
       c.pixDigital.hide();
       c.checkDigital.hide();  
       $('.tn-elem__3333660931628063300813').show();  
@@ -800,7 +800,7 @@ const mapInit = ($f) => {
 $(function () {
    $('a').click(function() {
       const href =  $(this).attr('href');     
-      console.log(order);  
+   //   console.log(order);  
       switch (href) {
          case '#!/tab/333363861-3':
             $('.formloader').show();
