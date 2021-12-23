@@ -439,7 +439,8 @@ body .scale-active .t-zoomer__scale.showed {
 #rec264003331,
 #rec283030530,
 #rec292549410,
-#rec322365214
+#rec322365214,
+#rec393942416
 {
     position: relative;
     .t450__burger_container{
@@ -463,16 +464,18 @@ body .scale-active .t-zoomer__scale.showed {
 #nav264003331,
 #nav283030530,
 #nav292549410,
-#nav322365214
-{
+#nav322365214,
+#nav393942416
+{   
     z-index: 9999999!important;
     .t450__right_buttons_but {
-        width: 100%;
+        width: 100%!important;
         a {
-            width: 100%;
+            width: 100%!important;
         }
     }
 }
+
 
 #nav205090460,
 #nav238221901,
@@ -481,6 +484,7 @@ body .scale-active .t-zoomer__scale.showed {
 #nav205099373,
 #nav238211832,
 #nav205090460{
+    z-index: 99999!important;
     .t450__right_buttons_but {
         width: 100%;
         a {
