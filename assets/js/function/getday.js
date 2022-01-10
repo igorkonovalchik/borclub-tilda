@@ -26,14 +26,14 @@ function getWeekDay(date = 0, curTime = 0, weekDays = false) {
 
     if( isInPeriod( ms, '2020/12/30', '2021/01/01' ) || isInPeriod( ms, '2021/12/30', '2022/01/01' ) ){ day = 'ny' }; // если 29 декабря 2020 года 00:00 по 2 января 2021 года  00:00
     if( isInPeriod( ms, '2021/01/02', '2021/01/09' ) || isInPeriod( ms, '2022/01/02', '2022/01/09' ) ){ day = 'ny'; }; // если 2 января 2022 00:00 по 10 января 00:00
-    if( isInPeriod( ms, '2021/02/22', '2021/02/23' ) || isInPeriod( ms, '2022/02/23' ) ){ day = 'h'; }; // 23 февраля
-    if( isInPeriod( ms, '2021/03/08' ) || isInPeriod( ms, '2022/03/08' ) ){ day = 'h'; }; // 8 марта
-    if( isInPeriod( ms, '2021/05/01', '2021/05/03' ) || isInPeriod( ms, '2022/05/01' ) ){ day = 'h'; }; // 1 мая
+    if( isInPeriod( ms, '2022/02/23' ) ){ day = 'h'; }; // 23 февраля
+    if( isInPeriod( ms, '2022/03/07', '2022/03/08' ) ){ day = 'h'; }; // 7, 8 марта
+    if( isInPeriod( ms, '2022/05/02', '2022/05/03' ) || isInPeriod( ms, '2022/05/09', '2022/05/10' ) ){ day = 'h'; }; // 2, 3, 9, 10 мая
 
-    if( isInPeriod( ms, '2021/11/01', '2021/11/07' ) ){ day = 'h' }; // c 1 ноября по 7 ноября ковид кануикулы 
+    if( isInPeriod( ms, '2022/11/04' ) ){ day = 'h' }; //  4 ноября 
     if( isInPeriod( ms, '2021/05/01', '2021/05/10' ) ){ day = 'h' }; // c 1 мая по 10 мая 
     if( isInPeriod( ms, '2021/05/10' ) || isInPeriod( ms, '2022/05/09' ) ){ day = 'h'; }; // 9 мая
-    if( isInPeriod( ms, '2021/06/14' ) || isInPeriod( ms, '2022/06/12' ) ){ day = 'h'; }; // 12 июня
+    if( isInPeriod( ms, '2021/06/14' ) || isInPeriod( ms, '2022/06/13' ) ){ day = 'h'; }; // 12 июня
     if( isInPeriod( ms, '2021/06/02' ) || isInPeriod( ms, '2021/06/05' ) ){ day = 'ny'; }; // 2 и 5 июня было fm
     if( isInPeriod( ms, '2021/06/03' ) || isInPeriod( ms, '2021/06/04' ) ){ day = 'ny'; }; // 3 и 4 июня было fh
     if( isInPeriod( ms, '2021/11/04', '2021/11/05' ) || isInPeriod( ms, '2022/11/04' ) ){ day = 'h'; }; // 4 ноября
