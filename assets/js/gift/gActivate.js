@@ -2,9 +2,6 @@ import * as coo from './../cookie/cookie'
 import * as c from './gConst'
 import * as f from './gFunctions'
 
-const adminID = coo.getCookie('adminID');
-
-console.log('admin ' + adminID);
 
 if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borclub.ru/gift/activate
 
@@ -38,6 +35,7 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
       c.waButton.show();
 
       fn && fn();
+      
 
     };
 
@@ -57,10 +55,10 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
               order.phoneActivate = '';
             }else{
               c.nameDiv.text(f.truncate(order.who, 20) + ',');
-              order.phoneActivate = order.phoneRecipient;
+             // order.phoneActivate = order.phoneRecipient;
               c.textGiftDiv.html(''); 
               if(order.textGift !== ' ' && order.textGift !== '' && order.textGift !== undefined && order.textGift !== null && order.textGift !== 'null'){  
-                c.textGiftDiv.html('<p>&laquo;' + f.truncate(order.textGift, 90) + '&raquo;</p>'); }else{
+                c.textGiftDiv.html('<p>&laquo;' + f.truncate(order.textGift, 105) + '&raquo;</p>'); }else{
                 c.textGiftDiv.html('<p>&laquo;Будьте здоровы!&raquo;</p>');
               }; 
               if(order.fromGift !== null && order.fromGift !== ''){ 
@@ -100,13 +98,11 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
           };
 
           /* Убираем фишку с активацией  */
-
-          if(adminID !== '198934435'){
-
+        //  console.log(f.getUrlParameter('iiko'));
+          if(f.getUrlParameter('iiko') !== '1' ){
             c.activateButton.hide();
             c.callButton.show();
             c.waButton.show();
-
          }else{
           $('.tn-elem__3395970881627293399461 .tn-atom').html(`
           Обязательно активируйте сертификат перед посещением клуба.
@@ -223,11 +219,16 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
         const formPhones = () => {
 
        /* Форма ввода телефона для авторизации */
-           if(order.phoneActivate !== ''){
-            $("#form361406307 input[name='phoneActivate']").val(order.phoneActivate);
-           }; 
+           if(order.phoneRecipient !== ''){
+              $("#form361406307 input[name='phoneActivate']").val(order.phoneRecipient);
+           }else{
+            if(order.phoneActivate !== ''){
+              $("#form361406307 input[name='phoneActivate']").val(order.phoneActivate);
+             }; 
+           };         
 
-            $("#form361406307 input[name='phoneActivate']").on('change', function(){             
+       /*  $("#form361406307 input[name='phoneActivate']").on('change', function(){     
+          console.log('change');        
               let newPhone = $("#form361406307 input[name='phoneActivate']").val();
               newPhone = newPhone.replace(/[^\d]/g, "");          
               if(order.phoneActivate !== newPhone){   
@@ -239,7 +240,8 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
                       $('.tn-elem__3614063071633076805796').removeClass('active');
                     };
               };
-            });   
+              console.log(order);
+            });   */ 
 
             /* Форма ввода кода подтверждения */
 
@@ -269,7 +271,9 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
                         c.loaderDiv.show();  
                         f.phoneAuth({operation: 'compareCode', data: {phone: order.phoneActivate, code: order.code } },       
                           function(data){ 
+                            console.log(data);
                             if(data.status == 'ok'){  
+                          //    console.log('yes');
                               $("#form361415073 .t-input-group_ph").removeClass('js-error-control-box');
                               clearInterval(setInterval); 
                               c.pixGreenLogoBor.show();  
@@ -301,6 +305,7 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
                                   }); 
 
                             }else{
+                             // console.log('no');
                               c.loaderDiv.hide();
                               $("#form361415073 .t-input-group_ph").addClass('js-error-control-box');
                               $('.tn-elem__3614150731633199323986').addClass('show');
@@ -319,7 +324,9 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
            }); 
         };
 
-      $(document).ajaxSuccess(function( ){            
+      //  formPhones();
+
+   $(document).ajaxSuccess(function( ){          
           formPhones();
       }); 
 
@@ -327,52 +334,64 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
 
       /* Таймер активация  */
 
-      let intervals = 0;
       const timerButton = $('.tn-elem__3614150731632861752608 .tn-atom');
-      const timeLimitSeconds = 46; 
+      const timeLimitSeconds = 48; 
       const titleCodeScreen = $('.tn-elem__3614150731632861654188 .tn-atom');
 
-      const makeTimer = (start) => {
-        let now = new Date();
+      function makeTimer(){
+        let i = 0;
+        let end;   
+        $('.tn-elem__3614150731632861752608').addClass('disable'); 
+        let messege = 'Отправить еще раз';         
+        function myLoop() {         
+          setTimeout(function() {    
+            end = timeLimitSeconds - i;     
+            messege = 'Отправим через ' + end + ' секунд';
+            timerButton.text(messege);  
+            i++;                    
+            if (i < timeLimitSeconds) {                                    
+              myLoop();            
+            }else{               
+                titleCodeScreen.text('Отправляем код...');
+                f.phoneAuth({operation: 'setCode', data: { phone: order.phoneActivate } },       
+                function(data){ 
+                  if(data.status !== 'sended'){   
+                    c.activateScreen.click();      
+                  };
+                  setTimeout(() => {  
+                    titleCodeScreen.text('Мы отправили код подтверждения на номер ' + order.phoneActivate);
+                    $('.tn-elem__3614150731632861752608').removeClass('disable');     
+                }, 1500);   
+                });
+             timerButton.text(messege);
+            };                    
+          }, 1000)
+        };
+        myLoop();  
+      /*  let now = new Date();
         now = (Date.parse(now) / 1000);
         const timeLeft = now - start;
-        const seconds = timeLimitSeconds - timeLeft;
-        let messege = 'Отправить еще раз'; 
-        if(seconds > 0){
-          messege = 'Отправим через ' + seconds + ' секунд'; 
-        }else{
-          clearInterval(intervals);
-          titleCodeScreen.text('Отправляем код...');
-          f.phoneAuth({operation: 'setCode', data: { phone: order.phoneActivate } },       
-          function(data){ 
-            if(data.status !== 'ok'){   
-              c.activateScreen.click();      
-            };
-            setTimeout(() => {  
-              titleCodeScreen.text('Мы отправили код подтверждения на номер ' + order.phoneActivate);
-              $('.tn-elem__3614150731632861752608').removeClass('disable');     
-           }, 1500);   
-           }); 
-        };
-        timerButton.text(messege);
+        const seconds = timeLimitSeconds - timeLeft;*/  
       };
 
       timerButton.click(function() {
+        let newPhone = $("#form361406307 input[name='phoneActivate']").val();
+              newPhone = newPhone.replace(/[^\d]/g, "");          
+              if(order.phoneActivate !== newPhone){   
+                order.phoneActivate = newPhone; };
+        console.log(order);
         if(!$('.tn-elem__3614150731632861752608').hasClass('disable')){
           f.phoneAuth({operation: 'setCode', data: { phone: order.phoneActivate } },       
           function(data){ 
-            if(data.status == 'limit'){   
-              $('.tn-elem__3614150731632861752608').addClass('disable'); 
-              let start = new Date();
-              start = (Date.parse(start) / 1000);
-              intervals = setInterval(function() { makeTimer(start); }, 1000);
+            if(data.status == 'limit'){                 
+              makeTimer();              
             }else{
               setTimeout(() => {  
                 $("#form361415073 input[name='codeActivate']").focus();
                 titleCodeScreen.text('Мы отправили код подтверждения на номер ' + order.phoneActivate); 
              }, 500); 
             };
-            if(data.status !== 'ok' && data.status !== 'limit'){   
+            if(data.status !== 'sended' && data.status !== 'limit'){   
               c.activateScreen.click();      
             };
             c.loaderDiv.hide(); 
@@ -417,7 +436,7 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
         });
      });
 
-    /*  $(document).on('change', "#form361406307 input[name='phoneActivate]", function () {
+ /* $(document).on('change', "#form361406307 input[name='phoneActivate]", function () {
         console.log('phoneActivate change');
         console.log($("#form361406307 input[name='phoneActivate']").val());
       }); */

@@ -66,6 +66,7 @@ export const geocode = (address, $f ) => {
 };
 
 export const activateCard = (response, $f ) => {
+  console.log(response);  
   $.ajax({
     type: "POST",
     url: `https://bordata.ru/gift/activateCard.php`,
@@ -74,9 +75,26 @@ export const activateCard = (response, $f ) => {
     success: function(data){                
       $f && $f(data);
     },
-    error: function() { 
-      console.log('huston we have a problem');        
-    }
+    error: function (jqXHR, exception) {
+      var msg = '';
+      if (jqXHR.status === 0) {
+          msg = 'Not connect.\n Verify Network.';
+      } else if (jqXHR.status == 404) {
+          msg = 'Requested page not found. [404]';
+      } else if (jqXHR.status == 500) {
+          msg = 'Internal Server Error [500].';
+      } else if (exception === 'parsererror') {
+          msg = 'Requested JSON parse failed.';
+      } else if (exception === 'timeout') {
+          msg = 'Time out error.';
+      } else if (exception === 'abort') {
+          msg = 'Ajax request aborted.';
+      } else {
+          msg = 'Uncaught Error.\n' + jqXHR.responseText;
+      }
+      console.log(msg);  
+      console.log(exception); 
+  },
    });
 };
 
@@ -85,7 +103,8 @@ export const truncate = (str, n) => {
 };
 
 
-export const phoneAuth = (response, $f ) => {
+export const phoneAuth = (response, $f ) => {  
+  console.log(response);   
   $.ajax({
     type: "POST",
     url: `https://bordata.ru/phoneAuth/${response.operation}.php`,
@@ -112,7 +131,7 @@ export const phoneAuth = (response, $f ) => {
       } else {
           msg = 'Uncaught Error.\n' + jqXHR.responseText;
       }
-      console.log(msg);  
+      console.log(msg);       
   },
    });
 };
@@ -126,4 +145,20 @@ export const limitText = (field, maxChar) => {
       });
   }
 }
+
+export const getUrlParameter  = (sParam) => {
+  var sPageURL = window.location.search.substring(1),
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i;
+
+  for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+          return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+      }
+  }
+  return false;
+};
 
