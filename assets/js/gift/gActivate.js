@@ -98,7 +98,7 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
           };
 
           /* Убираем фишку с активацией  */
-        //  console.log(f.getUrlParameter('iiko'));
+          console.log(f.getUrlParameter('iiko'));
           if(f.getUrlParameter('iiko') !== '1' ){
             c.activateButton.hide();
             c.callButton.show();
@@ -133,8 +133,9 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
     if(orderid !== undefined && orderid !== '' && orderid.match(/^\d+$/)){
       
       f.getOrder({orderid: orderid, card: '', phoneRecipient: ''},       
-      function(data){        
-        if(data !== null){  
+      function(data){  
+        console.log(data);      
+        if(data !== null && data !== 0){  
           order = data;
           fillData(data);
         }else{ 

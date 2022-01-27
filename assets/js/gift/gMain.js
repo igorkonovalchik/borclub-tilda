@@ -292,6 +292,7 @@ const mapInit = ($f) => {
 
 
    
+
    if(window.location.hash.includes('#!/tab/333363861')){     
       setTimeout(function () {
          $('.formloader').show();
@@ -683,6 +684,11 @@ const mapInit = ($f) => {
       
    };  
 
+   setTimeout(() => {   
+      addRangeSlider(order.price);
+      addGiftFields(); 
+   }, 1000);  
+
     $(window).resize(function(e){ 
       setTimeout(() => {   
          addRangeSlider(order.price);
@@ -690,7 +696,8 @@ const mapInit = ($f) => {
       }, 500);  
     });        
 
-   $(document).ajaxSuccess(function( ){              
+   $(document).ajaxSuccess(function( ){     
+      console.log('ajax');         
       addRangeSlider(order.price);
       addGiftFields();   
    }); 
