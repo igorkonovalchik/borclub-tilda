@@ -9,7 +9,7 @@ export const popupSpa = '#rec229653342'; /* попап коризны для б�
 let varPopupSpa = '#rec279462841';
 export const newPopupSpa = varPopupSpa; /* Новая корзина  */
 
-export const activeYclients = false; 
+export const activeYclients = true; 
 
 export const maxDaysVisible = 180; 
 export const morningHourOpen = 11;
