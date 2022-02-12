@@ -34,7 +34,9 @@ const updateCart = (id = -1, price = 0, product = false, delProduct = false) => 
     c.$id_field.val(id);
     window.tcart.total = price;
     window.tcart.prodamount = price;
-    window.tcart.amount = price;     
+    window.tcart.amount = price;
+    window.tcart.products = [{ name: 'Аренда - ' + spas[id].title, amount: price }];
+   // console.log(window.tcart);
   };
 
     if(product && window.tcart !== undefined){
@@ -51,7 +53,7 @@ const updateCart = (id = -1, price = 0, product = false, delProduct = false) => 
             };
             return i;
           }); 
-          window.tcart.products = !productIn ? [ ...products, product ] : [ ...products ];         
+        //  window.tcart.products = !productIn ? [ ...products, product ] : [ ...products ];         
         }; 
     
     if(delProduct && window.tcart !== undefined){
@@ -65,11 +67,10 @@ const updateCart = (id = -1, price = 0, product = false, delProduct = false) => 
             return i;
           })
           .filter((i) => i.amount > 0 ); 
-      window.tcart.products = [ ...products ];      
+    //  window.tcart.products = [ ...products ];      
     }
 
     if(window.tcart !== undefined){
-
       c.$seance_length_field.val(0); 
       const totalProducts = window.tcart.products
       .reduce((a, i, count) => {
@@ -85,7 +86,8 @@ const updateCart = (id = -1, price = 0, product = false, delProduct = false) => 
       c.$services_field.val(JSON.stringify(totalProducts));    
       
     }
- 
+
+   
 };
 
 export default updateCart;

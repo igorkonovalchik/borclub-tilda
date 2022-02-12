@@ -7,6 +7,7 @@ logs
 *.log
 
 # Ignore the build directory
+/*dist/
 /dist
 /testdist
 /giftdist
