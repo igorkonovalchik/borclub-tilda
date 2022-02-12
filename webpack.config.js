@@ -11,8 +11,8 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, './giftdist'),
-    publicPath: '/giftdist'
+    path: path.resolve(__dirname, './newgiftdist'),
+    publicPath: '/newgiftdist'
   },
   module: {
     rules: [{
