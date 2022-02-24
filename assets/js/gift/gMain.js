@@ -211,7 +211,7 @@ const mapInit = ($f) => {
                         $('.tn-elem__3878267691638791643562').show();
                         multiRoute = new ymaps.multiRouter.MultiRoute({
                            referencePoints: [
-                              [60.150770, 29.928411],
+                              [c.fromGeoLat, c.fromGeoLon],
                               order.address
                            ],
                            params: {
@@ -585,7 +585,8 @@ const mapInit = ($f) => {
                   c.checkDelivery.hide("fast"); 
                   c.getNextButton.attr('href', '#!/tab/333363861-5');
                   c.backPayerButton.attr('href', '#!/tab/333363861-7');
-                  $('.tn-elem__3333660931628063300813').show(); 
+                  if(order.gift !== 'digital'){ $('.tn-elem__3333660931628063300813').show(); };
+
                }
 
                if(order.getGift == 'delivery'){
@@ -860,7 +861,9 @@ $(function () {
                         backPage = 7;
                       }; 
                    };
+                 //  console.log('back - ' + backPage);
                    c.backPayerButton.attr('href', '#!/tab/333363861-' + backPage ); 
+                  // console.log(c.backPayerButton.attr('href'));
                    $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(totalPrice));
                   if ( !$(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper label').length ){ 
                      $(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc').after('<label></label>'); 
