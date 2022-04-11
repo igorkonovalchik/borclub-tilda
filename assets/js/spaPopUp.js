@@ -81,7 +81,7 @@
 			 
 			 HrefPopID = "#";
 
-			 $("a[href='#popupzero']").click();
+			 $("a[href='#popupzero']")[0].click();
 			 
 			 $(PopWindID + ' .t-popup').animate({
 				scrollTop: 2
@@ -96,6 +96,7 @@
 				/* $(ActivePop + ' .t396').trigger('displayChanged');
 				 t_lazyload_detectwebp();
 				 t_lazyload_update(); */
+				 
 				 $('#rec200918319').addClass('active');				 
 				 }, 10);
 

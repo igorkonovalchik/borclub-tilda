@@ -19,7 +19,30 @@ const topImportant = (el) => {
 	});
  };
 
+
 $(document).ready(function(){
+
+	c.footers.forEach(function(item, i, arr) {
+		if($(item).length && $('.more-footer').length){
+			$('.more-footer').on('click', function(){
+				$(item).toggleClass('open');
+				setTimeout(function(){ 
+				if($(item).hasClass('open')){
+					   $('html, body').animate({
+						   scrollTop: $(item).offset().top - 150
+					   }, 100);
+				}else{
+					const n = $(document).height();
+					$('html, body').animate({ scrollTop: n }, 50);
+				};
+			}, 500); 
+			});
+		};
+	  });
+
+	$(c.footers).each(function(){
+        
+    });
 
 	let userAgent = navigator.userAgent.toLowerCase();
 	let safari = /safari/.test(userAgent);
@@ -179,7 +202,7 @@ const goConfetti = ($f) => {
 		});
 	 };
 
-	$("body").css("overflow","hidden");
+	// $("body").css("overflow","hidden");
 
 
 	const hideLoader = () =>{
@@ -218,9 +241,10 @@ const goConfetti = ($f) => {
 
 
 if( $('#block-search').length && c.isSmall ) {
-
-	$('#block-search').css('opacity', 0);
+	// console.log('block-search');
+	// $('#block-search').css('opacity', 0);
 	$('a[href^="#openbook"]').on('click', function(e){
+		console.log('hello');
 		$('.tn-elem__2372683081589532518829').hide();
 		$('#block-search').css('opacity', 1);
 	 });

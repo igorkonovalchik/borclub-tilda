@@ -253,7 +253,7 @@ $('a[href^="#openspa"]').on('click', function(e){
 
 $('a[href^="#order"]').on('click', function(e){   
 
-    $("body").css("overflow","hidden");    
+    // $("body").css("overflow","hidden");    
 
     if(c.isSmall){ $("#rec196832202").css("position","absolute"); };
 
@@ -292,12 +292,12 @@ $('a[href^="#order"]').on('click', function(e){
         });
     });
 
-          /* Получение данных из формы на главной  */
+          /* Получение данных из формы на главной  
          
           if($(c.mainFormSpa).length && !c.isSmall && $(c.popupSpa).length){      
            
-          /* Если форма на главной отправляется успешно то данные передаем в корзину для дальнейшего оформления */
-            $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
+          // Если форма на главной отправляется успешно то данные передаем в корзину для дальнейшего оформления 
+             $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
         
             window.openCart = function() {
               
@@ -306,16 +306,16 @@ $('a[href^="#order"]').on('click', function(e){
               updateCart( -1, id );  
 
               $('a[href="#order:bookspa=1?sber=0"]').attr('href', '#order:bookspa='+ id + '?sber=0');
-              /* запускаем форму */
+              
               $('a[href="#order:bookspa='+ id + '?sber=0"]').click().after(function(){
-                  /* прячем форму на главной */
+                  
                   $(c.mainFormSpa).hide(); 
               });
 
               };
             };
 
-    
+            */
     };
 
 });

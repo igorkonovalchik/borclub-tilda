@@ -6,7 +6,7 @@ $(document).ready(function(){
 const popUp = (id, action = 'open') => {
   switch (action) {
     case 'open':
-      $("body").css("overflow","hidden");	 
+     // $("body").css("overflow","hidden");	 
       setTimeout(function() {  
       $(id+' .t450__overlay').addClass('t450__menu_show');
       $('#nav'+id.slice(4)).addClass('t450__menu_show');

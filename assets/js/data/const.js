@@ -100,3 +100,5 @@ export const $cash_field = $(varPopupSpa + " .t-input-group_pm .t-radio__control
 export const $sber_field = $(varPopupSpa + " .t-input-group_pm .t-radio__control:last-child");
 
 export const priceId = 'price' + varPopupSpa.slice(4);
+
+export const footers = ['#rec417856854','#rec417880695', '#rec417893468'];

@@ -845,7 +845,7 @@ if($(c.newPopupSpa).length ){
 
 $('a[href^="#openspa"]').on('click', function(e){ 
 
-  $("body").css("overflow","hidden");    
+ // $("body").css("overflow","hidden");    
     
     let href = $(this).attr('href');
    // console.log('href');
@@ -869,6 +869,8 @@ $('a[href^="#openspa"]').on('click', function(e){
 
 $('a[href^="#order"]').on('click', function(e){   
 
+     console.log('id '); 
+
   // console.log(loadMonth); 
 
     $("body").css("overflow","hidden");    
@@ -885,7 +887,10 @@ $('a[href^="#order"]').on('click', function(e){
     let param = getParams(href);    
           
     let id = param.spa === undefined || param.spa === NaN ? c.$id_field.val() : param.spa; 
-    c.$id_field.val(id);
+
+    console.log('id -' + id); 
+
+    c.$id_field.val(id).attr('value', id);
     
     let showSpa = param.show === undefined || param.show === NaN ? 1 : param.show; 
     if(showSpa !== 1){ $(c.newPopupSpa + " .t-input-group_sb").hide(); }else{ $(c.newPopupSpa + " .t-input-group_sb").show(); }; 
@@ -919,14 +924,30 @@ $('a[href^="#order"]').on('click', function(e){
 
      /* Заполнение формы датой и временем на главной  */
 
+     console.log('gooo');
+
     // const $main_spa_field = $(c.mainFormSpa + " select[name*='spa']");
 
     if($(c.mainFormSpa).length && !c.isSmall && $(c.newPopupSpa).length ){ 	
       
+      console.log(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`);
+      
     /* Если форма на главной отправляется успешно то данные передаем в корзину для дальнейшего оформления */
-      $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
+     // $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
   
+
+      $(`#form${c.mainFormSpa.slice(4)} .t-submit`).on('click', function(){
+        let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();   
+        $('a[href="#order:bookspa=1?sber=0"]').attr('href', '#order:bookspa=1?sber=0&spa=' + id);             
+        $('a[href="#order:bookspa=1?sber=0&spa=' + id + '"]').click().after(function(){
+        updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
+        $(c.mainFormSpa).hide(); 
+        });
+      });
+
       window.openCart = function ($form) {
+
+        console.log('g');
   
         let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();   
 
@@ -935,10 +956,11 @@ $('a[href^="#order"]').on('click', function(e){
       //  timepicker.set('select', c.$main_time_field.attr( 'value') );
 
         $('a[href="#order:bookspa=1?sber=0"]').attr('href', '#order:bookspa=1?sber=0&spa=' + id);             
-         /* запускаем форму */
+         
+        /* запускаем форму */
           $('a[href="#order:bookspa=1?sber=0&spa=' + id + '"]').click().after(function(){
             updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
-          //  console.log(c.$main_date_field.data('value')); 
+            console.log('hello ' + c.$main_date_field.data('value')); 
             /* прячем форму на главной */
             $(c.mainFormSpa).hide(); 
           });
@@ -950,4 +972,6 @@ $('a[href^="#order"]').on('click', function(e){
     };
 
 });
+
+
 

@@ -235,11 +235,11 @@ body{
 
 .video-bg{
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     video{
         object-fit: cover;
         width: 100%;
-        height: 100%;
+        height: 110%;
     }
 }
 
@@ -364,6 +364,10 @@ body .scale-active .t-zoomer__scale.showed {
         background-repeat: no-repeat;
         background-position: center;
         background-size: auto 20px;
+        color: transparent!important;
+        a{
+            color: transparent!important;
+        }
         &:nth-child(1){
             background-image: url(https://bordata.ru/files/nav/spa-icon.svg);
         }
@@ -389,6 +393,10 @@ body .scale-active .t-zoomer__scale.showed {
       background-repeat: no-repeat;
       background-position: center;
       background-size: auto 20px;
+      color: transparent!important;
+        a{
+            color: transparent!important;
+        }
       &:nth-child(1){
           background-image: url(https://bordata.ru/files/darknav/spa-icon.svg);
       }
@@ -1911,4 +1919,35 @@ bottom: 0;
 
 .picker--focused .picker__list-item--disabled, .picker__list-item--disabled, .picker__list-item--disabled:hover {    
     display: none;
+}
+
+
+#rec417856854,
+#rec417880695,
+#rec417893468{
+   // pointer-events: none;
+  //  margin-top: -250px;
+  //  @include respond-to(mobile){ margin-top: -1030px; }  
+    transition: margin-top 0.2s ease 0.1s, opacity 0.2s ease;
+  //  opacity: 0;
+    .tn-elem{
+   //     transform: scaleY(0.8) translateY(50px);
+   //     opacity: 0;
+        transition: all 0.1s ease;
+    }
+    &.open{
+        opacity: 1;
+        pointer-events: all;
+        margin-top: 0px;
+        transition: margin-top 0.4s ease, opacity 0.1s ease  0.3s;
+        .tn-elem{
+            transform: scaleY(1) translateY(0);
+            opacity: 1;
+            transition: all 0.5s ease 0.1s;
+        }
+    }
+}
+
+.tl-widgets-container{
+    @include respond-to(mobile){ bottom: 54px!important; }  
 }
