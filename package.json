@@ -46,7 +46,7 @@
     "readmore-js": "^2.2.1",
     "schema-utils": "2.6.6",
     "smoothscroll-for-websites": "^1.4.10",
-    "vidbacking": "^2.0.1",
+    "vidbacking": "^2.1.0",
     "zlib": "^1.0.5"
   }
 }

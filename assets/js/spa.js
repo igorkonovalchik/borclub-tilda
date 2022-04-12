@@ -194,10 +194,11 @@ const goConfetti = ($f) => {
 		$('.video-bg video').controls = false;
 		$('.video-bg video').attr('poster', picFile).attr('src',videoFile).after(function() {
 			$('#mp4BgVideo').attr('src',videoFile).after(function(){
+			//	$('.video-bg video').prop('muted',true).trigger('play');
 				$('.video-bg').vidbacking().after(function(){
 					$('.video-bg video').prop('muted',true).trigger('play');
 					
-				 });
+				 }); 
 			 });
 		});
 	 };
