@@ -4,6 +4,7 @@ import * as f from './gFunctions'
 
 const adminID = coo.getCookie('adminID');
 
+
 if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borclub.ru/gift
 
    $('.formloader').hide();
@@ -45,8 +46,8 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
     $(c.cartId + " input[name='Email']").val( order.emailPayer ).attr( 'value', order.emailPayer );
     $(c.cartId + " input[name='name']").val( order.namePayer ).attr( 'value', order.namePayer );
     $(c.cartId + " input[name='phone']").val( order.phonePayer ).attr( 'value', order.phonePayer );
-   // console.log(window.tcart);  
-   // console.log(order); 
+    console.log(window.tcart);  
+    console.log(order); 
     fn && fn();
  };
 
@@ -889,7 +890,10 @@ $('#rec333338756 .tn-elem__3333387561626440005102').click(function () {
    if($(c.formRecipient + " input[name='nameRecipient']").val() == ''){ empty = true; };
    if($(c.formRecipient + " input[name='phoneRecipient']").val() == ''){ empty = true; };
 
-   if(empty){ $(c.formRecipient).submit(); 
+   if(empty){ 
+      
+    //  $(c.formRecipient).submit(); 
+      $(c.formRecipient + ' .t-submit').click(); 
    
    }else{
       const fields = Object.entries(order);
@@ -915,7 +919,8 @@ $('#rec333346474 .tn-elem__3333464741626703560639').click(function () {
    if($(c.formGiftText + " input[name='fromGift']").val() == '' && order.anonim == 'no'){ empty = true; };
 
    if(empty){ 
-      $(c.formGiftText).submit();   
+     // $(c.formGiftText).submit();   
+      $(c.formGiftText + ' .t-submit').click(); 
    }else{
       const fields = Object.entries(order);
       for (const [key, value] of fields) { 
@@ -947,7 +952,8 @@ $('#rec387826769 .tn-elem__3878267691639389692763').click(function(){
       if(nameDeliveryRecipientInput.val() == ''){ empty = true; };
       if(phoneDeliveryRecipientInput.val() == ''){ empty = true; };
       if(empty){ 
-         $(c.formDelivery).submit();   
+       //  $(c.formDelivery).submit();   
+         $(c.formDelivery + ' .t-submit').click(); 
       }else{
          order.nameDeliveryRecipient = nameDeliveryRecipientInput.val() 
          order.phoneDeliveryRecipient = phoneDeliveryRecipientInput.val(); 
@@ -970,7 +976,9 @@ $('#rec333366093 .tn-elem__3333660931627989962217').click(function () {
    if($(c.formPayer + " input[name='emailPayer']").val() == ''){ empty = true; };
 
    if(empty){ 
-      $(c.formPayer).submit();   
+     // $(c.formPayer).submit();   
+
+     $(c.formPayer + ' .t-submit').click();
    }else{
       const fields = Object.entries(order);
       for (const [key, value] of fields) { 
@@ -985,18 +993,19 @@ $('#rec333366093 .tn-elem__3333660931627989962217').click(function () {
       setTimeout(() => {      
          $('.formloader').show();               
             fillCart(function(){  
-            $(c.cartId).submit();                          
+               // $(c.cartId).submit();    
+                $(c.cartId + ' .t-submit').click();                      
             });                      
       }, 500);
    };          
 });  
 
-
+/*
      
 $(c.cartId).submit(function(e) {         
          coo.deleteCookie('orderGift');       
       });             
-
+*/
 
 
 /* Событие успешной отправки формы в Zero блоке */
