@@ -39,12 +39,12 @@ if(response == 'times' && !c.activeYclients){ // запрашиваем цены
     data: 'response=' + response + '&spa=' + spaId + '&time=' + time + '&day=' + day  + '&cart='+encodeURIComponent(JSON.stringify(window.tcart)),
     dataType: 'json',
     success: function(data){  
-       console.log('data from yclients');   
-       console.log(data);        
+      // console.log('data from yclients');   
+      // console.log(data);        
       $f && $f(data);
     },
     error: function() { 
-      console.log('huston we have a problem with Yclients');   
+      // console.log('huston we have a problem with Yclients');   
       let data = {
         times: null,
         days: null,

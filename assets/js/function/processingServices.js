@@ -1,6 +1,6 @@
 const processingServices = (data) => {
   if(data === null || data.length === 0 ){ 
-    console.log('Нет услуг для загрузки цен');    
+   // console.log('Нет услуг для загрузки цен');    
     return false;
   };
   const $rentMinArr = data.sort(function(a, b) {

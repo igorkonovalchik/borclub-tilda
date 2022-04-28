@@ -30,7 +30,7 @@ function getTotalCost(currentTime, weekDay, spaId) {
 
   }; */
 
-  console.log(TotalCost)
+ // console.log(TotalCost)
   return TotalCost;
 
 }

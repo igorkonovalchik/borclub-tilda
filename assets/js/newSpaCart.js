@@ -381,6 +381,7 @@ $(document).ready(function(){
 
   c.$date_field.parent().parent().addClass('w50').addClass('datefield');
   c.$time_field.parent().parent().addClass('w50').addClass('timefield');
+  $("#rec279462841 input:checkbox[name*='whatsapp']").data('value', 'no_whatsapp' ).attr('value', 'no_whatsapp' );
 
 if($(c.newPopupSpa).length ){ 
     $(c.newPopupSpa + ' .t706__cartwin-products').remove();
@@ -783,12 +784,21 @@ if($(c.newPopupSpa).length ){
       }
     });
 
+
     c.$spa_field.change(function() {
         
         const id = $(c.newPopupSpa + " select[name*='spa'] option:selected").index(); 
         updateFields( id, loadMonth, c.$date_field.data('value')); 
 
     });
+
+    $( "#rec279462841 input:checkbox[name*='whatsapp']").parent().click(function() {
+
+      const input = $("#rec279462841 input:checkbox[name*='whatsapp']"); 
+      const value = input.is(':checked') ? 'yes_whatsapp' : 'no_whatsapp';
+      input.data('value', value ).attr('value', value ); 
+
+  });
     
 
     $(c.newPopupSpa +' input[type=radio][name=paymentsystem]').change(function() {
@@ -805,7 +815,7 @@ if($(c.newPopupSpa).length ){
     });
 
     $(document).on('click','a[href="#close"], '+ c.newPopupSpa +' .t396__filter',function(e){
-        // console.log('закрываем корзину');
+         console.log('закрываем корзину');
         // console.log(c.$date_field.data('value'));
         $("body").css("overflow","auto");
         $("#nav188296220").css("position","fixed");
@@ -869,11 +879,11 @@ $('a[href^="#openspa"]').on('click', function(e){
 
 $('a[href^="#order"]').on('click', function(e){   
 
-     console.log('id '); 
+    // console.log('id '); 
 
   // console.log(loadMonth); 
 
-    $("body").css("overflow","hidden");    
+  //  $("body").css("overflow","hidden");    
 
     if(c.isSmall){ $("#rec196832202").css("position","absolute"); };
 
@@ -888,7 +898,7 @@ $('a[href^="#order"]').on('click', function(e){
           
     let id = param.spa === undefined || param.spa === NaN ? c.$id_field.val() : param.spa; 
 
-    console.log('id -' + id); 
+   // console.log('id -' + id); 
 
     c.$id_field.val(id).attr('value', id);
     
@@ -924,13 +934,13 @@ $('a[href^="#order"]').on('click', function(e){
 
      /* Заполнение формы датой и временем на главной  */
 
-     console.log('gooo');
+   //  console.log('gooo');
 
     // const $main_spa_field = $(c.mainFormSpa + " select[name*='spa']");
 
     if($(c.mainFormSpa).length && !c.isSmall && $(c.newPopupSpa).length ){ 	
       
-      console.log(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`);
+     // console.log(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`);
       
     /* Если форма на главной отправляется успешно то данные передаем в корзину для дальнейшего оформления */
      // $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
@@ -938,8 +948,8 @@ $('a[href^="#order"]').on('click', function(e){
 
       $(`#form${c.mainFormSpa.slice(4)} .t-submit`).on('click', function(){
         let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();   
-        $('a[href="#order:bookspa=1?sber=0"]').attr('href', '#order:bookspa=1?sber=0&spa=' + id);             
-        $('a[href="#order:bookspa=1?sber=0&spa=' + id + '"]').click().after(function(){
+        $('a[href="#order:bookspa=1?sber=0"]').attr('href', '#order:bookspa=1?sber=0&spa=' + id);            
+        $('a[href="#order:bookspa=1?sber=0&spa=' + id + '"]')[0].click().after(function(){
         updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
         $(c.mainFormSpa).hide(); 
         });
@@ -947,7 +957,7 @@ $('a[href^="#order"]').on('click', function(e){
 
       window.openCart = function ($form) {
 
-        console.log('g');
+      //  console.log('g');
   
         let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();   
 
@@ -960,7 +970,7 @@ $('a[href^="#order"]').on('click', function(e){
         /* запускаем форму */
           $('a[href="#order:bookspa=1?sber=0&spa=' + id + '"]').click().after(function(){
             updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
-            console.log('hello ' + c.$main_date_field.data('value')); 
+          //  console.log('hello ' + c.$main_date_field.data('value')); 
             /* прячем форму на главной */
             $(c.mainFormSpa).hide(); 
           });
