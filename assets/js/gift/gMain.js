@@ -46,8 +46,8 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
     $(c.cartId + " input[name='Email']").val( order.emailPayer ).attr( 'value', order.emailPayer );
     $(c.cartId + " input[name='name']").val( order.namePayer ).attr( 'value', order.namePayer );
     $(c.cartId + " input[name='phone']").val( order.phonePayer ).attr( 'value', order.phonePayer );
-    console.log(window.tcart);  
-    console.log(order); 
+   // console.log(window.tcart);  
+   // console.log(order); 
     fn && fn();
  };
 
@@ -128,6 +128,8 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
 
 
 $(document).ready(function(){   
+
+
    
    const cleanDelivery = () => { 
       $('.tn-elem__3878267691638791643562').hide();
@@ -298,7 +300,8 @@ const mapInit = ($f) => {
       setTimeout(function () {
          $('.formloader').show();
     }, 500);
-      $('.tn-elem__3333327591625571917544 a').click();      // прыгаем на первый слайд формы   
+     //  $('.tn-elem__3333327591625571917544 a').click();      // прыгаем на первый слайд формы   
+      $("#rec333363861 .t397__tab:eq(0)")[0].click();
       if(adminID == '198934435'){  
        //  $('.tn-elem__3288066801638792323223 a').click(); // детали доставки
        //  $('.tn-elem__3288066801639051483155 a').click(); // доставка или самовывоз
@@ -415,7 +418,7 @@ const mapInit = ($f) => {
             polyfill: false
          }).on('input', function() {    
             refreshPrice(this.value);
-            const price = this.value + order.priceDelivery;
+            const price = Number(this.value) + Number(order.priceDelivery);
             $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(price + '')); 
          });            
 
@@ -698,8 +701,7 @@ const mapInit = ($f) => {
       }, 500);  
     });        
 
-   $(document).ajaxSuccess(function( ){     
-      console.log('ajax');         
+   $(document).ajaxSuccess(function( ){             
       addRangeSlider(order.price);
       addGiftFields();   
    }); 
@@ -714,10 +716,16 @@ const mapInit = ($f) => {
     });
     */
 
+    const refreshhCookie = () => {
+      coo.deleteCookie('orderGift'); 
+      coo.setCookie('orderGift', c.emptyOrder, {expires: Date(1), domain: 'borclub.ru'});  
+    };
+
      /* #rec389763134 - форма выбора способа получения */        
 
    
    c.zonePickup.click(function () {
+      refreshhCookie();
       c.checkPickup.show("fast");
       c.checkDelivery.hide("fast"); 
       c.getNextButton.attr('href', '#!/tab/333363861-5');
@@ -727,7 +735,8 @@ const mapInit = ($f) => {
    });
 
 
-   c.zoneDelivery.click(function () {            
+   c.zoneDelivery.click(function () { 
+      refreshhCookie();           
       c.checkPickup.hide("fast");
       c.checkDelivery.show("fast"); 
       c.getNextButton.attr('href', '#!/tab/333363861-6');
@@ -742,6 +751,7 @@ const mapInit = ($f) => {
 
 
    c.zoneDigital.click(function () {
+      refreshhCookie(); 
       c.checkDigital.show( "fast", function() {
          c.pixDigital.show();
        });
@@ -759,7 +769,8 @@ const mapInit = ($f) => {
    });
 
 
-   c.zoneOffline.click(function () {            
+   c.zoneOffline.click(function () { 
+      refreshhCookie();           
       c.checkOffline.show( "fast", function() {
          c.pixOffline.show();
        });
@@ -806,10 +817,21 @@ const mapInit = ($f) => {
 
 /* прыг по табам */
 
+
 $(function () {
    $('a').click(function() {
       const href =  $(this).attr('href');     
+
+    //   $(".t397__tab:eq(1)")[0].click();
    //   console.log(order);  
+
+
+
+   if(href.includes('333363861')){
+      const slide = Number(href.slice(-1)) - 1; 
+      $("#rec333363861 .t397__tab:eq(" + slide + ")")[0].click();
+   };
+
       switch (href) {
          case '#!/tab/333363861-3':
             $('.formloader').show();
@@ -870,7 +892,8 @@ $(function () {
                      $(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc').after('<label></label>'); 
                   };  
                   $('.formloader').hide();  
-               }, 100);    
+               }, 100);   
+               
          break;
 
          default:            
@@ -960,7 +983,7 @@ $('#rec387826769 .tn-elem__3878267691639389692763').click(function(){
          order.deliveryDescription = deliveryDescriptionTextArea.val(); 
          if(order.namePayer == ''){ updateCookie('namePayer', order.nameDeliveryRecipient);  }; 
          if(order.phonePayer == ''){ updateCookie('phonePayer', order.phoneDeliveryRecipient); }; 
-         console.log(order);
+         
          $('#rec387826769 .tn-elem__3878267691626703560630 a').click(); 
       };  
    };
@@ -975,9 +998,12 @@ $('#rec333366093 .tn-elem__3333660931627989962217').click(function () {
    if($(c.formPayer + " input[name='phonePayer']").val() == ''){ empty = true; };
    if($(c.formPayer + " input[name='emailPayer']").val() == ''){ empty = true; };
 
+   if(order.getGift == 'delivery' && order.priceDelivery == 0){ 
+      $("#rec333363861 .t397__tab:eq(0)")[0].click();
+   };
+
    if(empty){ 
      // $(c.formPayer).submit();   
-
      $(c.formPayer + ' .t-submit').click();
    }else{
       const fields = Object.entries(order);
