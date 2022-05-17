@@ -315,7 +315,7 @@ if( $('#block-search').length && c.isSmall ) {
 
 		};
 
-		if( $('.video-part').length ){
+	/*	if( $('.video-part').length ){
 
 			let video = '';
 
@@ -341,7 +341,7 @@ if( $('#block-search').length && c.isSmall ) {
 							}
 						}
 					})
-			};
+			}; */
 
 			if(pageYOffset > 200){
 				$('#rec283013101').addClass('add-shadow');
