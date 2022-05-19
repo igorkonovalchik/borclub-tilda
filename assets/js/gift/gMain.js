@@ -31,10 +31,20 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
     window.tcart.total = totalPrice;
     window.tcart.prodamount = totalPrice;
     window.tcart.amount = totalPrice;  
-    window.tcart.products.push({ name: 'Сертификат', amount: price }); 
+    window.tcart.products.push({ 
+       name: 'Gift',
+       amount: price,
+       price: price,
+       quantity: 1
+      }); 
     if(order.address !== '' && order.priceDelivery !== 0 && order.getGift == 'delivery'){ 
       updateCookie('gift', 'offline');
-      window.tcart.products.push({ name: 'Доставка', amount: order.priceDelivery }); 
+      window.tcart.products.push({ 
+         name: 'Delivery=1', 
+         amount: order.priceDelivery,
+         price: order.priceDelivery,
+         quantity: 1
+       }); 
      };      
     window.tcart.system = 'sberbank'; 
     const fields = Object.entries(order);
@@ -128,7 +138,6 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
 
 
 $(document).ready(function(){   
-
 
    
    const cleanDelivery = () => { 
@@ -299,9 +308,10 @@ const mapInit = ($f) => {
    if(window.location.hash.includes('#!/tab/333363861')){     
       setTimeout(function () {
          $('.formloader').show();
+         $("#rec333363861 .t397__tab:eq(0)")[0].click();
     }, 500);
-     //  $('.tn-elem__3333327591625571917544 a').click();      // прыгаем на первый слайд формы   
-      $("#rec333363861 .t397__tab:eq(0)")[0].click();
+    //  $("a[href$='#!/tab/333363861-1']").click();      // прыгаем на первый слайд формы   
+     
       if(adminID == '198934435'){  
        //  $('.tn-elem__3288066801638792323223 a').click(); // детали доставки
        //  $('.tn-elem__3288066801639051483155 a').click(); // доставка или самовывоз
@@ -1025,6 +1035,8 @@ $('#rec333366093 .tn-elem__3333660931627989962217').click(function () {
       }, 500);
    };          
 });  
+
+
 
 /*
      
