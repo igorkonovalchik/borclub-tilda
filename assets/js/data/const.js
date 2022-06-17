@@ -26,6 +26,7 @@ export const mainFormSpa = varMainFormSpa; /* форма брони бани н�
 export const $main_time_field = $(varMainFormSpa + " input[name*='time']");
 export const $main_date_field = $(varMainFormSpa + " input[name*='date']");
 export const $main_day_field = $(varMainFormSpa + " input[name*='day']");
+export const $main_submit_field = $(varMainFormSpa + " .t-submit");
 
 export const width = document.documentElement.clientWidth;
 export const height = document.documentElement.clientHeight;

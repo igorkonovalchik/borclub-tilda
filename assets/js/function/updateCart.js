@@ -5,6 +5,8 @@ const spas = require('./../data/spadata')
 
 const updateCart = (id = -1, price = 0, product = false, delProduct = false) => {  
   
+// console.log('price - ' + price);
+
   if(id === -1 && price === 0){ 
     if(window.tcart !== undefined){
       window.tcart.total = 0;

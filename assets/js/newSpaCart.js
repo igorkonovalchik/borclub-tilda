@@ -940,7 +940,7 @@ $('a[href^="#order"]').on('click', function(e){
 
     if($(c.mainFormSpa).length && !c.isSmall && $(c.newPopupSpa).length ){ 	
       
-     // console.log(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`);
+      console.log(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`);
       
     /* Если форма на главной отправляется успешно то данные передаем в корзину для дальнейшего оформления */
      // $(`#form${c.mainFormSpa.slice(4)}.js-form-proccess`).data('success-callback', 'window.openCart' );
@@ -948,34 +948,16 @@ $('a[href^="#order"]').on('click', function(e){
 
       $(`#form${c.mainFormSpa.slice(4)} .t-submit`).on('click', function(){
         let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();   
-        $('a[href="#order:bookspa=1?sber=0"]').attr('href', '#order:bookspa=1?sber=0&spa=' + id);            
-        $('a[href="#order:bookspa=1?sber=0&spa=' + id + '"]')[0].click().after(function(){
-        updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
-        $(c.mainFormSpa).hide(); 
+        $('a[href="#order:bookspa=1?sber=0"]').attr('href', '#order:bookspa=1?sber=0&spa=' + id);
+                   
+        $('a[href="#order:bookspa=1?sber=0&spa=' + id + '"]')[0].click(function(){
+          updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
+          c.$main_date_field.prop('disabled', true);
+          c.$main_time_field.prop('disabled', true);
+          c.$main_day_field.prop('disabled', true);
+          c.$main_submit_field.prop('disabled', true);
         });
       });
-
-      window.openCart = function ($form) {
-
-      //  console.log('g');
-  
-        let id = $(c.mainFormSpa + " select[name*='spa'] option:selected").index();   
-
-       // updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
-      //  datepicker.set('select', c.$main_date_field.data('value'), { format: 'yyyy/mm/dd' });
-      //  timepicker.set('select', c.$main_time_field.attr( 'value') );
-
-        $('a[href="#order:bookspa=1?sber=0"]').attr('href', '#order:bookspa=1?sber=0&spa=' + id);             
-         
-        /* запускаем форму */
-          $('a[href="#order:bookspa=1?sber=0&spa=' + id + '"]').click().after(function(){
-            updateFields( id, loadMonth, c.$main_date_field.data('value') ); 
-          //  console.log('hello ' + c.$main_date_field.data('value')); 
-            /* прячем форму на главной */
-            $(c.mainFormSpa).hide(); 
-          });
-
-        };
         
       };
 
