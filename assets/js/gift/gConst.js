@@ -39,7 +39,8 @@ export const emptyOrder = {
   getGift: 'pickup',
   priceDelivery: 0,
   geo_lon: '',
-  geo_lat: '' 
+  geo_lat: '',
+  devMode: '' 
 }; 
 
 export const maxPrice = '200000'; // Максимальная стоимость

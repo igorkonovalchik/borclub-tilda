@@ -46,7 +46,8 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
          quantity: 1
        }); 
      };      
-    window.tcart.system = 'sberbank'; 
+    window.tcart.system = order.devMode !== '1' ? 'sberbank' : 'banktransfer';
+
     const fields = Object.entries(order);
     for (const [key, value] of fields) { 
        if($(c.cartId + " input[name='" + key + "']").length && value !== ''){ 
@@ -139,7 +140,11 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
 
 $(document).ready(function(){   
 
-   
+   const devMode = f.getUrlParameter('dev') == 1? '1' : '0';
+   updateCookie('devMode', devMode);
+
+   console.log(order.devMode);
+
    const cleanDelivery = () => { 
       $('.tn-elem__3878267691638791643562').hide();
       $('.tn-elem__3878267691638791606123').hide();
@@ -150,8 +155,9 @@ $(document).ready(function(){
 
    cleanDelivery();
 
-   $(c.cartId + " input[name='paymentsystem'][value='sberbank']").prop('checked', true);  
-   
+   if(order.devMode !== '1'){  $(c.cartId + " input[name='paymentsystem'][value='sberbank']").prop('checked', true);  }else{
+      $(c.cartId + " input[name='paymentsystem'][value='banktransfer']").prop('checked', true);
+   };
    
 
 const mapInit = ($f) => {
@@ -387,7 +393,7 @@ const mapInit = ($f) => {
    };      
 
    
-   const addRangeSlider = (price = '0') => {   
+   const addRangeSlider = (price = 0) => {   
       
       price = price == 0 ? $(c.formPrice + " input[name='inputRange']").attr('placeholder')  :  price;
                   
@@ -397,7 +403,11 @@ const mapInit = ($f) => {
 
       price = f.delimiter( price ); 
 
-      $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(priceDelivery));
+      const oldPrice = Number($(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text().replace(/\s+/g, ''));
+      if(oldPrice !== priceDelivery){
+         $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(priceDelivery));
+       }; 
+
       if ( !$(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper label').length ){ 
          $(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc').after('<label></label>'); 
       };  
@@ -442,8 +452,6 @@ const mapInit = ($f) => {
 
          $(c.formPrice + " input[name='inputRange']").on('change', function() {
             refreshPrice(this.value);
-            const price = this.value + order.priceDelivery;
-            $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(price + '')); 
           });    
 
          };           
@@ -536,8 +544,11 @@ const mapInit = ($f) => {
                      $gift_date_field.addClass('t-input_bbonly'); 
                   },
                   onSet: function(context){  
-                     updateCookie('datere', $gift_date_field_submit.data('value') );  
-                    // console.log(order);                                                             
+                      const $gift_date_field_submit = $("#rec333346474 input[name*='datere_submit']");
+                     updateCookie('datere', $gift_date_field_submit.val() ); 
+                     updateCookie('datere_submit', $gift_date_field_submit.val() );
+                      console.log(order);    
+                                                                             
                   }
                });    
 
@@ -839,7 +850,7 @@ $(function () {
 
    if(href.includes('333363861')){
       const slide = Number(href.slice(-1)) - 1; 
-      $("#rec333363861 .t397__tab:eq(" + slide + ")")[0].click();
+      $("#rec333363861 .t397__tab:eq(" + slide + ")")[0].click(); 
    };
 
       switch (href) {
@@ -877,7 +888,7 @@ $(function () {
 
          case '#!/tab/333363861-5':  
                $('.formloader').show();
-               
+               addGiftFields(); 
                setTimeout(() => {   
                   let totalPrice = order.price;
                   let backPage;
@@ -897,7 +908,11 @@ $(function () {
                  //  console.log('back - ' + backPage);
                    c.backPayerButton.attr('href', '#!/tab/333363861-' + backPage ); 
                   // console.log(c.backPayerButton.attr('href'));
-                   $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(totalPrice));
+                  const oldPrice = Number($(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text().replace(/\s+/g, ''));
+                  if(oldPrice !== totalPrice){
+                     $(c.formPayer + " .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc").text(f.delimiter(totalPrice));
+                   }; 
+                   
                   if ( !$(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper label').length ){ 
                      $(c.formPayer + ' .t-input-group_fr .t-input-block .t-calc__wrapper .t-calc').after('<label></label>'); 
                   };  
