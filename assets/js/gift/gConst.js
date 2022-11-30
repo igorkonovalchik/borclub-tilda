@@ -56,8 +56,8 @@ export const formPayer = '#form333366093'; // Форма ввода данных
 
 export const formDelivery = '#form387826769'; // Форма выбора самовывоз / доставка
 
-export const fromGeoLat = '59.961602';
-export const fromGeoLon = '30.320593';
+export const fromGeoLat = '59.965678';
+export const fromGeoLon = '30.288874';
 
 export const cartId = '#form337742765'; // Корзина
 

@@ -52,7 +52,7 @@ export const geocode = (address, $f ) => {
     data: 'address=' + address,
     dataType: 'json',
     success: function(data){   
-      console.log(data); 
+     // console.log(data); 
       data.status = true;       
       $f && $f(data);
     },

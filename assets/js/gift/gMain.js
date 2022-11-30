@@ -174,7 +174,7 @@ const mapInit = ($f) => {
          controls: []
      }),
 
-   borPlacemark = new ymaps.Placemark([60.150770, 29.928411], {
+   borPlacemark = new ymaps.Placemark([59.965678, 30.288874], {
              
         }, {
               iconLayout: 'default#image',
@@ -187,7 +187,7 @@ const mapInit = ($f) => {
 
    const clearMap = () =>{
       map.geoObjects.remove(multiRoute).add(borPlacemark);
-      map.panTo([60.150770, 29.928411], { delay: 2500, flying: true }); 
+      map.panTo([59.965678, 30.288874], { delay: 2500, flying: true }); 
    }
 
    clearMap();
