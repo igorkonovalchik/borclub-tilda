@@ -184,6 +184,13 @@ const goConfetti = ($f) => {
 		$f && $f();
 	
 	};
+
+	const hideLoader = () =>{
+		if($('#rec193546060').length ){  $("#rec193546060").delay(150).fadeOut('slow').hide(); };
+		if($('#rec191800303').length ){ $("#rec191800303").delay(150).fadeOut('slow').hide(); };
+		if($('.preloader').length ){ $(".preloader").delay(250).hide(); };
+		$("body").css("overflow","auto");
+}
 	
 
 	if( $('.video-bg').length ){
@@ -197,7 +204,7 @@ const goConfetti = ($f) => {
 			//	$('.video-bg video').prop('muted',true).trigger('play');
 				$('.video-bg').vidbacking().after(function(){
 					$('.video-bg video').prop('muted',true).trigger('play');
-					
+					hideLoader();
 				 }); 
 			 });
 		});
@@ -206,21 +213,10 @@ const goConfetti = ($f) => {
 	// $("body").css("overflow","hidden");
 
 
-	const hideLoader = () =>{
+
 
 	
-
-			if($('#rec193546060').length ){  $("#rec193546060").delay(150).fadeOut('slow').hide(); };
-			if($('#rec191800303').length ){ $("#rec191800303").delay(150).fadeOut('slow').hide(); };
-			if($('.preloader').length ){ $(".preloader").delay(250).hide(); };
-			$("body").css("overflow","auto");
-	
-		
-
-	}
-
-	
-	if($("#world").length){
+	if($("#world").length && !$("#bgVideo").length){
 		hideLoader();
 		goConfetti(function(){
 			setTimeout(function() {
@@ -228,10 +224,14 @@ const goConfetti = ($f) => {
 		}, 1000);
 		}); 
 	}else{
-		setTimeout(function() {
-		hideLoader();
-	}, 500);
+		
+			setTimeout(function() {
+				hideLoader();
+			}, 500);
+		
 	};
+
+
 
 
 
@@ -245,7 +245,7 @@ if( $('#block-search').length && c.isSmall ) {
 	// console.log('block-search');
 	// $('#block-search').css('opacity', 0);
 	$('a[href^="#openbook"]').on('click', function(e){
-		console.log('hello');
+		// console.log('hello');
 		$('.tn-elem__2372683081589532518829').hide();
 		$('#block-search').css('opacity', 1);
 	 });

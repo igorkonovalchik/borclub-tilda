@@ -379,6 +379,8 @@ const loadingField = (start = true, fields = 'datetime') => {
 
 $(document).ready(function(){ 
 
+
+
   c.$date_field.parent().parent().addClass('w50').addClass('datefield');
   c.$time_field.parent().parent().addClass('w50').addClass('timefield');
   $("#rec279462841 input:checkbox[name*='whatsapp']").data('value', 'no_whatsapp' ).attr('value', 'no_whatsapp' );
@@ -815,7 +817,7 @@ if($(c.newPopupSpa).length ){
     });
 
     $(document).on('click','a[href="#close"], '+ c.newPopupSpa +' .t396__filter',function(e){
-         console.log('закрываем корзину');
+       //  console.log('закрываем корзину');
         // console.log(c.$date_field.data('value'));
         $("body").css("overflow","auto");
         $("#nav188296220").css("position","fixed");
@@ -825,13 +827,14 @@ if($(c.newPopupSpa).length ){
   
    });
 
-   $(document).on('click',c.newPopupSpa + ' .t-popup__close',function(){        
+   $(document).on('click',c.newPopupSpa + ' .t706__close-button',function(){  
+    console.log('click t706__close-button');      
         $("body").css("overflow","auto");
         $("#nav188296220").css("position","fixed");
         if(c.isSmall){ $("#rec196832202").css("position","relative");
            $("#rec238782757 .t450__burger_container").css("display","block");
       };
-
+    $(c.newPopupSpa + ' .t706__cartwin').removeClass('t706__cartwin_showed');
     });
 
     $(`#form${c.newPopupSpa.slice(4)}.js-form-proccess`).data('formsended-callback', 'window.hideInput' );
