@@ -46,7 +46,7 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
          quantity: 1
        }); 
      };      
-    window.tcart.system = order.devMode !== '1' ? 'sberbank' : 'banktransfer';
+    window.tcart.system = order.devMode == 'no' ? 'sberbank' : 'banktransfer';
 
     const fields = Object.entries(order);
     for (const [key, value] of fields) { 
@@ -140,10 +140,10 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
 
 $(document).ready(function(){   
 
-   const devMode = f.getUrlParameter('dev') == 1? '1' : '0';
+   const devMode = f.getUrlParameter('dev') ? f.getUrlParameter('dev') : 'no';
    updateCookie('devMode', devMode);
 
-   console.log(order.devMode);
+   // console.log(order.devMode);
 
    const cleanDelivery = () => { 
       $('.tn-elem__3878267691638791643562').hide();
@@ -155,7 +155,7 @@ $(document).ready(function(){
 
    cleanDelivery();
 
-   if(order.devMode !== '1'){  $(c.cartId + " input[name='paymentsystem'][value='sberbank']").prop('checked', true);  }else{
+   if(order.devMode == 'no'){  $(c.cartId + " input[name='paymentsystem'][value='sberbank']").prop('checked', true);  }else{
       $(c.cartId + " input[name='paymentsystem'][value='banktransfer']").prop('checked', true);
    };
    
