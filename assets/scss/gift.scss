@@ -259,7 +259,7 @@ body.t-body_nolocked{
 
 
 .envelope .back .letter .card{
- positiom: relative;
+ position: relative;
  width: 100%;
  height: 100%;
  transform-style: preserve-3d;
@@ -545,6 +545,30 @@ body.t-body_nolocked{
 
 .tn-elem__3395970881627293285462 .card .back {
   background-image: url(https://bordata.ru/files/gift/card_green_back.svg); 
+}
+
+.tn-elem__3395970881627293285462 .card .back .qr{
+  background-color: transparent;
+  position: absolute;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 0;
+    border: 0;
+    opacity: 0;
+}
+
+.tn-elem__3395970881627293285462 .card .back .qr.activate{
+  opacity: 1;
+}
+
+.qr-attention{
+  opacity: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.qr-attention.activate{
+
+  opacity: 1;
 }
 
 .card .back {

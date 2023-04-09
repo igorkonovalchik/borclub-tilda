@@ -13,6 +13,8 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
 
       c.giftActivateRec.addClass('activate');
 
+      
+
       c.nameDiv.text('сертификат успешно');
       $('.tn-elem__3395970881627292855661 .tn-atom').text('активирован');
       $('.tn-elem__3395970881627292937714 .tn-atom').html(`
@@ -44,6 +46,13 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
           order = data[0]; 
 
         //  console.log(data[0]);
+        
+        if(order['qr_url'] !== '' && order['qr_url'] !== null){
+          console.log(order['qr_url']);
+          $('.card .back .qr').addClass('activate').css('background', 'url(' + order['qr_url'] + ') top center no-repeat').css('background-size','contain');
+
+        };
+        
 
           order.code = '0';
 
@@ -151,10 +160,13 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
 
           setTimeout(function () {
                 $('.tn-elem__3395970881627293285462 .card').toggleClass('flipped');
-          }, 3000);
+          }, 2000);
 
           setTimeout(function () {
             $('.tn-elem__3395970881627293285462 .card').toggleClass('flipped');
+            if(order['qr_url'] !== '' && order['qr_url'] !== null){
+              $('.qr-attention').addClass('activate'); 
+            }
            }, 4700);
 
            if(activate !== undefined && activate == 'yes' && order.activate !== 'yes' ){
