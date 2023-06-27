@@ -31,10 +31,10 @@ function getWeekDay(date = 0, curTime = 0, weekDays = false) {
     if( isInPeriod( ms, '2022/05/02', '2022/05/03' ) || isInPeriod( ms, '2022/05/09', '2022/05/10' ) ){ day = 'h'; }; // 2, 3, 9, 10 мая
 
     if( isInPeriod( ms, '2022/11/04' ) ){ day = 'h' }; //  4 ноября 
-    if( isInPeriod( ms, '2021/05/01', '2021/05/10' ) ){ day = 'h' }; // c 1 мая по 10 мая 
-    if( isInPeriod( ms, '2021/05/10' ) || isInPeriod( ms, '2022/05/09' ) ){ day = 'h'; }; // 9 мая
+    if( isInPeriod( ms, '2023/05/01' ) ){ day = 'h' }; //  1 мая 
+    if( isInPeriod( ms, '2023/05/08', '2023/05/09' ) ){ day = 'h'; }; // 8, 9 мая
     if( isInPeriod( ms, '2021/06/14' ) || isInPeriod( ms, '2022/06/13' ) ){ day = 'h'; }; // 12 июня
-    if( isInPeriod( ms, '2022/06/15', '2022/06/18' ) ){ day = 'ny'; }; // 15 и 18 июня было fm
+    if( isInPeriod( ms, '2023/06/14', '2023/06/17' ) ){ day = 'fm'; }; // 14 и 17 июня было fm
     if( isInPeriod( ms, '2021/06/03' ) || isInPeriod( ms, '2021/06/04' ) ){ day = 'ny'; }; // 3 и 4 июня было fh
     if( isInPeriod( ms, '2021/11/04', '2021/11/05' ) || isInPeriod( ms, '2022/11/04' ) ){ day = 'h'; }; // 4 ноября
 

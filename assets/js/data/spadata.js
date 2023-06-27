@@ -90,7 +90,7 @@ yclientsServices: [
       "wm": 15000, 
       "we": 19000,
       "h": 23000,
-      "fm": 34500,
+      "fm": 37500,
       'fh': 46000
     },
     prices: [{
@@ -113,7 +113,7 @@ yclientsServices: [
 },
 {
   "name" : "fm",
-  "price" : 34500
+  "price" : 37500
 },
 {
   "name" : "fh",
@@ -141,7 +141,7 @@ yclientsServices: [
   },
   {
       "id": "7206813",
-      "price_max": "34500",
+      "price_max": "37500",
       "seance_length": 3600
   },
   {
@@ -194,7 +194,7 @@ octoberYclientsServices: [
       "wm": 12000, 
       "we": 15000,
       "h": 18000,
-      "fm": 27000,
+      "fm": 30000,
       'fh': 36000
     },
     prices: [{
@@ -217,7 +217,7 @@ octoberYclientsServices: [
 },
 {
   "name" : "fm",
-  "price" : 27000
+  "price" : 30000
 },
 {
   "name" : "fh",
@@ -247,7 +247,7 @@ yclientsServices: [
   },
   {
       "id": "7206818",
-      "price_max": "27000",
+      "price_max": "30000",
       "seance_length": 3600
   },
   {
@@ -300,7 +300,7 @@ octoberYclientsServices: [
         "wm": 12000, 
         "we": 15000,
         "h": 18000,
-        "fm": 27000,
+        "fm": 30000,
         'fh': 36000
       },
     prices: [{
@@ -323,7 +323,7 @@ octoberYclientsServices: [
 },
 {
   "name" : "fm",
-  "price" : 27000
+  "price" : 30000
 },
 {
   "name" : "fh",
@@ -354,7 +354,7 @@ yclientsServices:
   },
   {
       "id": "7206827",
-      "price_max": "27000",
+      "price_max": "30000",
       "seance_length": 0
   },
   {
@@ -408,7 +408,7 @@ octoberYclientsServices:
       "wm": 8000, 
       "we": 10000,
       "h": 12000,
-      "fm": 18000,
+      "fm": 19500,
       'fh': 24000
     },
     prices: [{
@@ -431,7 +431,7 @@ octoberYclientsServices:
 },
 {
   "name" : "fm",
-  "price" : 18000
+  "price" : 19500
 },
 {
   "name" : "fh",
@@ -461,7 +461,7 @@ yclientsServices: [
   },
   {
       "id": "7206833",
-      "price_max": "18000",
+      "price_max": "19500",
       "seance_length": 3600
   },
   {
@@ -514,7 +514,7 @@ octoberYclientsServices: [
       "wm": 8000, 
       "we": 10000,
       "h": 12000,
-      "fm": 18000,
+      "fm": 19500,
       'fh': 24000
     },
     prices: [{
@@ -537,7 +537,7 @@ octoberYclientsServices: [
 },
 {
   "name" : "fm",
-  "price" : 18000
+  "price" : 19500
 },
 {
   "name" : "fh",
@@ -567,7 +567,7 @@ yclientsServices: [
   },
   {
       "id": "7206833",
-      "price_max": "18000",
+      "price_max": "19500",
       "seance_length": 3600
   },
   {
@@ -620,7 +620,7 @@ octoberYclientsServices: [
       "wm": 5000, 
       "we": 6000,
       "h": 8000,
-      "fm": 12000,
+      "fm": 13500,
       'fh': 16000
     },
     prices: [{
@@ -643,7 +643,7 @@ octoberYclientsServices: [
 },
 {
   "name" : "fm",
-  "price" : 12000
+  "price" : 13500
 },
 {
   "name" : "fh",
@@ -673,12 +673,12 @@ yclientsServices: [
   },
   {
       "id": "7206839",
-      "price_max": "12000",
+      "price_max": "13500",
       "seance_length": 3600
   },
   {
       "id": "7206840",
-      "price_max": "16000",
+      "price_max": "13500",
       "seance_length": 3600
   }
 ],
@@ -701,12 +701,12 @@ octoberYclientsServices: [
   },
   {
       "id": "7206835",
-      "price_max": "12000",
+      "price_max": "13500",
       "seance_length": 0
   },
   {
       "id": "7206838",
-      "price_max": "16000",
+      "price_max": "13500",
       "seance_length": 3600
   }
 ]
@@ -726,7 +726,7 @@ octoberYclientsServices: [
       "wm": 5000, 
       "we": 6000,
       "h": 8000,
-      "fm": 12000,
+      "fm": 13500,
       'fh': 16000
     },
     prices: [{
@@ -749,7 +749,7 @@ octoberYclientsServices: [
 },
 {
   "name" : "fm",
-  "price" : 12000
+  "price" : 13500
 },
 {
   "name" : "fh",
@@ -779,12 +779,12 @@ yclientsServices: [
   },
   {
       "id": "7206839",
-      "price_max": "12000",
+      "price_max": "13500",
       "seance_length": 3600
   },
   {
       "id": "7206840",
-      "price_max": "16000",
+      "price_max": "13500",
       "seance_length": 3600
   }
 ],
@@ -807,7 +807,7 @@ octoberYclientsServices: [
   },
   {
       "id": "7206839",
-      "price_max": "12000",
+      "price_max": "13500",
       "seance_length": 3600
   },
   {
