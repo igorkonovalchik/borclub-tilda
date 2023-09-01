@@ -48,6 +48,8 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
      };      
     window.tcart.system = order.devMode == 'no' ? 'sberbank' : 'banktransfer';
 
+    
+
     const fields = Object.entries(order);
     for (const [key, value] of fields) { 
        if($(c.cartId + " input[name='" + key + "']").length && value !== ''){ 
@@ -140,8 +142,11 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
 
 $(document).ready(function(){   
 
+   console.log('test');
+
    const devMode = f.getUrlParameter('dev') ? f.getUrlParameter('dev') : 'no';
-   updateCookie('devMode', devMode);
+
+   if( $(c.cartId + " input[name='devMode']").val() == 0){ updateCookie('devMode', devMode);  }; 
 
    // console.log(order.devMode);
 
@@ -174,8 +179,9 @@ const mapInit = ($f) => {
          controls: []
      }),
 
-   borPlacemark = new ymaps.Placemark([59.965678, 30.288874], {
-             
+
+  // borPlacemark = new ymaps.Placemark([59.965678, 30.288874], {
+   borPlacemark = new ymaps.Placemark([59.909396, 30.255977], {        
         }, {
               iconLayout: 'default#image',
               iconImageHref: 'https://snazzy-maps-cdn.azureedge.net/assets/marker-43ad614e-415b-4fa7-8575-90edd86144a2.svg',

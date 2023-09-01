@@ -56,8 +56,11 @@ export const formPayer = '#form333366093'; // Форма ввода данных
 
 export const formDelivery = '#form387826769'; // Форма выбора самовывоз / доставка
 
-export const fromGeoLat = '59.965678';
-export const fromGeoLon = '30.288874';
+ export const fromGeoLat = '59.965678'; // Санкт-Петербург, Петрозаводская ул, дом 13, помещение 33Н
+ export const fromGeoLon = '30.288874'; // Санкт-Петербург, Петрозаводская ул, дом 13, помещение 33Н
+
+// export const fromGeoLat = '59.909396'; // Санкт-Петербург, Двинская ул, дом 3
+// export const fromGeoLon = '30.255977'; // Санкт-Петербург, Двинская ул, дом 3
 
 export const cartId = '#form337742765'; // Корзина
 

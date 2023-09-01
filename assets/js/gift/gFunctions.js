@@ -66,7 +66,7 @@ export const geocode = (address, $f ) => {
 };
 
 export const activateCard = (response, $f ) => {
-  console.log(response);  
+ // console.log(response);  
   $.ajax({
     type: "POST",
     url: `https://bordata.ru/gift/activateCard.php`,
