@@ -142,7 +142,7 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
 
 $(document).ready(function(){   
 
-   console.log('test');
+  // console.log('test');
 
    const devMode = f.getUrlParameter('dev') ? f.getUrlParameter('dev') : 'no';
 
@@ -553,7 +553,7 @@ const mapInit = ($f) => {
                       const $gift_date_field_submit = $("#rec333346474 input[name*='datere_submit']");
                      updateCookie('datere', $gift_date_field_submit.val() ); 
                      updateCookie('datere_submit', $gift_date_field_submit.val() );
-                      console.log(order);    
+                     // console.log(order);    
                                                                              
                   }
                });    
@@ -873,7 +873,7 @@ $(function () {
          break;
 
          case '#!/tab/333363861-6':
-            console.log(order); 
+           // console.log(order); 
             if(order.priceDelivery == 0 || order.priceDelivery == undefined){ 
                $('.formloader').show();
                ymaps.ready(mapInit(function(){ 
