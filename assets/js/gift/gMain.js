@@ -180,8 +180,9 @@ const mapInit = ($f) => {
      }),
 
 
-  // borPlacemark = new ymaps.Placemark([59.965678, 30.288874], {
-   borPlacemark = new ymaps.Placemark([59.909396, 30.255977], {        
+   borPlacemark = new ymaps.Placemark([59.965678, 30.288874], {
+  // borPlacemark = new ymaps.Placemark([59.909396, 30.255977], {   
+  // borPlacemark = new ymaps.Placemark([60.150415, 29.927876], {      
         }, {
               iconLayout: 'default#image',
               iconImageHref: 'https://snazzy-maps-cdn.azureedge.net/assets/marker-43ad614e-415b-4fa7-8575-90edd86144a2.svg',
@@ -193,7 +194,8 @@ const mapInit = ($f) => {
 
    const clearMap = () =>{
       map.geoObjects.remove(multiRoute).add(borPlacemark);
-      map.panTo([59.965678, 30.288874], { delay: 2500, flying: true }); 
+     // map.panTo([59.965678, 30.288874], { delay: 2500, flying: true }); 
+     map.panTo([60.150415, 29.927876], { delay: 2500, flying: true }); 
    }
 
    clearMap();
