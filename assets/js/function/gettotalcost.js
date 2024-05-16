@@ -7,6 +7,8 @@ function getTotalCost(currentTime, weekDay, spaId) {
   let spaTime = spas[spaId].minhours * 60; // минимальное время посещения бани в минутах 
   let totalTime = parseInt(currentTime) + spaTime; // currentTime - выбранное время плюс 
 
+  console.log(currentTime);
+
   let costHower = spas[spaId].newPrices[weekDay];
   let TotalCost = costHower * spas[spaId].minhours;
 
@@ -16,7 +18,10 @@ function getTotalCost(currentTime, weekDay, spaId) {
 
     nightTime = Math.round(nightTime / 60);
 
-    TotalCost = (spas[spaId].minhours - nightTime) * costHower + nightTime * costHower * 1.2;
+  //  console.log("nightTime - " + nightTime); 
+  //  console.log("costHower - " + costHower); 
+
+    TotalCost = (spas[spaId].minhours - nightTime) * costHower + nightTime * costHower * 1.4;
 
   };
 /*

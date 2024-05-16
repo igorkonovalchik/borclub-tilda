@@ -55,7 +55,7 @@ const updatePrices = (data, time, disableTimes, fn) => {
                                   let price = Number(service.price_max); 
                                   const id = Number(service.id); 
                                   const seance_length = Number(service.seance_length);
-                                  price = i > 23 ? price * 1.2 : price; 
+                                  price = i > 23 ? price * 1.4 : price; 
                                   return { time: i, price_max: price, id: id, amount: 1, seance_length: seance_length }
                                 });
 
@@ -447,11 +447,18 @@ if($(c.newPopupSpa).length ){
                 c.$persons_field.val(count);
               };
               if($input.attr('id') === 'dopHoursInput'){  
+                  
                   count = count < 1 ? 0 : count;          
                   const disableTime = count >= 1 ? loadDisableTimes[count - 1] : loadDisableTimes[0]; 
-                  const total = Number(c.$price_field.val()) - disableTime.price_max;          
+                  console.log(disableTime);
+                  console.log(disableTime.price_max);
+                  const price = disableTime.time == 23 && count == 1 ? disableTime.price_max * 1.4 : disableTime.price_max; 
+                  console.log(price); 
+                  const total = Number(c.$price_field.val()) - price;     
+                  console.log(total);      
                   updateCart(id, total, false, disableTime);
                   c.$dopHour_field.val(count);
+
               };
               $input.val(count);
               $input.change();

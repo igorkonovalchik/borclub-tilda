@@ -28,14 +28,20 @@ function getWeekDay(date = 0, curTime = 0, weekDays = false) {
     if( isInPeriod( ms, '2021/01/02', '2021/01/09' ) || isInPeriod( ms, '2022/01/02', '2022/01/09' ) ){ day = 'ny'; }; // если 2 января 2022 00:00 по 10 января 00:00
     if( isInPeriod( ms, '2024/02/23' ) ){ day = 'h'; }; // 23 февраля
     if( isInPeriod( ms, '2024/03/08' ) ){ day = 'h'; }; // 7, 8 марта
-    if( isInPeriod( ms, '2024/05/02', '2024/05/03' ) || isInPeriod( ms, '2022/05/09', '2022/05/10' ) ){ day = 'h'; }; // 2, 3, 9, 10 мая
-
-    if( isInPeriod( ms, '2023/11/06' ) ){ day = 'h' }; //  6 ноября 
+    if( isInPeriod( ms, '2024/05/09', '2024/05/12' ) || isInPeriod( ms, '2024/04/28', '2022/05/01' ) ){ day = 'h'; }; // 2, 3, 9, 10 мая
+    if( isInPeriod( ms, '2024/05/08', '2024/05/09' ) ){ day = 'h'; }; 
+    if( isInPeriod( ms, '2024/04/29', '2024/04/30' ) ){ day = 'h'; }; 
+    if( isInPeriod( ms, '2024/11/03', '2024/11/04' ) ){ day = 'h' }; //  6 ноября 
     if( isInPeriod( ms, '2024/05/01' ) ){ day = 'h' }; //  1 мая 
-    if( isInPeriod( ms, '2024/05/08', '2023/05/09' ) ){ day = 'h'; }; // 8, 9 мая
-    if( isInPeriod( ms, '2021/06/14' ) || isInPeriod( ms, '2022/06/13' ) ){ day = 'h'; }; // 12 июня
-    if( isInPeriod( ms, '2023/06/14', '2023/06/17' ) ){ day = 'fm'; }; // 14 и 17 июня было fm
-    if( isInPeriod( ms, '2021/06/03' ) || isInPeriod( ms, '2021/06/04' ) ){ day = 'ny'; }; // 3 и 4 июня было fh
+ 
+    if( isInPeriod( ms, '2024/06/12' ) || isInPeriod( ms, '2022/06/13' ) ){ day = 'h'; }; // 12 июня
+
+  
+    if( isInPeriod( ms, '2024/06/05', '2024/06/08' ) ){ day = 'ny'; }; 
+    if( isInPeriod( ms, '2024/06/03' ) || isInPeriod( ms, '2024/06/04' ) ){ day = 'fm'; }; // 3 и 4 июня было fh
+
+    
+
     if( isInPeriod( ms, '2021/11/04', '2021/11/05' ) || isInPeriod( ms, '2022/11/04' ) ){ day = 'h'; }; // 4 ноября
 
     if(curTime !== 0 && day === 'w'){ 

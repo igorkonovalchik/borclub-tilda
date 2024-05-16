@@ -3,7 +3,7 @@ const processingServices = (data) => {
    // console.log('Нет услуг для загрузки цен');    
     return false;
   };
-  console.log(data);
+  // console.log(data);
   const $rentMinArr = data.sort(function(a, b) {
     return Number(a.price_max) - Number(b.price_max);
   });
@@ -18,13 +18,14 @@ const processingServices = (data) => {
       $rentTimes.h = $rentMinArr[2]; // аренда 1 часа в выходные
       $rentTimes.fm = $rentMinArr[3]; // аренда 1 часа 2 и 5 июня
       $rentTimes.fh = $rentMinArr[4]; // аренда 1 часа 3 и 4 июня
-     // $rentTimes.ny = { ...$rentMinArr[2], 'price_max': $rentMinArr[2].price_max * 1.5 }; 
-     $rentTimes.ny = $rentMinArr[3]; // новогодние цены
+      $rentTimes.ny = { ...$rentMinArr[2], 'price_max': $rentMinArr[2].price_max * 2 }; 
+   //  $rentTimes.ny = $rentMinArr[3]; // новогодние цены
+   //  $rentTimes.ny = $rentMinArr[2] * 2; // новогодние цены
     }else{  
           console.log('Ошибка! Количество услуг два и меньше!!!');         
           $rentTimes.we = $rentMinArr[0];
           $rentTimes.h = $rentMinArr[0];
-          $rentTimes.ny = { ...$rentMinArr[0], 'price_max': $rentMinArr[0].price_max * 1.5 };  
+          $rentTimes.ny = { ...$rentMinArr[0], 'price_max': $rentMinArr[0].price_max * 2 };  
     }; 
   };
 

@@ -1,7 +1,7 @@
 import * as c from '../data/const.js';
 const spas = require('../data/spadata.js');
 
-const isOctober = (checkDate = 0, startDate = '2021/10/01', endDate = '2021/10/31') => {
+const isOctober = (checkDate = 0, startDate = '2024/04/01', endDate = '2024/04/24') => {
 
   if(checkDate===0){ 
     checkDate = new Date();
@@ -25,7 +25,7 @@ if(response == 'times' && !c.activeYclients){ // запрашиваем цены
 //  console.log('spaId');  
 //  console.log(spaId);  
   let services = spas[spaId].yclientsServices;
-  if(isOctober(day) && spaId !== '0'){ services = spas[spaId].octoberYclientsServices; }; // показать старые цены в октябре
+  if(isOctober(day)){ services = spas[spaId].octoberYclientsServices; }; // показать старые цены в октябре
       let data = {
         times: null,
         days: null,
