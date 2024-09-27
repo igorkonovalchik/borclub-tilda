@@ -5,6 +5,7 @@ import * as f from './gFunctions'
 const adminID = coo.getCookie('adminID');
 
 
+
 if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borclub.ru/gift
 
    $('.formloader').hide();
@@ -46,7 +47,9 @@ if($('#allrecords').attr('data-tilda-page-id') == '20195027'){  // https://borcl
          quantity: 1
        }); 
      };      
-    window.tcart.system = order.devMode == 'no' ? 'sberbank' : 'banktransfer';
+   // window.tcart.system = order.devMode == 'no' ? 'sberbank' : 'banktransfer';
+   window.tcart.system = order.devMode == 'no' ? 'yakassa' : 'banktransfer';
+   
 
     
 
@@ -160,7 +163,7 @@ $(document).ready(function(){
 
    cleanDelivery();
 
-   if(order.devMode == 'no'){  $(c.cartId + " input[name='paymentsystem'][value='sberbank']").prop('checked', true);  }else{
+   if(order.devMode == 'no'){  $(c.cartId + " input[name='paymentsystem'][value='yakassa']").prop('checked', true);  }else{
       $(c.cartId + " input[name='paymentsystem'][value='banktransfer']").prop('checked', true);
    };
    
