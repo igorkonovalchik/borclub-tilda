@@ -752,7 +752,10 @@ body .scale-active .t-zoomer__scale.showed {
     background:none !important;
     right: 0 !important;
     left: 0 !important;
-    margin: 0!important;}
+    margin: 0!important;
+    bottom: 100vh !important;
+    top: 0 !important;
+}
 
    .parpadding{padding:0 !important;}
    .tn-atom .t-form__errorbox-wrapper, .tn-form__errorbox-popup , .t-form-success-popup { z-index: 9999999 !important; }

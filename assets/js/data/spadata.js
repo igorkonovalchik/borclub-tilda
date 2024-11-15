@@ -1,5 +1,3 @@
-console.log('spa data');
-
 module.exports = [
   {
     id: 0,
@@ -48,31 +46,32 @@ module.exports = [
 {
   "price" : 27000,
 }],
+// тут цены которые в форме
 yclientsServices: [
   {
       "id": "6894565",
-      "price_max": "27000",
-      "seance_length": 3600
-  },
-  {
-      "id": "7206800",
       "price_max": "29000",
       "seance_length": 3600
   },
   {
+      "id": "7206800",
+      "price_max": "31000",
+      "seance_length": 3600
+  },
+  {
       "id": "7048367",
-      "price_max": "33000",
+      "price_max": "35000",
       "seance_length": 3600,
       "amount": 4
   },
   {
       "id": "7206808",
-      "price_max": "49500",
+      "price_max": "52000",
       "seance_length": 3600
   },
   {
       "id": "7206812",
-      "price_max": "66000",
+      "price_max": "52000",
       "seance_length": 3600
   }
 ],
@@ -155,28 +154,28 @@ octoberYclientsServices: [
 yclientsServices: [
   {
       "id": "6894559",
-      "price_max": "21000",
+      "price_max": "23000",
       "seance_length": 3600
   },
   {
       "id": "6703174",
-      "price_max": "25000",
+      "price_max": "27000",
       "seance_length": 3600
   },
   {
       "id": "6703180",
-      "price_max": "28000",
+      "price_max": "30000",
       "seance_length": 3600,
       "amount": 4
   },
   {
       "id": "7206813",
-      "price_max": "42000",
+      "price_max": "45000",
       "seance_length": 3600
   },
   {
       "id": "7206815",
-      "price_max": "56000",
+      "price_max": "45000",
       "seance_length": 3600
   }
 ],
@@ -261,28 +260,28 @@ octoberYclientsServices: [
 yclientsServices: [
   {
       "id": "6894553",
-      "price_max": "17000",
+      "price_max": "19000",
       "seance_length": 3600
   },
   {
       "id": "6703164",
-      "price_max": "21000",
+      "price_max": "23000",
       "seance_length": 3600
   },
   {
       "id": "6703167",
-      "price_max": "23000",
+      "price_max": "25000",
       "seance_length": 3600,
       "amount": 4
   },
   {
       "id": "7206818",
-      "price_max": "34500",
+      "price_max": "37000",
       "seance_length": 3600
   },
   {
       "id": "7206824",
-      "price_max": "46000",
+      "price_max": "37000",
       "seance_length": 3600
   }
 ],
@@ -368,28 +367,28 @@ yclientsServices:
 [
   {
       "id": "6894545",
-      "price_max": "17000",
+      "price_max": "19000",
       "seance_length": 3600
   },
   {
       "id": "6703152",
-      "price_max": "21000",
+      "price_max": "23000",
       "seance_length": 3600
   },
   {
       "id": "6703158",
-      "price_max": "23000",
+      "price_max": "25000",
       "seance_length": 3600,
       "amount": 4
   },
   {
       "id": "7206827",
-      "price_max": "34500",
+      "price_max": "37000",
       "seance_length": 0
   },
   {
       "id": "7206828",
-      "price_max": "46000",
+      "price_max": "37000",
       "seance_length": 3600
   }
 ],
@@ -475,28 +474,28 @@ octoberYclientsServices:
 yclientsServices: [
   {
       "id": "6894542",
-      "price_max": "12000",
+      "price_max": "13000",
       "seance_length": 3600
   },
   {
       "id": "6703049",
-      "price_max": "14000",
+      "price_max": "15000",
       "seance_length": 3600
   },
   {
       "id": "6703079",
-      "price_max": "16000",
+      "price_max": "17000",
       "seance_length": 3600,
       "amount": 3
   },
   {
       "id": "7206833",
-      "price_max": "24000",
+      "price_max": "34000",
       "seance_length": 3600
   },
   {
       "id": "7206834",
-      "price_max": "32000",
+      "price_max": "34000",
       "seance_length": 3600
   }
 ],
@@ -581,28 +580,28 @@ octoberYclientsServices: [
 yclientsServices: [
   {
       "id": "6894542",
-      "price_max": "12000",
+      "price_max": "13000",
       "seance_length": 3600
   },
   {
       "id": "6703049",
-      "price_max": "14000",
+      "price_max": "15000",
       "seance_length": 3600
   },
   {
       "id": "6703079",
-      "price_max": "16000",
+      "price_max": "17000",
       "seance_length": 3600,
       "amount": 3
   },
   {
       "id": "7206833",
-      "price_max": "24000",
+      "price_max": "34000",
       "seance_length": 3600
   },
   {
       "id": "7206834",
-      "price_max": "32000",
+      "price_max": "34000",
       "seance_length": 3600
   }
 ],
@@ -687,28 +686,28 @@ octoberYclientsServices: [
 yclientsServices: [
   {
       "id": "7023646",
-      "price_max": "9000",
+      "price_max": "10000",
       "seance_length": 3600
   },
   {
       "id": "6696648",
-      "price_max": "10000",
+      "price_max": "11000",
       "seance_length": "3600"
   },
   {
       "id": "6702395",
-      "price_max": "12000",
+      "price_max": "13000",
       "seance_length": "3600",
       "amount": 3
   },
   {
       "id": "7206839",
-      "price_max": "18000",
+      "price_max": "26000",
       "seance_length": 3600
   },
   {
       "id": "7206840",
-      "price_max": "24000",
+      "price_max": "26000",
       "seance_length": 3600
   }
 ],
@@ -793,28 +792,28 @@ octoberYclientsServices: [
 yclientsServices: [
   {
     "id": "7023646",
-    "price_max": "9000",
+    "price_max": "10000",
     "seance_length": 3600
 },
 {
     "id": "6696648",
-    "price_max": "10000",
+    "price_max": "11000",
     "seance_length": "3600"
 },
 {
     "id": "6702395",
-    "price_max": "12000",
+    "price_max": "13000",
     "seance_length": "3600",
     "amount": 3
 },
 {
     "id": "7206839",
-    "price_max": "18000",
+    "price_max": "26000",
     "seance_length": 3600
 },
 {
     "id": "7206840",
-    "price_max": "24000",
+    "price_max": "26000",
     "seance_length": 3600
 }
 ],
