@@ -43,7 +43,7 @@ export const emptyOrder = {
   devMode: '' 
 }; 
 
-export const maxPrice = '350000'; // Максимальная стоимость
+export const maxPrice = '550000'; // Максимальная стоимость
 export const minPrice = '5000'; // Минимальная стоимость
 
 export const stepPrice = '1000';  // Шаг в слайдере
