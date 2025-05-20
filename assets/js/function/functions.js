@@ -35,3 +35,24 @@ export const getMonth = (date) => {
 };
   return result;
 };
+
+
+export const checkPromocode = (promocode, callback) => {
+ // console.log("Отправка промокода:", promocode);
+
+  return $.ajax({
+    type: "POST",
+    url: "https://bordata.ru/gift/getPromocode.php",
+    data: { data: JSON.stringify({ promocode: promocode }) }, // Отправляем JSON в виде строки в `$_POST['data']`
+    dataType: "json", // Ожидаем JSON в ответе
+    success: function (data) {
+     // console.log("Ответ сервера:", data);
+      callback && callback(data);
+    },
+    error: function (xhr, status, error) {
+     // console.error("Ошибка соединения с сервером:", status, error);
+      callback && callback({ valid: false, message: "Ошибка сервера" });
+    }
+  });
+};
+

@@ -1577,7 +1577,7 @@ bottom: 0;
     }
 
     .t706 .t-input-group.w50{
-      width: 48%;
+      width: 46%;
       display: inline-block;
     }
 
@@ -1588,6 +1588,78 @@ bottom: 0;
     .w50.timefield{
       margin-right: 0px;
     }
+
+    // promocode 
+
+    $button-bg: #a7af8e;
+    $input-bg: #161616;
+    $border-color: #a7af8e;
+    $error-color: #8c0000;
+    $success-color:  #009e49;
+    
+    .t-input-group[data-field-name="promocode"] {
+        position: relative;
+        display: none;
+        margin-right: 0!important;
+    }
+
+    .js-error-control-box {
+        border-color: $error-color !important;
+    }
+
+    .js-error-control-box input[name="promocode"] {
+        color: $error-color !important;
+        border-color: $error-color !important;
+        border-width: 0 0 2px !important;
+    }
+
+
+    .js-success-control-box.js-error-control-box input[name="promocode"] {
+        color: $success-color !important;
+        border-color: $success-color !important;
+        border-width: 0 0 2px !important;
+    }
+
+    .js-error-control-box .t-input-error {
+        color: $error-color !important;
+    }
+
+    .js-success-control-box.js-error-control-box .t-input-error {
+        color: $success-color !important;
+    }
+
+    input[name="promocode"] {
+        padding-right: 40px; /* Оставляем место для кнопки */
+        color: #ffffff;
+        border: 2px solid $border-color;
+        background-color: $input-bg;
+    }
+
+    #checkpromo {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+        background-image: url('https://bordata.ru/files/promo/promoarrow.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        display: none;
+    }
+    
+    #checkpromo.checked {
+        background-image: url('https://bordata.ru/files/promo/promocross.svg'); /* Путь к иконке крестика */
+    }
+
+    #checkpromo.loading{
+        opacity: 0.7;
+        pointer-events: none;
+    };
 
 };
 

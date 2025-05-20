@@ -3,42 +3,80 @@ import changePrice from './changePrice'
 import * as c from './../data/const.js'
 const spas = require('./../data/spadata')
 
-const updateCart = (id = -1, price = 0, product = false, delProduct = false) => {  
+const updateCart = (id = -1, price = 0, product = false, delProduct = false, promocode = false, revertMultiplier = 1) => {  
   
 // console.log('price - ' + price);
+let promoText = "";
 
   if(id === -1 && price === 0){ 
-    if(window.tcart !== undefined){
-      window.tcart.total = 0;
-      window.tcart.prodamount = 0;
-      window.tcart.amount = 0; 
-      window.tcart.products = []; 
-    };
-    changePrice(0);
-    c.$seance_length_field.val(0);
 
-    const spaId = c.$id_field.val() === '' || c.$id_field.val() === undefined ? 0 : c.$id_field.val();     
-    const guestsCount = Number(c.$persons_field.val()); 
+    if(promocode){
+/*
+      price = window.tcart.total;
+      let productext = window.tcart.products;
 
-    if(guestsCount <= spas[spaId].person ){    
-          product = {id: c.dopFreeGuestsId, amount: guestsCount, price_max: 0 };
-        }else{ 
-          const freeGuestsCount = spas[spaId].person; 
-          const dopGuestsCount = guestsCount - freeGuestsCount; 
-          product = [
-            {id: c.dopFreeGuestsId, amount: freeGuestsCount, price_max: 0 }, 
-            {id: c.dopGuestsId, amount: dopGuestsCount, price_max: c.dopGuestsPrice }
-          ];
-     }
+       // Получаем значение скидки
+      let discountValue = Number(c.$discount_field.val());
+      let promoText = "";
+
+      // Проверяем, чтобы discountValue не был пустым и не больше 1
+      if (!isNaN(discountValue) && discountValue > 0 && discountValue <= 1) {
+        price *= discountValue; // Применяем скидку
+          let discountPercent = (1 - discountValue) * 100;
+          promoText = ` со скидкой ${discountPercent.toFixed(0)}% по промокоду ${c.$promo_field.val()}`;
+      };
+
+      if(revertMultiplier > 1){
+        price *= revertMultiplier; // Применяем скидку
+        promoText = "";
+       }; 
+
+      changePrice(price); 
+      window.tcart.total = price;
+      window.tcart.prodamount = price;
+      window.tcart.amount = price;
+      window.tcart.products = [{ name: productext + promoText, amount: price }];
+*/
+    }else{
+
+      if(window.tcart !== undefined){
+        window.tcart.total = 0;
+        window.tcart.prodamount = 0;
+        window.tcart.amount = 0; 
+        window.tcart.products = []; 
+      };
+      changePrice(0);
+      c.$seance_length_field.val(0);
+  
+      const spaId = c.$id_field.val() === '' || c.$id_field.val() === undefined ? 0 : c.$id_field.val();     
+      const guestsCount = Number(c.$persons_field.val()); 
+  
+      if(guestsCount <= spas[spaId].person ){    
+            product = {id: c.dopFreeGuestsId, amount: guestsCount, price_max: 0 };
+          }else{ 
+            const freeGuestsCount = spas[spaId].person; 
+            const dopGuestsCount = guestsCount - freeGuestsCount; 
+            product = [
+              {id: c.dopFreeGuestsId, amount: freeGuestsCount, price_max: 0 }, 
+              {id: c.dopGuestsId, amount: dopGuestsCount, price_max: c.dopGuestsPrice }
+            ];
+       }
+      };
    
-  }else{      
+  }else{    
     changePrice(price); 
+    if(c.$discount_field.val() < 1 && c.$discount_price.val() !== ""){
+      let discountValue = Number(c.$discount_field.val());
+      let discountPercent = (1 - discountValue) * 100;
+      let promoText = ` стоимость указна со скидкой ${discountPercent.toFixed(0)}% по промокоду ${c.$promo_field.val()}. Без скидки - ${price} руб.`;
+      price = c.$discount_price.val(); 
+    };
     c.$id_field.val(id);
     window.tcart.total = price;
     window.tcart.prodamount = price;
     window.tcart.amount = price;
-    window.tcart.products = [{ name: 'Аренда - ' + spas[id].title, amount: price }];
-   // console.log(window.tcart);
+    window.tcart.products = [{ name: 'Аренда - ' + spas[id].title + promoText, amount: price }];
+    console.log(window.tcart);
   };
 
     if(product && window.tcart !== undefined){

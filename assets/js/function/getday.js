@@ -13,6 +13,7 @@ const isInPeriod = (checkDate, startDate, endDate = '') => {
 };
 
 
+
 function getWeekDay(date = 0, curTime = 0, weekDays = false) {
     let time = date===0?new Date():new Date(date);
     let day = time.toLocaleString("eng", { weekday: 'short' });
@@ -29,6 +30,7 @@ function getWeekDay(date = 0, curTime = 0, weekDays = false) {
     if( isInPeriod( ms, '2024/02/23' ) ){ day = 'h'; }; // 23 февраля
     if( isInPeriod( ms, '2024/03/08' ) ){ day = 'h'; }; // 7, 8 марта
     if( isInPeriod( ms, '2024/05/09', '2024/05/12' ) || isInPeriod( ms, '2024/04/28', '2022/05/01' ) ){ day = 'h'; }; // 2, 3, 9, 10 мая
+    
     if( isInPeriod( ms, '2024/05/08', '2024/05/09' ) ){ day = 'h'; }; 
     if( isInPeriod( ms, '2024/04/29', '2024/04/30' ) ){ day = 'h'; }; 
     if( isInPeriod( ms, '2024/11/03', '2024/11/04' ) ){ day = 'h' }; //  6 ноября 
@@ -40,6 +42,31 @@ function getWeekDay(date = 0, curTime = 0, weekDays = false) {
     if( isInPeriod( ms, '2024/06/05', '2024/06/08' ) ){ day = 'ny'; }; 
     if( isInPeriod( ms, '2024/06/03' ) || isInPeriod( ms, '2024/06/04' ) ){ day = 'fm'; }; // 3 и 4 июня было fh
 
+    /* Праздники 2025 года  */
+    if (
+      isInPeriod(ms, '2025/04/30', '2025/05/04') || // 30 апреля — 4 мая
+      isInPeriod(ms, '2025/05/09', '2025/05/11')    // 9 — 11 мая
+    ) {
+      day = 'h';
+    };
+
+    if (isInPeriod(ms, '2025/06/18', '2025/06/21')) {
+      day = 'fh'; // праздничные дни — повышенный тариф ПМЭФ
+    }
+    
+    if (isInPeriod(ms, '2025/06/17')) {
+      day = 'fm'; // предпраздничный день — будничный повышенный тариф ПМЭФ
+    }
+
+    // День России
+    if (isInPeriod(ms, '2025/06/12')) {
+      day = 'h';
+    }
+
+    // День народного единства
+    if (isInPeriod(ms, '2025/11/04')) {
+      day = 'h';
+    }
     
 
     if( isInPeriod( ms, '2021/11/04', '2021/11/05' ) || isInPeriod( ms, '2022/11/04' ) ){ day = 'h'; }; // 4 ноября

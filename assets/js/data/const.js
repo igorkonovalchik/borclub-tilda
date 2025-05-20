@@ -103,3 +103,15 @@ export const $sber_field = $(varPopupSpa + " .t-input-group_pm .t-radio__control
 export const priceId = 'price' + varPopupSpa.slice(4);
 
 export const footers = ['#rec417856854','#rec417880695', '#rec417893468'];
+
+// promocode 
+
+export const $promo_group = $(varPopupSpa + " .t-input-group[data-field-name='promocode']");
+export const $promo_field = $(varPopupSpa + " input[name*='promocode']");
+export const $promo_error = $(varPopupSpa + " #error_1738661801995");
+export const $promobutton = $('<div/>', {
+    id: 'checkpromo'
+});
+export const $discount_field = $(varPopupSpa + " input[name*='discount']");
+export const $discount_price = $(varPopupSpa + " input[name*='discount_price']");
+

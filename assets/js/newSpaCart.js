@@ -6,6 +6,7 @@ import getWeekDay from './function/getday'
 import getParams from './function/getParams'
 import getDates from './yclients/getDates'
 import updateCart from './function/updateCart'
+import changePrice from './function/changePrice'
 import processingServices from './function/processingServices'
 import * as f from './function/functions.js'
 import * as c from './data/const.js'
@@ -65,6 +66,17 @@ const updatePrices = (data, time, disableTimes, fn) => {
   fn && fn(addPrices);
 };
 
+const resetPromo = () => {
+  if (c && c.$discount_field && c.$promo_field && c.$promo_error && c.$promo_group && c.$promobutton) {
+  c.$promo_field.val(""); // Очищаем поле промокода
+  c.$promo_error.text(""); // Очищаем текст ошибки
+  c.$promo_group.removeClass("js-error-control-box js-success-control-box"); // Убираем классы ошибок и успешного применения
+  c.$promobutton.removeClass("checked").hide(); // Скрываем кнопку
+  c.$discount_field.val(1);
+  changePrice(c.$price_field.val(), true);
+};
+};
+
 const changeDisableDays = (data, date = false) => {
     const result = {};  
     result.select = ''; 
@@ -107,6 +119,11 @@ const changeDisableDays = (data, date = false) => {
         return acc;
       };
     result.disable = data.reduce(fn, []);
+
+    let blockedDates = [];
+    
+    result.disable = [...result.disable, ...blockedDates];
+    
     return result;
 }
 
@@ -334,6 +351,7 @@ const disableAllFields = (action = true) => {
     c.$submit.addClass('disable-input');
     c.$picker__table.addClass('disable-input');
     c.$picker__list.addClass('disable-input');
+    c.$promo_field.addClass('disable-input');
     $(c.newPopupSpa + ' input').each(function(){
       $(this).addClass('disable-input');
   });
@@ -341,13 +359,14 @@ const disableAllFields = (action = true) => {
     c.$submit.removeClass('disable-input');
     c.$picker__table.removeClass('disable-input');
     c.$picker__list.removeClass('disable-input');
+    c.$promo_field.removeClass('disable-input');
     $(c.newPopupSpa + ' input').each(function(){
       $(this).removeClass('disable-input');
   });
   }
 };  
 
-const loadingField = (start = true, fields = 'datetime') => {    
+const loadingField = (start = true, fields = 'datetime') => {  
   if(start){
     $(c.newPopupSpa + " .minhour").hide();
     $(c.newPopupSpa + " #dopHoursInput").val(0);
@@ -359,19 +378,18 @@ const loadingField = (start = true, fields = 'datetime') => {
       c.$time_field.addClass('loading');
     }else{ 
       $(c.newPopupSpa + ' .t706__form-upper-text').addClass('loading');
+      c.$promo_field.addClass('loading');
     };    
   //  $('#' + c.priceId).addClass('loading');      
   }else{
     $(c.newPopupSpa + " .picker").each(function(){
       $(this).removeClass('loading');
     });
-    if(fields === 'datetime'){
     c.$date_field.removeClass('loading');
     c.$time_field.removeClass('loading');
-  }else{ 
     $(c.newPopupSpa + ' .t706__form-upper-text').removeClass('loading');
+    c.$promo_field.removeClass('loading');
  //   $('#' + c.priceId).removeClass('loading');
-    };  
   };
   disableAllFields(start);
 };
@@ -400,7 +418,67 @@ if($(c.newPopupSpa).length ){
   // $(c.newPopupSpa + " .t-input-group_cb").hide();
     $(c.newPopupSpa + " .t-input-group_pm").hide();
     c.$cash_field.hide();
-         
+
+    // promocode 
+   // console.log('go promo');
+    c.$promobutton.insertAfter(c.$promo_field);
+    c.$promo_field.on('input', function () {
+        if ($(this).val().trim().length > 0) {
+          c.$promobutton.show();
+        } else {
+          c.$promobutton.hide();
+        }
+    });
+
+    c.$promo_field.on('focus', function () {
+      if ($(this).val().trim().length > 0) {
+        resetPromo();
+      }
+  });
+
+
+    $(document).on("click", "#checkpromo", function () {
+      if (!$(this).hasClass("checked")) {
+          let promocode = c.$promo_field.val().trim();
+          if (!promocode) return;
+  
+          // Приводим поле скидки к 1 по умолчанию
+          c.$discount_field.val(1);
+          
+          loadingField(true, 'promo' );
+  
+          f.checkPromocode(promocode, function (data) {
+              loadingField(false, "promo");
+              if (data && data.valid) {
+                  // Промокод действителен
+                  c.$promo_error.text(`Скидка ${data.discount}%`);
+                  c.$promo_group.addClass("js-error-control-box js-success-control-box");
+                  c.$promobutton.addClass("checked");
+  
+                  // Вычисляем и устанавливаем новую скидку (1 - процент скидки / 100)
+                  let discountValue = (100 - data.discount) / 100;
+                  c.$discount_field.val(discountValue);
+
+                  changePrice(c.$price_field.val(), true);
+
+              } else {
+                  // Промокод не найден или ошибка сервера
+                  c.$promo_error.text("Промокод не найден");
+                  c.$promo_group.addClass("js-error-control-box");
+                  c.$promobutton.addClass("checked");
+              }
+          }).fail(function () {
+              // Если сервер не отвечает, тоже пишем, что промокод не найден
+              loadingField(false, "promo");
+              c.$promo_error.text("Промокод не найден");
+              c.$promo_group.addClass("js-error-control-box");
+              c.$promobutton.addClass("checked");
+          });
+      } else {
+        resetPromo();
+      }
+  });
+        
     updateCart(); 
 
     c.$id_field.before(`
@@ -437,6 +515,7 @@ if($(c.newPopupSpa).length ){
       }else{
 
               if($input.attr('id') === 'personsInput'){
+                
                 count = count < 1 ? 1 : count;
                 if( count >= spas[id].person){          
                   const total = Number(c.$price_field.val()) - c.dopGuestsPrice;           
@@ -447,15 +526,15 @@ if($(c.newPopupSpa).length ){
                 c.$persons_field.val(count);
               };
               if($input.attr('id') === 'dopHoursInput'){  
-                  
+                
                   count = count < 1 ? 0 : count;          
                   const disableTime = count >= 1 ? loadDisableTimes[count - 1] : loadDisableTimes[0]; 
-                  console.log(disableTime);
-                  console.log(disableTime.price_max);
+               //   console.log(disableTime);
+              //    console.log(disableTime.price_max);
                   const price = disableTime.time == 23 && count == 1 ? disableTime.price_max * 1.4 : disableTime.price_max; 
-                  console.log(price); 
+               //   console.log(price); 
                   const total = Number(c.$price_field.val()) - price;     
-                  console.log(total);      
+               //   console.log(total);      
                   updateCart(id, total, false, disableTime);
                   c.$dopHour_field.val(count);
 
@@ -473,6 +552,7 @@ if($(c.newPopupSpa).length ){
       const $input = $(this).parent().find('input');
       const id = c.$id_field.val();
       let count = parseInt($input.val()) + 1;
+      
       if($input.attr('id') === 'personsInput'){
         const totalMax = spas[id].maxDopGuests + spas[id].person;
         if( count <= totalMax ){ 
@@ -515,6 +595,7 @@ if($(c.newPopupSpa).length ){
         formatSubmit: 'yyyy/mm/dd',
         today: '',
         clear: '',
+        disable: [],
         onStart: function() {
             c.$date_field.addClass('t-input_bbonly'); //.data('value', c.nextDay ); // .attr('value', c.nextDay )
           }
@@ -707,6 +788,14 @@ if($(c.newPopupSpa).length ){
               $dopHours_field.show(); 
             };
             datepicker.set('enable', true);
+             // Вот тут надо убрать !  Добавляем фиксированные даты сразу при открытии календаря Холдирование дат 
+      /*  datepicker.set('disable', [ 
+            [2025, 5, 18], // 18 июня
+            [2025, 5, 19], // 19 июня
+            [2025, 5, 20], // 20 июня
+            [2025, 5, 21], // 21 июня
+            [2025, 5, 22]  // 22 июня
+        ]); */
             // console.log(loadMonth);
             loadingField();
             getDates('days', c.$id_field.val(), f.getMonth(loadMonth), 0, (data) => { 
@@ -720,6 +809,7 @@ if($(c.newPopupSpa).length ){
       },
       set: function(s) {
         const id = c.$id_field.val();
+        
         // datepicker.set('disable', { from: [2021,c.highlight.month,10], to: [2021,c.highlight.month,20] });
         if(s.select !== undefined){ // change date event
           // console.log('День изменен. Загружаем занятые часы'); 

@@ -11,9 +11,9 @@ module.exports = [
       cleanhours: 2,
       disableTime: [ 20, 21, 22, 23 ],
       newPrices:  {
-        "wm": 27000, 
-        "we": 29000,
-        "h": 33000,
+        "wm": 30000, 
+        "we": 33000,
+        "h": 37000,
         "fm": 49500,
         'fh': 66000
       },
@@ -48,30 +48,35 @@ module.exports = [
 }],
 // тут цены которые в форме
 yclientsServices: [
+   // wm аренда 1 часа с 11 до 15 
   {
       "id": "6894565",
-      "price_max": "29000",
+      "price_max": "30000",
       "seance_length": 3600
   },
+  // we аренда 1 часа с 11 до 15 
   {
       "id": "7206800",
-      "price_max": "31000",
+      "price_max": "33000",
       "seance_length": 3600
   },
+  // h аренда 1 часа с 11 до 15 
   {
       "id": "7048367",
-      "price_max": "35000",
+      "price_max": "37000",
       "seance_length": 3600,
       "amount": 4
   },
+  // fm цены 17.06.2025 дни ПМЭФ
   {
       "id": "7206808",
-      "price_max": "52000",
+      "price_max": "55500",
       "seance_length": 3600
   },
+  // fh цены 18-21.06.2025 дни ПМЭФ
   {
       "id": "7206812",
-      "price_max": "52000",
+      "price_max": "74000",
       "seance_length": 3600
   }
 ],
@@ -116,9 +121,9 @@ octoberYclientsServices: [
     cleanhours: 2,
     disableTime: [ 13, 14, 15, 16, 19, 20, 21, 22, 23 ],
     newPrices:  {
-      "wm": 19000, 
-      "we": 25000,
-      "h": 27000,
+      "wm": 25000, 
+      "we": 29000,
+      "h": 32000,
       "fm": 40500,
       'fh': 54000
     },
@@ -154,28 +159,28 @@ octoberYclientsServices: [
 yclientsServices: [
   {
       "id": "6894559",
-      "price_max": "23000",
+      "price_max": "25000",
       "seance_length": 3600
   },
   {
       "id": "6703174",
-      "price_max": "27000",
+      "price_max": "29000",
       "seance_length": 3600
   },
   {
       "id": "6703180",
-      "price_max": "30000",
+      "price_max": "32000",
       "seance_length": 3600,
       "amount": 4
   },
   {
       "id": "7206813",
-      "price_max": "45000",
+      "price_max": "48000",
       "seance_length": 3600
   },
   {
       "id": "7206815",
-      "price_max": "45000",
+      "price_max": "64000",
       "seance_length": 3600
   }
 ],
@@ -220,9 +225,9 @@ octoberYclientsServices: [
     cleanhours: 1,
     disableTime: [ 15, 20, 21, 22, 23 ],
     newPrices:  {
-      "wm": 16000, 
-      "we": 20000,
-      "h": 22000,
+      "wm": 20000, 
+      "we": 25000,
+      "h": 27000,
       "fm": 33000,
       'fh': 44000
     },
@@ -260,28 +265,28 @@ octoberYclientsServices: [
 yclientsServices: [
   {
       "id": "6894553",
-      "price_max": "19000",
+      "price_max": "20000",
       "seance_length": 3600
   },
   {
       "id": "6703164",
-      "price_max": "23000",
+      "price_max": "25000",
       "seance_length": 3600
   },
   {
       "id": "6703167",
-      "price_max": "25000",
+      "price_max": "27000",
       "seance_length": 3600,
       "amount": 4
   },
   {
       "id": "7206818",
-      "price_max": "37000",
+      "price_max": "40500",
       "seance_length": 3600
   },
   {
       "id": "7206824",
-      "price_max": "37000",
+      "price_max": "54000",
       "seance_length": 3600
   }
 ],
@@ -326,9 +331,9 @@ octoberYclientsServices: [
       cleanhours: 2,
       disableTime: [ 21, 22, 23 ],
       newPrices:  {
-        "wm": 16000, 
-        "we": 20000,
-        "h": 22000,
+        "wm": 20000, 
+        "we": 25000,
+        "h": 27000,
         "fm": 33000,
         'fh': 44000
       },
@@ -367,28 +372,28 @@ yclientsServices:
 [
   {
       "id": "6894545",
-      "price_max": "19000",
+      "price_max": "20000",
       "seance_length": 3600
   },
   {
       "id": "6703152",
-      "price_max": "23000",
+      "price_max": "25000",
       "seance_length": 3600
   },
   {
       "id": "6703158",
-      "price_max": "25000",
+      "price_max": "27000",
       "seance_length": 3600,
       "amount": 4
   },
   {
       "id": "7206827",
-      "price_max": "37000",
+      "price_max": "40500",
       "seance_length": 0
   },
   {
       "id": "7206828",
-      "price_max": "37000",
+      "price_max": "54000",
       "seance_length": 3600
   }
 ],
@@ -434,9 +439,9 @@ octoberYclientsServices:
     cleanhours: 1,
     disableTime: [ 13, 14, 17, 18, 21, 22, 23 ], 
     newPrices:  {
-      "wm": 10000, 
-      "we": 12000,
-      "h": 14000,
+      "wm": 14000, 
+      "we": 16000,
+      "h": 18000,
       "fm": 21000,
       'fh': 28000
     },
@@ -474,28 +479,28 @@ octoberYclientsServices:
 yclientsServices: [
   {
       "id": "6894542",
-      "price_max": "13000",
+      "price_max": "14000",
       "seance_length": 3600
   },
   {
       "id": "6703049",
-      "price_max": "15000",
+      "price_max": "16000",
       "seance_length": 3600
   },
   {
       "id": "6703079",
-      "price_max": "17000",
+      "price_max": "18000",
       "seance_length": 3600,
       "amount": 3
   },
   {
       "id": "7206833",
-      "price_max": "34000",
+      "price_max": "27000",
       "seance_length": 3600
   },
   {
       "id": "7206834",
-      "price_max": "34000",
+      "price_max": "36000",
       "seance_length": 3600
   }
 ],
@@ -540,9 +545,9 @@ octoberYclientsServices: [
     cleanhours: 1,
     disableTime: [ 13, 14, 17, 18, 21, 22, 23 ], 
     newPrices:  {
-      "wm": 10000, 
-      "we": 12000,
-      "h": 14000,
+      "wm": 14000, 
+      "we": 16000,
+      "h": 18000,
       "fm": 21000,
       'fh': 28000
     },
@@ -580,28 +585,28 @@ octoberYclientsServices: [
 yclientsServices: [
   {
       "id": "6894542",
-      "price_max": "13000",
+      "price_max": "14000",
       "seance_length": 3600
   },
   {
       "id": "6703049",
-      "price_max": "15000",
+      "price_max": "16000",
       "seance_length": 3600
   },
   {
       "id": "6703079",
-      "price_max": "17000",
+      "price_max": "18000",
       "seance_length": 3600,
       "amount": 3
   },
   {
       "id": "7206833",
-      "price_max": "34000",
+      "price_max": "27000",
       "seance_length": 3600
   },
   {
       "id": "7206834",
-      "price_max": "34000",
+      "price_max": "36000",
       "seance_length": 3600
   }
 ],
@@ -646,9 +651,9 @@ octoberYclientsServices: [
     cleanhours: 1,
     disableTime: [ 13, 14, 17, 18, 21, 22, 23 ],  
     newPrices:  {
-      "wm": 7000, 
-      "we": 8000,
-      "h": 10000,
+      "wm": 11000, 
+      "we": 12000,
+      "h": 14000,
       "fm": 15000,
       'fh': 20000
     },
@@ -686,28 +691,28 @@ octoberYclientsServices: [
 yclientsServices: [
   {
       "id": "7023646",
-      "price_max": "10000",
+      "price_max": "11000",
       "seance_length": 3600
   },
   {
       "id": "6696648",
-      "price_max": "11000",
+      "price_max": "12000",
       "seance_length": "3600"
   },
   {
       "id": "6702395",
-      "price_max": "13000",
+      "price_max": "14000",
       "seance_length": "3600",
       "amount": 3
   },
   {
       "id": "7206839",
-      "price_max": "26000",
+      "price_max": "21000",
       "seance_length": 3600
   },
   {
       "id": "7206840",
-      "price_max": "26000",
+      "price_max": "28000",
       "seance_length": 3600
   }
 ],
@@ -752,9 +757,9 @@ octoberYclientsServices: [
     cleanhours: 3,
     disableTime: [ 13, 14, 15, 16, 19, 20, 21, 22, 23 ],
     newPrices: {
-      "wm": 7000, 
-      "we": 8000,
-      "h": 10000,
+      "wm": 11000, 
+      "we": 12000,
+      "h": 14000,
       "fm": 15000,
       'fh': 20000
     },
@@ -792,28 +797,28 @@ octoberYclientsServices: [
 yclientsServices: [
   {
     "id": "7023646",
-    "price_max": "10000",
+    "price_max": "11000",
     "seance_length": 3600
 },
 {
     "id": "6696648",
-    "price_max": "11000",
+    "price_max": "12000",
     "seance_length": "3600"
 },
 {
     "id": "6702395",
-    "price_max": "13000",
+    "price_max": "14000",
     "seance_length": "3600",
     "amount": 3
 },
 {
     "id": "7206839",
-    "price_max": "26000",
+    "price_max": "21000",
     "seance_length": 3600
 },
 {
     "id": "7206840",
-    "price_max": "26000",
+    "price_max": "28000",
     "seance_length": 3600
 }
 ],
