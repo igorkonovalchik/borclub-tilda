@@ -1,4 +1,5 @@
 
+
 export const delimiter = (number) => { // пробелы между тысячными   
   if(!number.toString().includes(' ')){   
      let ns = (parseInt(number) * 1).toString();
@@ -100,6 +101,51 @@ export const activateCard = (response, $f ) => {
 
 export const truncate = (str, n) => {
   return (str.length > n) ? str.substr(0, n-1) + '...' : str;
+};
+
+export const computeNameTextFit = (rawName, options = {}, callback) => {
+  const baseFontSize = options.baseFontSize || 40;
+  const maxChars = options.maxChars || 60;
+  const maxVisibleChars = options.maxVisibleChars || 50;
+
+  const suffix = ', ВАМ ПОДАРОК!';
+
+  let fio = rawName.trim();
+  const fullLength = fio.length + suffix.length;
+
+  // Усечение только ФИО
+  if (fullLength > maxChars) {
+    const allowedFioLength = maxChars - suffix.length - 1; // -1 на "…"
+    fio = fio.slice(0, allowedFioLength) + '…';
+  }
+
+  const finalText = fio + suffix;
+
+  // Подстройка размера
+  const scaleFactor = Math.min(1, maxVisibleChars / finalText.length);
+  const finalFontSize = Math.floor(baseFontSize * scaleFactor);
+
+  // Типографская настройка
+  let lineHeight = '1';
+  let letterSpacing = 'normal';
+
+  if (finalText.length > 50 && finalText.length <= 60) {
+    lineHeight = '0.85';
+    letterSpacing = '-1px';
+  }
+
+  const result = {
+    fontSize: finalFontSize,
+    text: finalText,
+    lineHeight,
+    letterSpacing
+  };
+
+  if (typeof callback === 'function') {
+    callback(result);
+  }
+
+  return result;
 };
 
 

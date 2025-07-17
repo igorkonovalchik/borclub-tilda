@@ -48,7 +48,7 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
         //  console.log(data[0]);
         
         if(order['qr_url'] !== '' && order['qr_url'] !== null){
-          console.log(order['qr_url']);
+         // console.log(order['qr_url']);
           $('.card .back .qr').addClass('activate').css('background', 'url(' + order['qr_url'] + ') top center no-repeat').css('background-size','contain');
 
         };
@@ -60,10 +60,20 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
             fillActivateData(order);
           }else{ 
             if(order.myself == 'yes'){
-              c.nameDiv.hide();
+              // c.nameDiv.hide();
+              c.nameDiv.text('ВАМ ПОДАРОК!');
               order.phoneActivate = '';
             }else{
-              c.nameDiv.text(f.truncate(order.who, 20) + ',');
+                const { fontSize, text, lineHeight, letterSpacing } = f.computeNameTextFit(order.who);
+                c.nameDiv.css({
+                fontSize: `${fontSize}px`,
+                lineHeight,
+                letterSpacing
+                });
+                c.nameDiv.text(text);
+
+              //  c.nameDiv.text(order.who + ', ВАМ ПОДАРОК!');
+              // c.nameDiv.text(f.truncate(order.who, 20) + ', ВАМ ПОДАРОК!');
              // order.phoneActivate = order.phoneRecipient;
               c.textGiftDiv.html(''); 
               if(order.textGift !== ' ' && order.textGift !== '' && order.textGift !== undefined && order.textGift !== null && order.textGift !== 'null'){  
@@ -107,7 +117,7 @@ if($('#allrecords').attr('data-tilda-page-id') == '21028842'){  // https://borcl
           };
 
           /* Убираем фишку с активацией  */
-          console.log(f.getUrlParameter('iiko'));
+        //  console.log(f.getUrlParameter('iiko'));
           if(f.getUrlParameter('iiko') !== '1' ){
             c.activateButton.hide();
             c.callButton.show();
