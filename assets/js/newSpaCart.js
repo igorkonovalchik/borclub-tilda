@@ -569,10 +569,14 @@ if($(c.newPopupSpa).length ){
         if($input.attr('id') === 'dopHoursInput'){  
           // console.log('loadDisableTimes');
           // console.log(loadDisableTimes);
+          console.log('+ 1');
           const totalMax = loadDisableTimes.length; 
+           console.log('totalMax '+ totalMax);
           if( count <= totalMax ){ 
             $input.val(count); 
-            c.$dopHour_field.val(count);             
+            c.$dopHour_field.val(count);    
+            console.log('loadDisableTimes[count - 1]  '+ loadDisableTimes[count - 1]); 
+             console.log('price_max '+ price_max);        
             const total = Number(c.$price_field.val()) + loadDisableTimes[count - 1].price_max;            
             updateCart(id, total, loadDisableTimes[count - 1]);
          };

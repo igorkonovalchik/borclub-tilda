@@ -11,7 +11,7 @@ export const newPopupSpa = varPopupSpa; /* Новая корзина  */
 
 export const activeYclients = false; 
 
-export const maxDaysVisible = 180; 
+export const maxDaysVisible = 90; 
 export const morningHourOpen = 11;
 export const weekendMorningHourOpen = 9;
 export const lastHourBook = 20; 
